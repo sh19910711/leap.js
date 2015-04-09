@@ -1,0 +1,89 @@
+###
+# Install script
+# install.korth.src,v 1.2 2001/05/29 10:06:34 rleyton Exp
+# LEAP Installation script. source the file from with LEAP, or
+# execute with ./leap -c ../scripts/install.korth.src
+###
+set temporary off
+create korth
+use korth
+relation (borrow) ((bo_branch,STRING,255),(bo_lnum,INTEGER,4),(bo_cuname,STRING,255),(bo_amount,INTEGER,4))
+add (borrow) (DOWNTOWN,0,JONES,0)
+add (borrow) (REDWOOD,0,SMITH,0)
+add (borrow) (PERRYRIDGE,0,HAYES,0)
+add (borrow) (DOWNTOWN,0,JACKSON,0)
+add (borrow) (MIANUS,0,CURRY,0)
+add (borrow) (ROUND HILL,0,TURNER,0)
+add (borrow) (POWNALL,0,WILLIAMS,0)
+add (borrow) (NORTH TOWN,0,ADAMS,0)
+add (borrow) (DOWNTOWN,0,JOHNSON,0)
+add (borrow) (PERRYRIDGE,0,GLENN,0)
+add (borrow) (BRIGHTON,0,BROOKS,0)
+relation (branch) ((br_branch,STRING,255),(br_assets,INTEGER,4),(br_city,STRING,255))
+add (branch) (DOWNTOWN,0,BROOKLYN)
+add (branch) (REDWOOD,0,PALO ALTO)
+add (branch) (PERRYRIDGE,0,HORSENECK)
+add (branch) (MIANUS,0,HORSENECK)
+add (branch) (ROUND HILL,0,HORSENECK)
+add (branch) (POWNAL,0,BENNINGTON)
+add (branch) (NORTH TOWN,0,RYE)
+add (branch) (BRIGHTON,0,BROOKLYN)
+relation (client) ((cl_name,STRING,255),(cl_banker,STRING,255))
+add (client) (TURNER,JOHNSON)
+add (client) (HAYES,JONES)
+add (client) (JOHNSON,JOHNSON)
+relation (customer) ((cu_name,STRING,255),(cu_street,STRING,255),(cu_city,STRING,255))
+add (customer) (JONES,MAIN,HARRISON)
+add (customer) (SMITH,NORTH,RYE)
+add (customer) (HAYES,MAIN,HARRISON)
+add (customer) (CURRY,NORTH,RYE)
+add (customer) (LINDSAY,PARK,PITTSFIELD)
+add (customer) (TURNER,PUTNAM,STAMFORD)
+add (customer) (WILLIAMS,NASSAU,PRINCETON)
+add (customer) (ADAMS,SPRING,PITTSFIELD)
+add (customer) (JOHNSON,ALMA,PALO ALTO)
+add (customer) (GLENN,SAND HILL,WOODSIDE)
+add (customer) (BROOKS,SENATOR,BROOKLYN)
+add (customer) (GREEN,WALNUT,STAMFORD)
+record kor1
+# This example is taken from Korth & Silberschatz "Database System
+# Concepts", 2nd Ed., McGraw-Hill Inc, 1991. 
+kor1=select (borrow) (bo_branch='PERRYRIDGE')
+print kor1
+.
+record kor2
+# This example is taken from Korth & Silberschatz "Database System
+# Concepts", 2nd Ed., McGraw-Hill Inc, 1991. 
+kor2=select (borrow) (borrow.bo_amount>'1200')
+.
+record kor3
+# This example is taken from Korth & Silberschatz "Database System
+# Concepts", 2nd Ed., McGraw-Hill Inc, 1991. 
+kor3=select(borrow) ((borrow.bo_amount>'1200') and (borrow.bo_branch='PERRYRIDGE'))
+print kor3
+.
+record korpj
+# This example is taken from Korth & Silberschatz "Database System
+# Concepts", 2nd Ed., McGraw-Hill Inc, 1991. 
+korpj=project(join (customer) (borrow) (customer.cu_name=borrow.bo_cuname)) (bo_cuname,cu_city)
+print korpj
+.
+record korpj2
+# This example is taken from Korth & Silberschatz "Database System
+# Concepts", 2nd Ed., McGraw-Hill Inc, 1991. 
+korpj2=project( select(join (borrow) (branch) (borrow.bo_branch=branch.br_branch)) (br_city='HORSENECK')) (bo_cuname)
+print korpj2
+.
+record korpr1
+# This example is taken from Korth & Silberschatz "Database System
+# Concepts", 2nd Ed., McGraw-Hill Inc, 1991. 
+korpr1=(client) product (customer)
+print korpr1
+.
+record kors1
+# This example is taken from Korth & Silberschatz "Database System
+# Concepts", 2nd Ed., McGraw-Hill Inc, 1991. 
+kors1=select(select ((client) product (customer)) (cl_banker='JOHNSON')) (cl_name=cu_name)
+print kors1
+.
+quit

@@ -1,0 +1,120 @@
+# Makefile.in,v 1.213.2.1 2004/02/09 20:05:20 rleyton Exp
+# Makefile for LEAP. Generated automatically through autoconf.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+###
+# Enable GFLAGS to use gprof
+# Enable PURIFY to use purify
+###
+# GFLAGS=-pg
+# PURIFY=purify
+
+SHELL = /bin/sh
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+CC = @CC@
+AR = ar
+RANLIB = @RANLIB@
+CFLAGS = @CFLAGS@ $(GFLAGS)
+LDFLAGS = @LDFLAGS@ -L@libdir@ -L. $(GFLAGS)
+LIBS = @LIBS@ -lleap
+DEFS = @DEFS@
+INCLUDES = -I$(srcdir) -I$(srcdir)/include
+COMPOPT = -c $(DEFS) $(INCLUDES) $(CFLAGS) $(CPPFLAGS)
+O = .o
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+.c.o:
+	$(CC) $(COMPOPT) $<
+
+SOURCES =  attribs.c cond.c database.c dbase.c errors.c globals.c \
+hashing.c info.c leapio.c p_stack.c parser.c regexp.c relation.c \
+rtional.c tuples.c util.c vars.c
+
+APPS = leap.c dumprel.c
+
+OBJECTS = attribs$O cond$O database$O dbase$O errors$O globals$O \
+hashing$O info$O leapio$O p_stack$O parser$O regexp$O relation$O \
+rtional$O tuples$O util$O vars$O
+
+
+all: libleap.a leap dumprel 
+	@test -d ../database || echo "### Compilation (hopefully) complete.  Now run 'make install' to install sample databases ###"
+
+libleap.a: $(OBJECTS)
+	@echo "Building library..."
+	$(AR) $(ARFLAGS) $@ $?
+	$(RANLIB) $@
+	@echo "Done."
+
+leap: libleap.a leap$O
+	@echo "Linking LEAP executable..."
+	$(PURIFY) $(CC) $@$O -o $@ $(LDFLAGS) $(LIBS)
+	@echo "Done."
+
+convert: convert$O libleap.a
+	$(PURIFY) $(CC) $@$O -o $@ $(LDFLAGS) $(LIBS)
+
+dumprel: dumprel$O libleap.a
+	$(PURIFY) $(CC) $@$O -o $@ $(LDFLAGS) $(LIBS)
+
+apitest: apitest$O libleap.a
+	$(PURIFY) $(CC) $@$O -o $@ $(LDFLAGS) $(LIBS)
+
+leapd: libleap.a leapd$O
+	@echo "Linking LEAP daemon executable..."
+	$(PURIFY) $(CC) $@$O -o $@ $(LDFLAGS) $(LIBS)
+	@echo "Done."
+	@echo "### "
+	@echo "### This is EARLY ALPHA software, and contains bugs."
+	@echo "### Your comments/suggestions appreciated to leap@leyton.org"
+	@echo "### "
+
+debug: libleap.a leap$O apitest$O
+	@echo "Linking (Debug)..."
+	$(PURIFY) $(CC) leap$O -o leap $(LDFLAGS) $(LIBS) -DMEMORY_DEBUG -ldmalloc
+	$(PURIFY) $(CC) apitest$O -o apitest $(LDFLAGS) -DMEMORY_DEBUG $(LIBS) -ldmalloc
+	@echo "Done."
+
+clean:
+	rm -f lib* leap leapd dumprel *$(O) core
+
+depend: 
+	makedepend -- $(COMPOPT) -- $(SOURCES) $(APPS)
+
+# notify - runs the notify script to optionally send installation info 
+# and subscribe the user to the LEAP mailing list.
+notify: 
+	@test -f ./.notify || (../scripts/notify; echo "This file prevents make install repeating the notify step" > ./.notify)
+
+# This is the actual install process
+actinstall:
+	@echo "Installing LEAP..."
+	./leap --configure ../scripts/install.src
+
+# This is the main installation step.
+install: actinstall notify
+	@echo "############################################################################"
+	@echo "# Installation is now (hopefully!) complete. Start LEAP by running './leap'"
+	@echo "# To get you started, some helpful commands are: 'use', 'sources', and 'help'"
+	@echo "############################################################################"
+
+distclean: clean
+	rm -f config.log config.status Makefile config.cache include/defines.h .notify
+	test -d ../database/master && rm -rf ../database
+#  DO  NOT  DELETE THIS LINE -- make depend depends on it.
+

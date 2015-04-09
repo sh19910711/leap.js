@@ -1,0 +1,10 @@
+This is the start of the lex/yacc implementation of the LEAP
+parse engine. 
+
+########
+# IT DOES NOT WORK!
+########
+
+In time, this will feature in LEAP.
+
+It's included as of 1.2 for the curious.

@@ -1,0 +1,64 @@
+#!/usr/bin/perl
+# leapconv,v 1.202 2001/04/27 09:58:36 rleyton Exp
+# - Converts the files in the current directory from
+#   DOS format, to Unix format.
+
+$relation_files='*.rel';
+$field_files='*.fld';
+$source_files='*.src';
+
+open(FILELIST,"ls -1 *.src | ");
+close(FILELIST);
+
+while($filename=<FILELIST>) {
+	chop($filename);
+	print("File: $filename\n");
+	$fname=$filename;
+	$ename=$filename;
+
+	open(CFILE,"$fname");
+	open(OFILE,"> OUT.$fname");
+
+	while(<CFILE>) {
+		# Remove the new line and ^M character that
+		# causes problems coming from DOS
+		chop; chop;
+
+		print(OFILE "$_\n");
+	}
+	close(OFILE);
+	close(CFILE);
+	system("mv $fname /tmp/$fname");
+	system("mv ./OUT.$fname ./$fname");
+}
+
+close(FILELIST);
+
+open(FILELIST,"ls $relation_files |");
+
+while($filename=<FILELIST>) {
+	chop($filename);
+
+	open(CFILE,"$filename");
+	open(OFILE,">$filename.out");
+
+	while(<CFILE>) {
+		chop;
+		s/ *\n/\\/g;
+		s/ {2,}/\\/g;
+		$res=$_;
+		$t=length($res)-1;
+		$tc=substr $res,$t;
+		print(OFILE "$res");
+		if ($tc ne "\\") {
+			print(OFILE "\\\n");
+		} else {
+			print(OFILE "\n");
+		}
+	}
+
+	close(CFILE);
+	close(OFILE);
+
+	system("mv $filename /tmp; mv $filename.out $filename");
+}

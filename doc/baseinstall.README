@@ -1,0 +1,10 @@
+This file is only of interest to users installing a small footprint, pre-configured
+version of LEAP. 
+
+Symbolic links have been created to reduce the amount of disk space
+required in your account by LEAP.
+
+You have your own copy of your databases, report directory and
+configuration.
+
+Everything else is shared, and read-only.

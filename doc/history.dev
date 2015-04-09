@@ -1,0 +1,515 @@
+# LEAP (Unix) Development History 
+# history.dev,v 1.209.4.1 2004/02/09 20:09:52 rleyton Exp
+# All developments are documented in this file, so
+# as to provide some sort of indicator as to the approach at
+# a later stage. Unix version numbers included for indicator.
+# For more information, please visit: http://leap.sourceforge.net
+
+Version 1.2.6.1
+---------------
+* Fixed the long lasting 'leapattributes' problem.
+
+Version 1.2.6
+-------------
+* Release updated to tie in with book "Theory and Practice of Relational
+  Databases", 2nd Edition, by Stefan Stanczyk, Bob Champion and Richard Leyton.
+  Published by Taylor & Francis Books Ltd; ISBN: 0415247020 (Softback), 0415247012  
+  (Hardback).
+* See http://www.theorypractice.org for more information
+* Added a new field to a relation mem struct, to manage "last delete" ref.
+  this is then referenced by update/insert to reuse space in a relation,
+  thereby reducing file size and table scans.
+* Default install database stripped down to single database. Date and Korth
+  have been moved off into a seperate script: install.date.src and
+  install.korth.src
+* install.src relates to above book, and page/example id's have been changed
+  accordingly.
+* Updated documentation.
+
+Version 1.2.5.2
+---------------
+* Fixed regexp bug
+* Modified notify script to reference sourceforge mailing list
+
+Version 1.2.5.1
+---------------
+* Fixed bug in rl_project - leading spaces in attributes
+* Fixed bug in skit_to_alnum - now stops on nulls.
+* Fixed AIX error for strchr proto
+
+Version 1.2.5
+-------------
+* Bug fixes
++ Update operator had problems
++ SEGV in change operator due to incorrect character structure.
+* leaprel 'TEMP' attribute maintained in change operator.
+* leaprel 'NOATTRIBUTES' attribute maintained.
+* leaprel 'UPDATED' attribute maintained.
+
+Version 1.2.4
+-------------
+* Bug fixes
++ Hashing tables were not being written or read from disk properly
++ Delete/Update operations were not maintaining hash tables
+* Minor performance improvements 
+* Relation printing scalable, tidier and more informative.
+* Newly created databases do not have temporary relations hanging
+  around.
+* New option --merge-stderr - for Curt Hill's WinLEAP
+* Relocated the report on the last operation. The report is now
+  displayed when the input stream returns to stdin, and the user
+  is expected to type something.
+
+Version 1.2.3
+-------------
+* Bug fixes
+* HTML FAQ included.
+* Minimum debug level status setting rolled in from 1.3
+* Parse tree dump fixed.
+* relation command made more resiliant to unspecified values
+
+Version 1.2.2
+-------------
+* update operator added.
+* beta version of leap 'server' (see doc directory)
+* like operator implemented (searches on regular 
+  expressions), courtesy of Fabrice Lavanant. Uses
+  the Henry Spencer regexp implementation. This
+  is downloadable from:
+  ftp://ftp.cs.toronto.edu/pub/regexp.shar.Z
+* debugging classified to be more informative. 
+* debug code can be configured out of binaries.
+
+Version 1.2.1
+-------------
+* Bug fixes
+
+Version 1.2
+-----------
+* notify script subscription bug fixed
+* readline ifdefs fixed
+
+
+Version 1.1.9.9 - Pre-release of 1.2
+------------------------------------
+* change operator updates relation file on disk
+* temporary status setting debugged
+* project operator debugged
+* comments debugged
+* startup scripts properly executed
+* join operator debugged
+* tuple operations debugged
+* quiet mode quieter
+* signal handler handles tempdb
+* memory & file handle leaks plugged.
+
+Version 1.1.9.4
+---------------
+* Rename operator available.
+* Bug fixes.
+* Error handler rewritten.
+* Print/Display relation attributes on empty relations.
+* Join operator more informative when no condition available.
+* Join operator performs product if no condition available, if
+  --product-join set on command line, or productjoin variable
+  set on.
+* relation command more resiliant to mistyped commands.
+
+Version 1.1.9.3
+---------------
+* Internal version only
+
+Version 1.1.9.2
+---------------
+* tempdb added for storage of all temporary relations. temporary
+  relations are identified and tempdb searched.
+* leapscripts data dictionary relation added.
+* LEAP does not now allow system relations to be deleted.
+* Command line parameters support long format (--debug vs. -d)
+
+Version 1.1.9.1
+---------------
+* Relation format contains version number.
+* leapattributes data dictionary relation added.
+* leaptypes data dictionary relation added.
+* Data dictionary maintenance improved
+* Data dictionary used for monitoring ops (list, describe, etc.)
+
+05.02.1998 - 1.1.9 - Version 1.2 beta #3
+----------------------------------------
+- Help pages updated to reflect commands correctly.
+- Following Brookes demonstration/practicals fixed a whole set of bugs, 
+  including:
+- Spaces before a boolean operator in a condition are permitted.
+- Difference/Union/Intersect bugs on Solaris.
+- Create database fixed from any directory.
+
+25.01.1998 - 1.1.8 - Version 1.2 beta #2
+----------------------------------------
+- Tuple reuse resolved in relational operators.
+- Condition handling bugs fixed.
+- Bug fixes. If a string was as long as the attribute defined, all 
+  things went icky.
+- Minor tidy-ups for portability.
+- Memory leaks plugged.
+- More debug information added (ifdef's renamed)
+
+14.12.1997 - 1.1.7 - Version 1.2 beta #1
+----------------------------------------
+- Self contained relations, no seperate files (.tmp, .fld, .rel)
+- Seperate Utilities included for conversion/analysing databases.
+- Command line editing using GNU readline, gives Emacs, vi like editor
+- delete routine implemented.
+- Activity log implemented to record user activity.
+- Database to open specified on command line (-b dbname).
+- Optimisation step
+- create database implemented
+- create relation format changed.
+- Incorrectly specified "create relation" commands clean up if 
+  incorrect data type specified.
+- reverse operator implemented.
+- LEAP website is now http://www.dogbert.demon.co.uk/leap.html
+
+1.0 - Version 1 release
+-----------------------
+- Lint changes.
+
+11.02.1997 - Pre-release ready (0.12)
+-------------------------------------
+Final beta is ready for distribution.
+- Many bug fixes
+- Delete operator
+- New options
+- New command line options
+- Natural join stable and robust
+
+27.12.1996 - Variables/Status merged (0.12)
+-------------------------------------------
+Status settings and variables merged.
+
+03.11.1996 - Performance and portability (0.11)
+-----------------------------------------------
+- Minor performance improvements (Tuples have a new structure, and
+  keep files open for writing, rather than repetitive close/open)
+- Ultrix fully supported - The write function call was causing problems
+  with certain linkers (SunOS and Ultrix), leading to Segementation faults.
+- Compiler definitions included for new defines that may not be
+  supported by systems without complete ANSI header files.
+- 16 bit Windows version released.
+
+24.11.1996 - Microsoft OS supported (0.10) (Internal)
+-----------------------------------------------------
+- Full native support for Microsoft Operating Systems, including MS-DOS,
+Windows 3.x, Windows 95, and Windows NT. There is only a command line, but
+it runs natively.
+- Source file names and database relations have been reduced to cater for
+shorter DOS names without renaming hassles.
+
+26.10.1996 - 0.9 Released (0.9)
+-------------------------------
+
+26.10.1996 - Support Environment improvements (0.8.9)
+-----------------------------------------------------
+- Commands can now be entered that span over one entire line. Terminate
+the commands with a semi-colon (;) - Set "long" on, or specify the -o
+command line switch.
+- Shell command. Specify operating system commands by preceeding the command
+with an exclamation mark.
+- Timing information implemented.
+- Variables implemented.
+- Rename operator implemented.
+
+23.10.1996 - Create relation operator implemented (0.8.8)
+---------------------------------------------------------
+Implementation of a "create relation" operator. Users can now create their
+own relations, and add data to it...
+
+22.10.1996 - Fine tuning (0.8.7)
+--------------------------------
+Fine tuned some issues and removed duplicate join operator (there
+*was* a natural join and theta-join version. Only the one now.
+
+16.10.1996 - Majority of memory leaks plugged (0.8.6)
+-----------------------------------------------------
+Following a run of Purify against LEAP, the majority of memory
+leaks that existed have been removed. Purify instruments the
+program and displays where memory is allocated, for memory that
+is never freed. In addition, file handles that were not closed
+were also closed. Unfortunately, Purify is a commercial product,
+but luckily available to me at work. Fortunately, it is a brilliant program,
+and saved much headache.
+
+14.10.1996 - Natural Join implemented (0.8.5)
+---------------------------------------------
+First implementation of the Natural Join. This includes a lot of
+new functionality to define primary and foreign keys, although
+there is NO enforcement of it.
+
+13.10.1996 - Duplicate & insert operator implemented (0.8.4)
+------------------------------------------------------------
+Duplicate operator now implemented to allow immediate duplication of
+relations. Insert allows data to be added by user to relation. This
+sets "dirty" flag and loads hash table.
+
+16.09.1996 - Regression scripts better (0.8.3)
+----------------------------------------------
+Regression scripts are now more comprehensive. Still some way to
+go before they are really finished, but they are much better than
+before.
+
+15.09.1996 - Automatic script exec. (0.8.2)
+-------------------------------------------
+Startup and open scripts are now executed by LEAP when system is
+started, and a database opened. File comments (>) are echoed
+to the screen.
+
+15.09.1996 - Hashing Load disabled (0.8.1)
+------------------------------------------
+Hashing tables are not needed at the moment, so they are not loaded
+into memory. New relations have them of course, and new permanent
+relations have them saved. In due course, they will be loaded WHEN
+they are needed, i.e. when insert/update has been implemented.
+
+15.09.1996 - Attribute size (0.8.1)
+-----------------------------------
+Attributes now can optionally have a data length. This is currently
+really of use only for display purposes, but in the long term, this
+will be much more widely used.
+
+15.09.1996 - Portability (0.8)
+------------------------------
+Implemented a number of important portability changes to the 
+distribution, ie. autoconf is now used. LEAP should now be
+compilable on a variety of different architectures. There
+is still some tuning to be done(!!), but the framework is
+there at last.
+
+11.09.1996 - All Stanczyk scripts work (0.7.4)
+----------------------------------------------
+Modified all scripts to get rid of irratating DOS chars (Caused by
+copying from DOS partition), and removed old obsoleted operators.
+Minor changes to use command to list available databases, and
+implemented database information.
+
+At this stage, LEAP is almost at 0.9 status. (See ideas.bin),
+but memory leaks need to be identified, and functional gaps
+and TODO's plugged. 
+
+11.09.1996 - Status settings implemented (0.7.3)
+------------------------------------------------
+Status settings are now enabled, and can be set and reviewed
+from within LEAP.
+
+11.09.1996 - Restructuring of includes and directories (0.7.3)
+--------------------------------------------------------------
+Restructured the directory structure to include a seperate
+include directory. dtypes.h split into three components:
+- dtypes.h    - Data types.
+- constants.h - Global constants/defs
+- globals.h   - Global variables.
+
+10.09.1996 - Help functionality added (0.7.2)
+---------------------------------------------
+Implemented help page viewing. System is far more efficent
+and flexible than the old DOS version.
+
+08.09.1996 - Minor distribution restructuring (0.7.1)
+-----------------------------------------------------
+Modified the structure of the distribution to fit in with LSM
+recommendation. Created LSM entry, which will be posted up
+09.09.1996.
+
+08.09.1996 - Source code review operations added (0.7.1)
+--------------------------------------------------------
+Two functions for listing source files and displaying a source
+file has been added, with minor changes necessary elsewhere to
+accomodate this.
+
+05.09.1996 - Regression test scripts started. (0.7.1)
+-----------------------------------------------------
+A basic start to the regression tests have been made, which should check
+basic operations, and provide a basis for other developers to use when
+making changes. These scripts can then be run to make sure that the changes
+do not impact on the existing functionality.
+
+05.09.1996 - Compilation on Ultrix, SunOS and NeXt (0.7.0)
+----------------------------------------------------------
+Whilst working on critical PN support at work, played around with compilation
+issues. SunOS now works beautifully, even better than Solaris in fact. NeXt
+complains about creating hash files, probablz down to POSIX issues. Ultrix
+just cores on startup, but dbx available, so should be easy to pin point.
+
+05.09.1996 - Usenet announcement (0.7.0) 
+----------------------------------------
+After the first posting failed dismally, because of the crummy news server
+in AMS domain, and the failed posting to demons mail2news, I used the 
+Dejanews system, and the result was spectacular. In the space of about
+5 hours, there were 50 or 60 hits on the LEAP home page.
+
+03.09.1996 - First public release of the C source (0.7.0)
+---------------------------------------------------------
+The first release of the C source code was made today. The new revamped
+home page contains links to the files. Announcements were made to the
+LEAP mailing list and usenet.
+
+03.09.1996 - Multiple Databases implemented (0.7.0)
+---------------------------------------------------
+The multiple database idea from 0.10 has now been implemented, with the
+start of the basic data dictionary. Still to do is the expansion of this
+functionality to use the remaining column from the leapdata table to 
+determine the directory in which the data may be found. This could conceivably
+lay the foundation for users own databases, and master databases.
+
+01.09.1996 - Implemented the join operator and multiple tuple eval. (0.6.9)
+---------------------------------------------------------------------------
+The first attempt at the join operator has been successful. This needed quite
+an overhaul of some of the evaluation operations, and some tweaking elsewhere
+to allow for compatibility with other routines (evaluation reusing the
+same memory structure).
+
+31.08.1996 - Implemented the Boolean data type (0.6.6)
+------------------------------------------------------
+Added a new data type. In doing this, some of the operators needed
+tweaking, and also to fix one or two bugs. 
+
+29.08.1996 - Implemented condition builder/evaluator/select. (0.6.5)
+--------------------------------------------------------------------
+In the process of the implementation of the select operator, implemented
+a DYNAMIC query evaluator. Takes an expression, and builds a linked list
+of conditions. Select operator supports multiple conditions. Should
+be relatively straight forward to implement nested conditions.
+
+11.05.1996 - Fixed minor bugs, stabalised parser, etc. (0.5.9 - 0.6)
+--------------------------------------------------------------------
+Several bugs were fixed, mainly with the parser. In addition, the
+parser now has some error messages of its own. Moved version to 0.6,
+for the next main effort is implementation of the remaining 
+relational operators.
+
+09.05.1996 - Implemented Intersection (0.5.8 - 0.5.9)
+-----------------------------------------------------
+Which means that there are now three operators: project,
+union and intersect. This is quite a good staging point
+to implement the remaining operators. The only real difficulties
+will be with the evaluation of expressions... Then the
+tidying up can begin...
+
+08.05.1996 - Fixed problem with parser (0.5.7 - 0.5.8)
+------------------------------------------------------
+Parser was overwriting a pointer, which led to all hell breaking
+loose on the pointer front. Fixed, so the parser is now a fair
+bit more stable, and can handle very large expressions... :)
+
+07.05.1996 - Made the compilation fussy (0.5.6 - 0.5.7)
+-------------------------------------------------------
+The Makefile now contains -Wall and -W flags to make sure that
+the fussiest possible compilation occurs.
+
+05.05.1996 - Source files implemented (0.5.5 - 0.5.6)
+-----------------------------------------------------
+Source files are supported, and are executed very nicely and
+in an integrated fashion.
+
+05.05.1996 - Parse tree handles no bracketed commands (0.5 -> 0.5.5)
+	   - Hashing structures always built, and saved/loaded.
+--------------------------------------------------------------------
+For example "print p" works just as well as "print (p)". Hash
+tables (now in ASCII Format) are created and stored each and every
+time, and loaded/built as appropriate. They are saved for permanent
+relations.
+
+05.05.1996 - Various bugs fixed, and handles obsoleted functionality
+--------------------------------------------------------------------
+Title says it all really. Various "old" functions that are not
+going to be implemented (eg. "infix y") are caught and handled.
+
+04.05.1996 - Parse tree processing handles all commands (0.4 -> 0.5)
+--------------------------------------------------------------------
+Brand new to LEAP - The iterative parser now handles absolutely
+everything that is input by the user. This ensures that there is
+one place that all the processing is done. A parse tree is
+ALWAYS built, and commands are handled in a structured and
+sensible manner. Logical parse tree processing now replaces the
+mish-mash that was implemented before (From Pascal version). It's
+still not perfect, but its a big change, enough to warrant a 
+small step. Now the implementation can proceed in a straight
+forward manner. I'd almost say that now all the hard work has
+been done... Its "just" a matter of finishing off functionality
+and tidying up stuff.
+
+02.05.1996 - Implemented parse tree processing (0.3 -> 0.4)
+-----------------------------------------------------------
+A parse tree is now built, and processed. Some bugs in the
+hashing oeprations have also been removed.
+
+01.05.1996 - Implemented iterative parser
+-----------------------------------------
+A parse tree is now built iteratively. Processing is still a
+"todo", but expressions can now be understood in full.
+
+25.04.1996 - First relational operator implemented
+--------------------------------------------------
+The project operator has now been implemented in full (well,
+sort of!). It does what its supposed to, and utilises the
+hashing functionality in order to remove duplicates. Its still
+in need of some specific modifications and improvements, but
+its functionally there.
+
+20.04.1996 - Hashing implemented
+--------------------------------
+Hashing has been implemented, but not tested yet. Just a straight
+copy from the Pascal source, and correcting compile time errors.
+No doubt there will be a fair few problems!
+
+19.04.1996 - Source entered to RCS control
+------------------------------------------
+Source code etc. added to the RCS development control system.
+Under experiment for now. Should be similair to SCCS if the
+instructions are to be believed!
+
+15.04.1996 - Tuples implemented (0.2 -> 0.3)
+--------------------------------------------
+Tuples are now basically implemented. A relation can now
+be opened, and the data extracted from it in a sequential
+manner. This now leaves the way open to process relations
+in a structured and orderly manner. Next step is the relational
+operators and an interface to the various commands. Not
+forgetting the important house keeping!
+
+14.04.1996 - TODO's
+-------------------
+As implementation proceeds, TODO's are being added to the
+various files to indicate areas where work is still needed.
+There are two types of TODO's - Normal TODO's are necessary
+and needed, in order to make LEAP have the same functionality.
+Then there are IDEA TODO's, which are for improvements to
+the code. A simple grep on the .c and .h files should show all
+source files needing work.
+
+14.04.1996 - Attributes implemented (0.1 -> 0.2)
+------------------------------------------------
+Well, after a bit of effort (most of the time caught up
+in a confusion over call by reference/value in C, and FILE
+descriptors...), the attributes (NOT fields! I'm making the
+change here at the source code level), are implemented
+as far as is necessary for this initial effort.
+
+
+14.04.1996 - File started (0.01 -> 0.1)
+---------------------------------------
+At this stage, the implementation is still very minimal, the
+relation structures are maintained in the database, and inserts
+are possible (directly taken from Pascal code).
+
+Error handling is implemented, and the file is read CORRECTLY
+and errors reported. Taking the Pascal version to avoid changing
+error numbers. New errors start at 39.
+
+The makefile works fine - It checks files as it should do, which
+is a great achievement (not having understood makefiles as I 
+really needed to!). 
+
+Now that relations are implemented, its time to move on. Destruction
+of objects is a necessity, but not at this stage, "housekeeping"
+can wait until its looking a bit more complete. As the Pascal code
+is there, I can come back and address the issues with 99% accuracy.

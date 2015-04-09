@@ -1,0 +1,24 @@
+#!/bin/sh 
+# all2dos,v 1.202 2001/04/27 09:58:36 rleyton Exp
+#
+# Converts all files in the specified directory to DOS format files
+# with CR/LF
+
+function unix2dos {
+	for file in `cd $dir; ls -d *`
+	do
+		if [ ! -d $file ]
+		then
+			cat $dir/$file | sed s/$//g > /tmp/$file
+			mv /tmp/$file $dir/$file
+		else
+			echo "$file is a directory!"
+		fi
+	done
+}
+
+dir=$1
+
+unix2dos $dir
+
+

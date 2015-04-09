@@ -1,0 +1,11 @@
+README,v 1.1 2001/05/25 15:08:15 rleyton Exp
+
+This directory contains a collection of files that may prove useful for a
+developer working on the LEAP source code.
+
+
+all2dos       - converts all files in a directory to a DOS (LF) file
+unix2dos      - converts all files in a directory to a DOS (LF) file.
+dmalloc.env   - sets the environment for a run of dmalloc mem leak checker
+leapconv      - upgrades a LEAP database setup from 1.0 to 1.2
+

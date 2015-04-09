@@ -1,0 +1,149 @@
+#!/bin/sh 
+# notify,v 1.203.4.1 2004/02/09 20:11:27 rleyton Exp
+# Description: Handles installation notification.
+# Notes: NO action is EVER taken unless the user explicitly requests it.
+#
+
+# Make sure we clean up properly.
+trap 'rm -f /tmp/_leapinstall.$$; exit' TERM QUIT INT EXIT
+
+###
+# Explain the script (notify is called after make install)
+###
+echo '================================================================================'
+echo 'LEAP has now been installed on your system.'
+echo ''
+echo 'In order to get some idea as to where LEAP is installed, and (more importantly)'
+echo 'what sort of systems it is installed on (to allow a better porting focus),'
+echo '**WITH YOUR PERMISSION**, after the prompt, an e-mail will be sent to'
+echo 'leap@leyton.org'
+echo ''
+echo '(You may abort this script by pressing CTRL-C at any point)'
+echo ''
+echo 'This is the information that will be sent after the prompt:'
+echo '(between the seperators)'
+
+###
+# Fetch the OS architecture and other info.
+###
+architecture=`uname -a`
+os=`uname -s`
+leapver=`./leap --versiononly`
+
+###
+# Build the output file
+###
+echo "Subject: LEAP $leapver ($os) Installation notification" > /tmp/_leapinstall.$$
+echo "LEAP has been installed on the following system:" >> /tmp/_leapinstall.$$
+echo "Machine architecture: $architecture" >> /tmp/_leapinstall.$$
+echo 'LEAP version info (leap -v):' >> /tmp/_leapinstall.$$
+
+###
+# Fetch the LEAP version (we're assuming everything installed ok)
+###
+../src/leap -v >> /tmp/_leapinstall.$$
+
+echo '-----------------------------------------------------------------------'
+cat /tmp/_leapinstall.$$
+echo '-----------------------------------------------------------------------'
+
+###
+# Prompt the user
+###
+echo 'If you wish to send this message, press ENTER now.'
+echo 'If you DO NOT wish to send the message, type '.' then ENTER'
+echo ''
+echo 'NOTHING will be sent until you press enter.'
+
+read a
+
+###
+# Check the response
+###
+if [ -z "$a" ]
+then
+	###
+	# send the mail
+	###
+	cat /tmp/_leapinstall.$$ | Mail -s "LEAP $leapver ($os) Installation notification" leap@leyton.org 2> /dev/null
+
+	# If Mail (or cat!) not found...
+	if [ $? -ne 0 ]
+	then
+		echo "Ah. My preferred mail program (Mail) wasn't available in your path."
+		echo "I'm now trying a more standard program (mail)...."
+		echo ""
+
+		# Try mail... (Standard command)
+		cat /tmp/_leapinstall.$$ | mail leap@leyton.org  2> /dev/null
+
+		if [ $? -ne 0 ]
+		then
+			# Oh dear... This is Probably a Windoze PC running Cygwin...
+			echo "Oh dear - Cannot send e-mail using standard means (Tried both mail and Mail)"
+			echo "If possible, please manually send above message to leap@leyton.org"
+
+			# No point carrying on...
+			exit 1
+		fi
+	fi
+
+	echo 'Message sent to leap@leyton.org'
+	echo 'Many thanks. This information is very helpful for LEAP development.'
+	echo ''
+else
+	echo '*** NO message has been sent ***'
+fi
+# Cleanup
+rm /tmp/_leapinstall.$$
+echo ''
+echo ''
+echo ''
+echo '==============================================================================='
+echo 'There is a low volume mailing list for LEAP announcements. If you would like'
+echo "to subscribe, enter >y< below. If you'd rather not subscribe, type . then ENTER"
+echo '==============================================================================='
+
+read a
+
+###
+# Check the response
+###
+if [ "$a" = "y" -o "$a" = "Y" ]
+then
+	###
+	# If a response was received, subscribe the user
+	###
+	echo 'Enter the e-mail address to which mail should be sent:'
+	read a
+	echo ''
+	echo "You entered: $a"
+	echo "Is this correct? (enter >y< to subscribe, or . then ENTER to cancel)."
+	read b
+
+	if [ "$b" = "y" -o "$b" = "Y" ]
+	then
+			# Do the deed.
+			echo "subscribe address=$a"|mail leap-announce-request@lists.sourceforge.net
+
+			echo 'Subscription e-mail sent to leap-announce-request@lists.sourceforge.net'
+			echo 'You should receive confirmation and information shortly'
+			echo ''
+			echo 'To send an e-mail to the other subscribers on the list, send e-mail to'
+			echo 'leap-announce@lists.sourceforge.net'
+			echo ''
+	else
+			echo 'Aborting subscription on request.'
+			echo 'If you would like to subscribe at a later date, please visit'
+			echo 'http://lists.sourceforge.net/lists/listinfo/leap-announce'
+	fi
+else
+	echo '*** NO subscription message sent ***'
+	echo ''
+        echo 'If you would like to subscribe at a later date, please visit'
+	echo 'http://lists.sourceforge.net/lists/listinfo/leap-announce'
+fi
+
+
+
+

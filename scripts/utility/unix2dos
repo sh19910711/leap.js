@@ -1,0 +1,8 @@
+#!/bin/sh
+# unix2dos,v 1.1 2001/05/25 15:08:15 rleyton Exp
+# Converts the files in the current directory to DOS files, ie. with a 
+# CR/LF combination, rather than the standard LF in Unix.
+
+file=$1
+cat $file | sed 's/$//g' > /tmp/ril
+mv -f /tmp/ril $file

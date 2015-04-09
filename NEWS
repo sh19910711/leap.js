@@ -1,0 +1,237 @@
+News file 1.212.4.1
+LEAP - An extensible RDBMS - User visibile changes.
+
+Version 1.2.6.1
+---------------
+* Fixed the 'leapattributes' bug
+
+Version 1.2.6
+-------------
+* Release updated to tie in with book "Theory and Practice of Relational
+  Databases", 2nd Edition, by Stefan Stanczyk, Bob Champion and Richard Leyton.
+  Published by Taylor & Francis, ISBN: 0415247020 (Softback), 0415247012 (Hardback).
+* Visit http://www.theorypractice.org for more information
+* Various documentation tweaks
+* Minor performance improvement to relation updates/inserts.
+
+Version 1.2.5.2
+---------------
+* Bug fix (regexp)
+* Mailing list references changed to sourceforge
+
+Version 1.2.5.1
+---------------
+* Bug fixes
+
+Version 1.2.5
+-------------
+* Bug fixes.
+* Documentation updated & improved.
+* 'list' command includes updated and system flag.
+* updated flag is maintained.
+* 'compact' operator implemented to remove wasted space from relations.
+
+Version 1.2.4
+-------------
+* Bug fixes
+* Minor performance improvements
+* Relation printing scalable, tidier and more informative.
+* New option --merge-stderr for Curt Hill's WinLEAP.
+* Status reporting on previous operation condensed.
+(CVS Tag 1.2.4b)
+
+Version 1.2.3
+-------------
+* Bug fixes
+* HTML FAQ included
+* Minimum debug level setting available
+* Windows 95/NT release.
+
+Version 1.2.2
+-------------
+* update operator added.
+* Alpha version of leap 'server' (see doc directory) included for
+  interested programmers.
+* like operator implemented (searches on regular 
+  expressions), courtesy of Fabrice Lavanant. Uses
+  the Henry Spencer regexp implementation.
+* debugging classified to be more informative. 
+(CVS Tag 1.2.2)
+
+Version 1.2.1
+-------------
+* bug fixes
+
+Version 1.2
+-----------
+* notify script subscription bug fixed
+* readline ifdefs fixed
+
+Version 1.1.9.9 - Pre-release of 1.2
+------------------------------------
+* change operator updates relation file on disk
+* temporary status setting debugged
+* project operator debugged
+* comments debugged
+* startup scripts properly executed
+* join operator debugged
+* tuple operations debugged
+* quiet mode quieter
+* signal handler handles tempdb
+* memory & file handle leaks plugged.
+
+Version 1.1.9.4
+---------------
+* Rename operator available.
+* Bug fixes.
+* Error handler rewritten.
+* Print/Display relation attributes on empty relations.
+* Join operator more informative when no condition available.
+* Join operator performs product if no condition available, if
+  --product-join set on command line, or productjoin variable
+  set on.
+* relation command more resiliant to mistyped commands.
+
+Version 1.1.9.3
+---------------
+* Internal version only
+
+Version 1.1.9.2
+---------------
+* tempdb added for storage of all temporary relations. temporary
+  relations are identified and tempdb searched.
+* leapscripts data dictionary relation added.
+* LEAP does not now allow system relations to be deleted.
+* Command line parameters support long format (--debug vs. -d)
+
+Version 1.1.9.1
+---------------
+* Relation format contains version number.
+* leapattributes data dictionary relation added.
+* leaptypes data dictionary relation added.
+* Data dictionary maintenance improved
+* Data dictionary used for monitoring ops (list, describe, etc.)
+
+Version 1.1.9 - Beta #3
+-----------------------
+* currentdb variable added
+* Updated documentation
+* LEAP moved to CVS source control allowing for better release/patching.
+
+Version 1.1.8.1 - Beta #2
+-------------------------
+* join more resiliant
+* Conditions allow spaces after the boolean operator(!).
+* FAQ started
+
+Version 1.1.8.1 - Beta #2
+-------------------------
+* Better support for SunOS, and other systems without ANSI headers. Still problems though.
+* Conditions allow spaces before the boolean operator.
+* Several Bug fixes to operators.
+
+Version 1.1.8 - Beta #2
+-----------------------
+* Script to reduce disk usage with large numbers of users included (see scripts/users)
+* Bug fixes and tidyups.
+
+Version 1.1.7 - Beta #1
+-----------------------
+* LEAP completely auto installs
+
+Version 1.1.6
+-------------
+* create database implemented.
+* create relation format changed. Can be nested.
+* reverse operator implemented, to allow a database to be reverse engineered.
+* Bug fixes: allocation to named relation with spaces kept spaces in relation name.
+
+Version 1.1.5
+-------------
+* Bug fixes and tidyups.
+
+Version 1.1.4
+-------------
+* More tidyups and bug fixes.
+* Notification script.
+
+Version 1.1.3
+-------------
+* More tidyups. First public release.
+
+Version 1.1.2
+-------------
+* More stable and less resource hungry.
+
+Version 1.1.1
+-------------
+* Fixed a number of portability issues.
+* Numerous bug fixes
+
+Version 1.1.0
+-------------
+* Self contained relations, no seperate files (.tmp, .fld, .rel)
+* Seperate Utilities included for conversion/analysing databases.
+* Command line editing using GNU readline, gives Emacs, vi like editor
+* delete routine implemented.
+* Activity log implemented to record user activity.
+* Database to open specified on command line (-b dbname).
+* Optimisation step
+* Incorrectly specified "create relation" commands clean up if 
+  incorrect data type specified.
+* LEAP website is now http://www.dogbert.demon.co.uk/leap.html
+
+Version 1.0 - First release - 19th May 1997
+-------------------------------------------
+* Signal Handling added to improve stability.
+
+Beta Version 0.12 - *FINAL BETA*
+--------------------------------
+* Variables and status settings merged into variables.
+* Environment variables supported for certain configuration options.
+* Output format (auto, tabulated, or fixed size) supported.
+* Source Relation name padding on join/product relations.
+* Delete relation implemented.
+
+Beta Version 0.11
+-----------------
+* Microsoft Operating Systems supported (Windows, MS-DOS)
+* Minor performance improvements.
+
+Beta Version 0.10
+-----------------
+(Original Pascal/Wintel version functionality reached)
+
+Beta Version 0.9
+----------------
+* Natural join implemented.
+* Add operator implemented.
+* Variables implemented.
+* Create relation operator implemented.
+* Majority of memory leaks and file handle lingering resolved.
+  LEAP is now less resource hungry, and more efficent.
+* Long (>1 line) commands (optional).
+* Log file timing (optional).
+* Operation timing (optional).
+* Start of new documentation.
+
+Alpha version 0.8.3
+-------------------
+* Regression scripts more complete and usable.
+
+Alpha version 0.8.1 & 0.8.2
+---------------------------
+* Internal versions.
+
+Alpha Version 0.8
+-----------------
+* GNU configure utility now used to enable configuration and compilation 
+of LEAP on multiple platforms. 
+* NEWS file started.
+* Distribution more in-line with GNU recommendations (as given in autoconf)
+* 95% of all scripts in included databases work. All DOS provided 
+databases are included.
+
+Alpha Version -> 0.7
+--------------------
+* Internal revisions, and limited availability.

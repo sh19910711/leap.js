@@ -1,0 +1,73 @@
+# Makefile.in,v 1.5 2001/04/26 13:02:20 rleyton Exp
+# Makefile for LEAP algebra. Generated automatically through autoconf.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option) 
+# any later version.
+
+# This program is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License 
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+#
+# DEBUG algebra:
+# DEBUG_LEX=-d
+
+SHELL=/bin/sh
+srcdir = @srcdir@
+
+CC = @CC@
+AR = ar
+RANLIB = @RANLIB@
+CFLAGS = @CFLAGS@ $(GFLAGS)
+LDFLAGS = @LDFLAGS@ -L@libdir@ -L. $(GFLAGS)
+YACC = @YACC@
+LEX = @LEX@
+DEFS = @DEFS@
+INCLUDES = -I$(srcdir) -I$(srcdir)/include -I../include
+COMPOPT=-c $(DEFS) $(INCLUDES) $(CFLAGS) $(CPPFLAGS)
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+.c.o:
+	$(CC) $(COMPOPT) $<
+
+OBJECTS = y.tab.o lex.yy.o algebra.o
+SOURCES = algebra.yy algebra.l
+
+all: libleapalgebra.a 
+	
+libleapalgebra.a: $(OBJECTS)
+	@echo "Building algebra parser library..."
+	$(AR) $(ARFLAGS) ../$@ $?
+	$(RANLIB) ../$@
+	@echo "Done."
+
+lex.tab.o:	lex.yy.c y.tab.h
+
+lex.yy.o y.tab.o: algebra.l
+
+y.tab.c y.tab.h: algebra.yy
+#	$(YACC) -d -v algebra.yy
+	$(YACC) -d algebra.yy
+
+lex.yy.c: algebra.l
+#	$(LEX) -i -d algebra.l
+	$(LEX) -i $(DEBUG_LEX) algebra.l
+
+clean:
+	rm -f *.o  $(OBJECTS) y.tab.c y.tab.h *.a lex*
+
+realclean: clean
+	rm config.* Makefile lex*
+
+depend: 
+	makedepend -- $(COMPOPT) -- $(SOURCES) $(APPS)
+
+#  DO  NOT  DELETE THIS LINE -- make depend depends on it.
+

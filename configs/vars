@@ -1,0 +1,145 @@
+################################################################################
+# vars,v 1.205 2001/05/25 16:57:25 rleyton Exp
+# LEAP Variable definition file
+# Modify items in the SECOND section only
+# Copyright, (c) 1996-2001 Richard Leyton.
+################################################################################
+# First Section
+# DO NOT MODIFY ENTRIES HERE
+################################################################################
+program LEAP
+version 1.2
+last
+currentdb
+daemon off
+################################################################################
+# Second section
+# Modify settings, do NOT modify variable names
+################################################################################
+###
+# Trace: Trace information on or off.
+###
+trace off
+#trace on
+#
+#
+#
+###
+# Debug: Debug info on/off - On must be enabled to send trace to log file.
+###
+#debug on
+debug off
+#
+#
+###
+# debuglevel:
+# 0=None
+# 1=Function enter/exit
+# 2=Operation Acknowledgements
+# 3=Operation processing status/info
+# 5=Detailed info
+# 7=Memory alloc info
+# 9=Maximum
+#
+# NB. Higher levels include lower level info.
+# Most useful levels are 1, 3 and 7. 
+#
+debuglevel 0
+#
+#
+# mindebug - Minimum level to report
+# (Useful for reducing debugging info)
+mindebuglevel 0
+#
+#
+#
+###
+# timing: Timing info on/off
+###
+#timing on
+timing off
+#
+#
+#
+###
+# Case sensitivity on/off
+###
+case off
+quiet off
+#
+#
+#
+###
+# Temporary: off - All relations are permanent
+# 		   : on  - Temporary relations are removed.
+###
+temporary on
+#
+#
+#
+###
+# Timelog - Adds time stamp to log file
+###
+timelog on
+#
+#
+#
+###
+# Long - Long commands on/off
+###
+long off
+#
+#
+#
+###
+# Padding - If "on" will prepend the relation name to all attributes
+# of relations created via join/products
+###
+#
+#
+#
+padding off
+###
+# Enable automatic spacing of relations (auto, or use fixed tab size (tab)
+# or specify width (nn)
+###
+#
+#
+#
+width auto
+###
+#width auto
+#width tab
+#width 10
+###
+#
+#
+#
+###
+# tempdb - Store temporary relations in tempdb on/off
+###
+tempdb on
+#
+#
+#
+###
+# productjoin - Perform a product on a join where no condition can be derived
+#  This is the default behaviour in SQL (select * from a,b), but as LEAP
+#  is implementing the raw operators, no such logic is on by default.
+###
+productjoin off
+#
+#
+#
+###
+# merge-stderr - Merge stderr into the stdout stream. This is
+#   mainly to allow for a single output frame in Curt Hill's WinLEAP.
+###
+merge-stderr off
+#
+#
+#
+################################################################################
+# Third Section
+# Add/Modify entries as much as you like
+################################################################################

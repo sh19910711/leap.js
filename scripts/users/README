@@ -1,0 +1,171 @@
+These scripts are included to make LEAP easier to use in a large user environment.
+
+Version: README,v 1.202 2001/05/25 15:04:08 rleyton Exp
+
+SETTING UP THE BASE INSTALLATION
+================================
+In order to make the installation process as simple as possible, first 
+make sure you can compile and run LEAP in your environment. You may modify 
+the help pages, or included databases as much as you like. Set the 
+configurations as you feel appropriate.
+
+Once you are satisfied with your installation, copy it to a location that ALL 
+users can access. On a Solaris installation, for example, this might be 
+/opt/LEAP.  Request that the Systems Administrator (SA) gives you alone 
+write permission. Students/Users should NOT have write permission to 
+this directory (755).
+
+Now COPY all of the LEAP installation across to this directory, with:
+
+cp -r LEAP_source_directory LEAP_target_directory
+
+Check the directory contains something like the following with "ls -l":
+
+total 58
+-rw-r--r--   1 rleyton  users       17982 Oct  9  1997 COPYING
+-rw-r--r--   1 rleyton  users        3774 May  1 23:59 FAQ
+-rw-r--r--   1 rleyton  users        7721 Feb 26 23:27 INSTALL
+-rw-r--r--   1 rleyton  users        5186 May  2 00:04 NEWS
+-rw-r--r--   1 rleyton  users        2959 May  1 19:50 NOTES
+-rw-r--r--   1 rleyton  users        3713 May  2 00:04 README
+-rw-r--r--   1 rleyton  users         783 Dec 14 18:53 TODO
+drwxr-xr-x   3 rleyton  users        1024 Mar  1 19:24 bin
+drwxr-xr-x   2 rleyton  users        1024 May  1 21:04 build
+drwxr-xr-x   3 rleyton  users        1024 May  2 00:04 configs
+drwxr-xr-x  10 rleyton  users        1024 May  1 23:40 database
+drwxr-xr-x   3 rleyton  users        1024 May  1 22:35 doc
+drwxr-xr-x   3 rleyton  users        1024 Mar  1 19:24 help
+-rw-r--r--   1 rleyton  users         681 May  2 00:01 leap-1.2.lsm
+drwxr-xr-x   4 rleyton  users        1024 May  3 15:36 scripts
+drwxr-xr-x   7 rleyton  users        2048 May  3 15:35 src
+
+Now run LEAP_source_directory/scripts/users/buildtar
+
+You will be prompted to enter the base directory (eg. /opt/leap). You will also
+be prompted to enter the target directory for LEAP's central build. By default
+this is the directory you just specified with /build appended.
+
+Completing this will create a tar file that contains a copy of changeable 
+files (database, configs, and reports). Symbolic links are set up for all 
+other directories.
+
+The tar file is stored in the target directory. Check it with 
+"tar tvf leap_build.tar" to list the contents.
+
+If some users are likely to want to take LEAP to their own Unix machines
+(such as Linux box at home), several options present themselves:
+
+- Create a tar file of the build directory which can be transferred at 
+  will. 
+- Place the file on a central NFS server from which the LEAP install
+  directory can be mounted by all clients (obviously not practical for
+  home access!).
+- Suggest users compile LEAP for themselves (See below).
+
+Remember to make sure users are aware of machine compatibility issues.
+
+If you feel that some users may wish to compile LEAP for themselves, a
+suggestion would be to place the original LEAP distribution file in
+the target directory. This will save repeated downloads from ftp servers.
+Instructions for advanced users are included at the end of this file on
+the assumption this is where the file has been placed.
+
+NB. You may want to edit the user script 'leapinstall' to simplify the
+user installation procedure.
+
+INSTRUCTIONS FOR USERS
+======================
+The following instructions can be passed out to users of LEAP in order to get a
+copy of LEAP installed with minimal problems. Change the $LEAPINSTALLDIR to 
+the directory in which LEAP was installed (!).
+
+In order to install LEAP, run the script:
+
+$LEAPINSTALLDIR/scripts/users/leapinstall
+
+You will be asked to enter the LEAP source directory. This is $LEAPINSTALLDIR.
+
+A target directory is then required. This should be in your home ($HOME) 
+directory. It defaults to the directory in which the script is being run. 
+Specify $HOME/leap in order that the LEAP installation is in its own 
+directory.
+
+LEAP will then proceed to extract all necessary files from the archive, and 
+create links to files that can be shared.
+
+If you're reinstalling LEAP, then you will be prompted to remove or overwrite
+the existing installation.
+
+eg. Sample installation script (with installation dir /opt/leap):
+--------------------------------------------------------------------------------
+bash$ /opt/leap/scripts/users/leapinstall 
+Enter the LEAP installation source directory:
+/opt/leap/build
+Enter leap target directory [/home/rleyton/leap]
+/home/rleyton/leap
+Completed.
+bash$ cd /home/rleyton/leap
+bash$ ls -l
+total 4
+lrwxrwxrwx   1 rleyton  users          41 Jan 25 23:57 BASEINSTALL.README -> /opt/leap/doc/baseinstall.README
+lrwxrwxrwx   1 rleyton  users          26 Jan 25 23:57 COPYING -> /opt/leap/COPYING
+lrwxrwxrwx   1 rleyton  users          23 Jan 25 23:57 NEWS -> /opt/leap/NEWS
+lrwxrwxrwx   1 rleyton  users          24 Jan 25 23:57 NOTES -> /opt/leap/NOTES
+lrwxrwxrwx   1 rleyton  users          25 Jan 25 23:57 README -> /opt/leap/README
+lrwxrwxrwx   1 rleyton  users          23 Jan 25 23:57 TODO -> /opt/leap/TODO
+drwxr-xr-x   2 rleyton  users        1024 Jan 25 23:48 bin
+drwxr-xr-x   3 rleyton  users        1024 Oct 15 20:35 configs
+drwxr-xr-x   7 rleyton  users        1024 Jan 25 22:50 database
+lrwxrwxrwx   1 rleyton  users          22 Jan 25 23:57 doc -> /opt/leap/doc
+lrwxrwxrwx   1 rleyton  users          23 Jan 25 23:57 help -> /opt/leap/help
+lrwxrwxrwx   1 rleyton  users          31 Jan 25 23:57 leap-1.1.lsm -> /opt/leap/leap-1.1.lsm
+drwxr-xr-x   2 rleyton  users        1024 Dec 13 21:15 report
+lrwxrwxrwx   1 rleyton  users          22 Jan 25 23:57 src -> /opt/leap/src
+--------------------------------------------------------------------------------
+ 
+In order to run LEAP, change directories to the LEAP target directory you
+specified at the second prompt (eg. /home/rleyton/leap), and type:
+
+bin/leap
+
+eg. Starting LEAP for the first time
+--------------------------------------------------------------------------------
+bash$ bin/leap
+LEAP 1.1.8 - An extensible and free RDBMS
+Copyright (C) 1997, 1998 Richard Leyton.
+
+LEAP comes with ABSOLUTELY NO WARRANTY; for details type "warranty".
+This is free software, and you are welcome to redistribute it
+under certain conditions; type "copying" for details.
+*****************************
+* THIS IS A >>BETA<< REVISION
+*****************************
+LEAP is starting...
+No hash table exists for relation zzrrag - Creating... Done.
+No hash table exists for relation zzmrbw - Creating... Done.
+Startup sequence initiated.
+:-) 
+--------------------------------------------------------------------------------
+
+For further information on LEAP usage, see the manual in doc, or consult
+your lecture handouts.
+
+More information on LEAP is available on the LEAP web site:
+
+http://www.dogbert.demon.co.uk/leap.html
+
+For announcements, and information, join the LEAP mailing list by sending a one 
+line e-mail to: majordomo@brookes.ac.uk containing "subscribe leap" in the
+body of the message.
+
+ADVANCED USERS
+==============
+Advanced users may want to compile and run LEAP for themselves, with any
+changes they wish to make. The easiest solution is to check to see if the
+original distribution is present in the LEAP Installation directory
+(eg. /opt/leap/build) - Copy the file to your directory, uncompress and
+extract the file, and read the file INSTALL.
+
+If the file is not present, consult your lecturer, especially if you do
+no have access to the Internet, or if you do not have a particularly
+fast link.

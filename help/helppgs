@@ -1,0 +1,755 @@
+[ helppgs,v 1.203 2001/05/25 15:15:33 rleyton Exp
+============================================================================
+Help Pages
+============================================================================
+exit              - Halt program
+list              - Display the relations loaded.
+sources           - Display the source files available.
+print r           - Display the contents of relation r.
+describe r        - Describe the attributes of relation r.
+delrel r          - Delete the relation r from the disk.
+prompt s          - Specify s as the command prompt within LEAP.
+use               - List available databases
+use dbname        - Change to database dbname
+@ sourcefile      - Use sourcefile as command file.
+! command         - Execute operating system command (Not Windows/DOS).
++
+Algebraic Operators
+-------------------
+Type "help <operator>" for syntax and usage of:
+
+union, intersect, difference, product, project, 
+join, select, assignment, display   
++
+Miscellaneous Operations
+------------------------
+relation r ((a1,dt1,l1),(a2,dt2,l2) .. (an,dtn,ln))
+                  - Create a relation r, with attributes a1, type
+                    dt1, display length l1, etc. - Where data type is a string
+                    number, or boolean (see DATA_TYPE)
+change r          - Change the temporary status of relation r.
+delete (rel) (cond) Delete tuple from relation where cond is true.
+describe r        - Display the fields associated with relation r.
+
+status            - Report the status information of LEAP.
+set item {on|off} - Change a setting of LEAP.
+
+help [topic]      - Display help page for [topic]
+help index        - Display a list of available help topics.
++
+===============================================================================
+This program, and all associated files/documentation are
+copyright (C) 1997, 1998 Richard Leyton.
++
+=
+# HELP
+Help is context sensitive. To bring up help on a particular item type
+
+help <item>
+
+For example, to bring up help on the SELECT operator, type:
+
+help select
+
+Help also contains cross-references to other help topics, and you can bring
+up help on these by typing HELP <topic> - Watch out for spelling mistakes
+though!
+
+There is an INDEX of help topics, which you can bring up with HELP INDEX
+
+See the file user_guide.htm in the doc directory for the LEAP user guide.
+
+This is help file 1.10
+
++
+# PROMPT
+Usage: prompt s
+Operation: Specifies the string s as the prompt to be used within LEAP. 
+Example:
+
+:-) prompt LEAP>
+LEAP> prompt (Test Prompt)
+Test Prompt prompt
+:-)
+
+Note that prompt entered on its own returns the prompt to the default ':-)'
+prompt.
+
+An error occuring during a statement changes the prompt for the next
+command, to ':-o' The prompt is returned to that specified on the next 
+command.
++
+# ATTRIBUTE
+An attribute is analogous to a "field" in popular relational
+database management systems. An attribute is the vertical
+column of data, for example in a RELATION of pupils, an attribute
+would be, say, age, out of name, address, age, sex etc.
++
+# PROJECT
+Usage: project (rel) (f1,f2,...,fn)
+Operation: Projects the specified ATTRIBUTEs from the specified expression.
+Result: PROJECT reduces the result of the specified expression to
+        contain only the ATTRIBUTEs specified. In the process, all duplicate
+        tuples that may occur are removed.
+Examples:
+
+rel=project (a) (status,city)
+
++
+# ALGEBRA
+The relational algebra is the manipulative part of the relational model.
+In order for a relational database management system to be termed relational
+complete, it must support the relational structures, and provide at least
+the functionality of the relational algebra. LEAP can be termed relationally
+complete. To be truly relationally, an RDBMS must also ensure that
+entity integrity and referential integrity is maintained. 
+
+The relational algebra consists of nine operations: UNION, DIFFERENCE,
+INTERSECTION, PRODUCT, PROJECT, RESTRICT, SELECT, JOIN and Divide.
+
+RESTRICT and SELECT are one and the same within LEAP. Divide has not been
+implemented at this stage, as it is possible to create it using the other
+operators.
+
++
+# ASSIGNMENT
+The result of an EXPRESSION may be assigned to a RELATION name, 
+enabling it to be used in other EXPRESSIONs.
+
+r1=project (book) (author)
+print r1
+
+Assignment is often used in place of NESTING an expression, as it
+enables queries to be broken into logical sections that are 
+more manageable.
++
+# RESTRICT
+See the SELECT operator. RESTRICT and SELECT have been combined in LEAP.
+
++
+# SELECT
+Usage: select (rel) ((condition) bool (condition))
+Operation: Produces a relation which contains all TUPLEs within the
+           source relation matching the given CONDITION.
+Examples:
+
+rel=select (names) (address='oxford')
+rl2=select (names) ( (address='oxford') and (name='richard leyton'))
+
+NB. RESTRICT and SELECT have been combined in LEAP, such that the following
+are equally valid:
+
+rel=select (rel) (fielda = fieldb)
+rel=restrict (rel) (fielda = fieldb)
+
++
+# CONDITION
+Within the SELECT and JOIN operator, a condition may be specified. The 
+condition is compared against each tuple, and if the tuple satisfies the 
+condition, some action is performed. It takes the form:
+
+<qualification> ::= (<condition> [{and|or} <condition>]* ) 
+<condition> ::= <attribute-name> <comparator> {attribute-name|value}
+<comparator> ::= { < | > | <= | >= | = | <> | ~ }
+
+A value is a text string surrounded by quotes, and an attribute name, is,
+well, the name of an attribute.
+
+Some examples:
+
+(name='Richard Leyton')
+( (name='Richard Leyton') or (name='Robert England') )
+(first_name=second_name)
+(name~'^Richard')
+(name ~ '.*Richard.*')
+
+Note that each individual condition must be surrounded in brackets, and the
+entire expression must be surrounded in brackets. Up to ten conditions can be
+specified in one qualification.
+
+For details on regular expressions in LEAP see the REGEXP help page
+section.
++
+# REGEXP
+Regular expressions are used in LEAP with the 'like' operator,
+which takes the form of a tilde (~) rather than a normal boolean
+operator.
+
+A full discussion on regular expressions is outside of the scope
+of the online help. On Un*x systems, see the man pages of egrep(1),
+Better still, take a look at the O'Reilly books ('Unix in a nutshell',
+'Learning vi', 'Unix power tools', or 'Mastering regular expressions').
+
+A couple of simple examples:
+
+(name~'^Richard')      -- matches lines starting with 'Richard'
+(name ~ '.*Richard.*') -- matches lines containing (anywhere) 'Richard' 
+
++
+# JOIN
+Usage: join (rel1) (rel2) ((condition) bool (condition))
+Operation: Produces a relation which contains the attributes of 
+           the source relations, and reduces the tuples to those
+           matching the given CONDITION.
+Result: Conceptually the same as a PRODUCT followed by a SELECT.
+Examples:
+
+s1=select (subject) (class_name='non-fiction')
+s2=join (s1) (index) (s1.class=index.class)
+s3=project (s2) (author,title,shelf)
+print s3
+
+LEAP implements both the theta-join (with all attributes from both relations)
+and the natural join (with duplicate attributes resolved).
++
+# UNION
+Usage: (rel1) union (rel2)
+Operation: Performs the UNION of the two specified relations, which
+           must be UNION COMPATIBLE (see UNION_COMPATIBILITY)
+Examples:
+
+rel=(a) union (b)
+
++
+# UNION_COMPATIBILITY
+Two relations are said to be UNION COMPATIBLE if they share the
+same attributes, each of which is drawn from the same domain as
+the corresponding attribute in the other relation.
+
++
+# DISPLAY
+Usage: display(expression)
+Operation: Displays the content of the relation or expression, and
+           returns the expression. This enables display to be nested
+           within an expression if necessary.
+Examples:
+
+display( (a) union (b) )
+rel=project (display(a)) (status,city)
+
++
+# INTERSECT
+Usage: (rel1) intersect (rel2)
+Operation: Calculates the INTERSECTION of the two specified relations/
+           expressions, which must be Union compatible (see UNION
+           COMPATIBILITY)
+Result: The resulting relation contains all tuples of (rel1) that are
+          ALSO in (rel2).
+Examples:
+
+rel=(a) intersect (b)
+
++
+# MINUS
+See the DIFFERENCE operator for information. MINUS is defined as an
+alias of DIFFERENCE.
+
++
+# DIFFERENCE
+Usage: (rel1) difference (rel2)
+   or: (rel1) minus (rel2)
+Operation: Calculates the difference of the two specified relations/
+           expressions, which must be Union compatible (see UNION
+           COMPATIBILITY). 
+Result: The resulting relation contains all tuples of (rel1) that
+        are NOT help in (rel2).
+Examples:
+
+rel=(a) minus (b)
+rel=(a) difference (b)
+
+rel=(b) minus (a)
+rel=(b) difference (a)
+
+Note the difference when the relations are reversed, as above.
+
++
+# PRODUCT
+Usage: (rel1) product (rel2)
+Operation: Calculates the PRODUCT of the two specified relations/
+           expressions.
+Result: The resulting relation contains the cartesian PRODUCT of the
+        two relations. This relation has all of the attributes of the
+        source relations, and the tuples consist of all possible
+        combinations of the tuples.
+Examples:
+
+rel=(a) product (b)
+
++
+# LIST
+Lists all of the relations that exist within LEAP.
+
+Relations which are temporary, ie. that will exist only for the current
+run of LEAP have an asterix marked against their name. System
+relations are bracketed. eg.
+
+:-) list
+Relation Name
+-------------
+index
+lc
+ljxoeslb*
+ltrkgiqx*
+(leaprship)
+names
+q
+r
++
+# SOURCES
+Lists all of the source files that exist within LEAP. Source
+files may be displayed with the L command. Source files may
+be executed with the @ command.
+
++
+# L
+Usage: l sourcefile
+Prints out the contents of the specified source file.
+
+Example:
+
+>l startup
+Source File: startup
+--------------------
+high
+@
+<EOF>
++
+# @
+Usage: @ sourcefile
+Executes a source file, taking commands from the file as opposed
+to the keyboard.
+
+Example:
+
+>@ iex45
+
+>s1=select relation (subject) where (class_name='non-fiction')
+S1 Returned.
+
+>s2=(s1) join with (index) where (s1.class=index.class)
+S2 Returned.
+
+>s3=project (s2) with (author,title,shelf)
+S3 Returned.
+
+>print s3
+Relation: S3
+AUTHOR                    TITLE                     SHELF
+---------------------------------------------------------------------------
+KING                      STRENGTH TO LOVE          24
+HEMINGWAY                 DEATH IN THE AFTERNOON    22
+
+<END>
++
+# PRINT
+
+Usage: PRINT relation
+
+Displays the specified relation on the screen. See DISPLAY.
+
++
+# DELREL
+
+Usage: delrel rel
+
+Operation: Deletes the specified relation from the disk, and
+all internal structures.
+
++
+# DELETE
+
+Usage: delete (rel) ((condition) bool (condition))
+
+Operation: Deletes tuples from relation where condition is held to
+           be true.
+
+Examples:
+
+delete (names) (address='oxford')
+
+Note: Deleted tuples are PERMANENTLY removed from the relation.
+
++
+# TEMPORARY
+
+Relations can either be permanent or temporary. Permanent relations 
+remain on the disk between runs, whereas temporary relations
+are removed when LEAP is shutdown.
+
+The status of a relation can be displayed with the LIST command,
+and changed with the CHANGE command.
+
++
+# PERMANENT
+
+See TEMPORARY for more information.
+
++
+# CHANGE
+
+Usage: change relation
+
+Reverses the temporary status of the specified relation. TEMPORARY
+relations are removed from disk when LEAP is shutdown.
+
++
+# DESCRIBE
+
+Usage: describe relation
+
+Displays the attributes present in the specified relation, 
+plus the data type and size of each attribute.
+
++
+# DATA_TYPE
+LEAP supports three types of data types, strings, numbers and boolean. 
+
+When creating a relation, attributes must be specified with a
+data type, eg.
+
+relation abc ((attribute1,string),(attribute2,number))
+
++
+# STATUS
+Usage: status
+
+Displays the current status of settings within LEAP. See
+COMMAND_LINE for default values and settings.
+
++
+# EXPRESSION
+An expression is a valid algebraic query that will result in 
+a relation. Such an expression may then be assigned to a 
+relation, or combined within another expression. For example:
+
+r2=(project(subject)(class)) minus (project (index)(class))
+
+The expression project(subject)(class) is combined into a
+larger expression, which is in turn assigned to a new
+relation.
+
++
+# INFO
+Displays information about the warranty/conditions of LEAP. You
+are required to have read and accepted these conditions to continue
+using LEAP.
+
++
+# QUIT
+Shuts down LEAP. Relations are automatically stored if they are
+PERMANENT, and deleted if they are TEMPORARY. You are returned
+to the DOS prompt following the shutdown procedure.
+
++
+# COMMAND_LINE
+The command line has change considerably with the advent of
+LEAP for Unix based machines:
+
+leap [--option --option ...] 
+
+Where option is one, or more (seperated by a space) of:
+
+--activity-file file - Output activity file to file
+--configure script   - Configure (install) LEAP
+--database db        - Database to open
+--debug [n]          - Enable Debug Mode (at level 0-9)
+--directory dir      - LEAP directory
+--long-commands      - Long commands enabled.
+--help               - This help page
+--product-join		 - Enable product in joins
+--quiet              - Quiet mode
+--status             - Status messages
+--time-logging       - Disable times in log messages
+--timing                  - Timing information
+--tracing            - Tracing information
+--version            - Print version information
+
+--warranty           - Warranty and conditions of use
+
+dir should be base LEAP Directory, containing the database
+directory.
+
++
+# RELATION
+Usage: relation (name) ((a1,t1,l1),(a2,t2,l2),...,(an,tn,ln))
+
+Create a new relation.
+
+relation (arelation) ((attr1,string,10),(attr2,integer,5))
+
+Creates a new relation with the specified name (arelation), with two
+attributes, the first as a string (10 chars displayed), and the second 
+as a number (5 chars displayed). 
+
++
+# CREATE
+Usage: create name
+
+Creates a new database.
+
+create example
+
+Creates relations with the required system relations, and updates
+the master database accordingly.
++
+# USE
+Usage: use [database]
+
+LEAP supports multiple databases. This allows information to
+be broken down into more logical collections. 
+
+Now, relations in the distribution are grouped according to the
+source from which the data and scripts come from, namely the author
+from who's book they are taken.
+
+One database is "special", this is the 'master' database. The master
+database contains the DATA_DICTIONARY, a set of relations which contain
+information about the database. LEAP uses these tables to determine 
+where to find information etc.
+
+In future revisions of LEAP, the DATA_DICTIONARY will become more
+central to the operation of LEAP.
++
+# DATA_DICTIONARY
+A data dictionary is a set of relations which contains "meta data",
+data about data.
+
+Within LEAP, the 'master' database contains the data dictionary, and
+is consulted to determine whether, for example, a specified database
+actually exists, and which directory it may be found in.
++
+# RENAME
+Usage: rename (relation) (newname)
+       rename (relation.attribute) (relation.newattribute)	
+
+Rename can be used to rename the old relation or attribute to a 
+new value. For example to rename a relation called "companies" to
+"company":
+
+rename (companies) (company)
+
+Or to rename an attribute, say "companies.id" to reference":
+
+rename (companies.id) (reference)
+
+Rename returns the resultant relation, so the result can be nested.
+The Old relation is no longer valid at higher levels.
+
++
+# DUPLICATE
+Usage: duplicate (rel)
+Operation: Produces an identical copy of the specified relation/expression.
+Result: Identical Relation, with a different name
+
+Examples:
+
+rel=duplicate(a)
+duplicate(b)
+
++
+# SET
+Usage: set variable {on|off}
+
+Set one of LEAP's variables. Settings include:
+
+trace       Trace information (default=off)
+debug       Debug information (default=off)
+timing		Timing information (default=off)
+quiet		Quiet mode (default=off)
+temporary	Create temporary relations (default=on)
+long		Long commands (default=off)
+logtime*	Time information in log file. (default=on)
+width*		Width of columns auto/tab/nn (default=auto)
+padding		Relation name padded to join/product results (default=off)
+productjoin Perform a product in joins with no determinable condition.
+timelog     Store time information with log messages (default=on)
+tempdb		Use tempdb for temporary relations. (default=on)
+
++
+# VARIABLE
+Variables are used in LEAP to store some value. The main use is for
+system settings (see SET on the system variables, and for information
+on setting them). There is one special variable, "last" which contains
+the last relation returned by an operation. Therefore you can "print @last"
+and the last relation is displayed - This is very useful when dealing with
+randomly created relation names.
+
++
+# PADDING
+Usage: set padding on
+
+In some cases, examining the results of a join/product can be much
+easier if the relation name is part of the attribute. By setting
+padding on, the relation name makes up the first part of the attribute.
+
+Thus, with relations: R(a,b)   S(a,b)
+
+result=join (R) (S) (R.a=S.A)
+
+Results in: result(R.A,R.b,S.a,S.b)
++
+# WIDTH
+Usage: set width auto/tab/NN
+
+LEAP stores a value which determines the width of an attribute. If this
+value is to be used when displaying data with the PRINT command, set
+width to auto.
+
+If standard tabs (normally 8 characters) are to be used instead, set
+width to tab.
+
+If a fixed size, (say, 10 characters) are to be used, set width to 10.
+
+The default is auto.
++
+# PRODUCTJOIN
+Usage: set productjoin on
+
+Normally, a join requires a condition. It is built from a product 
+followed by a select. 
+
+If no condition can be determined from the command line, or the relship
+relation (See the user guide), AND productjoin is enabled, then
+join will return the result of a cartesian product of the two relations.
+
+productjoin can also be enabled from the COMMAND_LINE.
++
+# TIMING
+Usage: set timing on
+
+Timing provides some useful information about the way your query is
+evaluated. It records four pieces of information as the query is
+executed:
+
+Logical Reads: Reads made purely from LEAP cache.
+Physical Reads: Reads made by accessing the disk directly.
+Writes: Writes made to the LEAP cache and/or disk.
+Time to execute: To the nearest second, records the amount of time taken
+                 by the LEAP process to execute the query.
+
+Timing information is for the LEAP process. It doesn't (currently) include
+waits for IO operations.
+
+The information is summarised for the entire set of operations in that
+command, to give an overall summary. 
++
+# ADD
+Usage: add (relation) (val1,val2,...,valn)
+
+Adds specified data to the relation.
+
+Note: No type checking is peformed. If insufficent data is provided,
+blank data is inserted. Additional values are ignored.
++
+# DUMP
+********** DEBUG UTILITY
+
+Usage: dump relation
+
+Dumps the relation in full detail. It is VERY verbose. Mainly of use
+for development, or working out why something is not happening
+that you were expecting.
++
+# INTERNAL
+********** DEBUG UTILITY
+
+Usage: internal relation
+
+Dumps some of the internal structure of a relation. It is mainly for
+debugging and development work. 
++
+# ABOUT
+About LEAP...
+
+LEAP is a relationally complete relational database management system.
+
+LEAP has a relational algebra based command interpreter, support for
+relational structures, indexing using b-trees, hashing tables and 
+extensive documentation. A source code level framework for enhancement 
+is incorporated for interested programmers. Contact the author for
+more information.
+
+LEAP has been successfully used as a teaching aid in a course in
+Databases at Oxford Brookes University, England. Students have been 
+encouraged to use the system to experiment with the relational algebra,
+and this has proved very successful and enjoyable.
+
+In addition, there has been a warm reception to LEAP on the Internet, 
+leading to a number of sites using LEAP as a teaching tool.
+
+LEAP is copyright Richard Leyton, 1995-2001. Type INFO for more information on
+warranty and conditions.
+
++
+# BOOKS
+A large number of books exist on the subject of Databases and
+Database systems. Of particular merit (with my comments) are:
+
+* "Theory and Practice of Relational Databases", 2nd Edition, 
+  by Stefan Stanczyk, Bob Champion, and Richard Leyton, published 
+  Published by Routledge, an imprint of Taylor & Francis Books
+  Ltd; ISBN: 0415247020 (Softback), 0415247012 (Hardback).
+
+  - This book contains an overview of LEAP's architecture, and 
+    the sample database included in LEAP is based on this book.
+    Highly Recommended.
+
+  see also: http://www.theorypractice.org
+
+* "An introduction to database systems - Volume 1", 5th Edition,
+  by C.J. Date, published by Addison-Wesley, 1990. 
+  - This book is regarded by many as the best book in the field,
+    it certainly covers more or less everything. To me, an
+    unbeatable reference book.
+  (See the DATE database, after running install.date.src)
+
+* "An introduction to database systems", by B.C.Desai, published
+  by West Publishing, 1990.
+  - More mathematical than Date's, but covers everything.
+
++
+# CONTACTS
+Contact: Richard Leyton
+Address: 30c Bassein Park Road, London, W12 9RZ, United Kingdom.
+E-Mail : rleyton@acm.org
+Home Page: http://leap.sourceforge.net
+Also: http://www.theorypractice.org
+
+See MAILING_LIST for information on the new LEAP mailing list!
++
+# MAILING_LIST
+There is now a LEAP mailing list. To join in, and receive information,
+announcements, and others' experiences, please visit
+
+http://lists.sourceforge.net/lists/listinfo/leap-announce
+
+or run the 'notify' script in the scripts directory.
+
++
+# GNU
+GNU - "GNU's Not Unix" - See the file COPYING for more information.
+or visit http://www.gnu.org or http://www.fsf.org
++
+# WINDOWS
+The Windows version of LEAP is available in precompiled form (the source is
+available in the standard LEAP distribution). A windows wrapper provides a 
+user interface familiar to Windows users.
+
++
+# UNIX
+This is the Unix version of LEAP. It contains quite a few differences
+to the DOS based version. For a start, it's a lot better, easier to
+use, and integrated into the operating system!
+
+It should also compile on practically any Unix based computer, so far
+the list includes:
+
+Linux, Solaris, SunOS, NeXt, HP-UX, Windows 95/NT, OSF1, AIX, Irix and 
+Ultrix. 
+
+The list will increase as time passes, and as resources are made 
+available. The source is included in the distribution (the src 
+subdirectory), and can be compiled. See the file COMPILING for more 
+information.
++

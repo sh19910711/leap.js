@@ -1,0 +1,1658 @@
+ID: demo.install,v 1.202 2001/08/18 17:40:59 rleyton Exp
+
+This is a demonstration of the installation of LEAP 1.2.5.2
+
+There are two examples, the first demonstrates the installation of LEAP from 
+source code (See INSTALLING FROM SOURCE), and the second from a binary
+distribution (See INSTALLING BINARY DISTRIBUTION).
+
+Both are substantially similair, and show a complete copy of the entire
+installation transcript for a successful install.
+
+INSTALLING FROM SOURCE
+======================
+
+Note that the 'configure' section includes the '--with-readline' flags -
+this is optional for those with the readline libraries included. See Q2.0 in
+the LEAP FAQ.
+
+Script started on Thu May  3 16:06:42 2001
+userid @ dogbert > ls -l
+-rw-r--r--    1 userid  groupid    437699 May  3 16:06 leap-1.2.5.2-linux-i386.tar.gz
+-rw-r--r--    1 userid  groupid    219355 May  3 16:05 leap-1.2.5.2.tar.gz
+userid @ dogbert > tar xvzf leap-1.2.5.2.tar.gz 
+leap-1.2.5.2/
+leap-1.2.5.2/COPYING
+leap-1.2.5.2/INSTALL
+leap-1.2.5.2/NEWS
+leap-1.2.5.2/NOTES
+leap-1.2.5.2/README
+leap-1.2.5.2/TODO
+leap-1.2.5.2/configs/
+leap-1.2.5.2/configs/vars
+leap-1.2.5.2/doc/
+leap-1.2.5.2/doc/DOWNLOADING
+leap-1.2.5.2/doc/FAQ
+leap-1.2.5.2/doc/baseinstall.README
+leap-1.2.5.2/doc/demo.install
+leap-1.2.5.2/doc/history.dev
+leap-1.2.5.2/doc/user_guide.htm
+leap-1.2.5.2/help/
+leap-1.2.5.2/help/helppgs
+leap-1.2.5.2/leap-1.2.5.lsm
+leap-1.2.5.2/scripts/
+leap-1.2.5.2/scripts/dmalloc.env
+leap-1.2.5.2/scripts/all2dos
+leap-1.2.5.2/scripts/users/
+leap-1.2.5.2/scripts/users/buildtar
+leap-1.2.5.2/scripts/users/README
+leap-1.2.5.2/scripts/users/leapinstall
+leap-1.2.5.2/scripts/install.src
+leap-1.2.5.2/scripts/leapconv
+leap-1.2.5.2/scripts/notify
+leap-1.2.5.2/scripts/unix2dos
+leap-1.2.5.2/src/
+leap-1.2.5.2/src/include/
+leap-1.2.5.2/src/include/algebra_parser.h
+leap-1.2.5.2/src/include/attribs.h
+leap-1.2.5.2/src/include/attributes.h
+leap-1.2.5.2/src/include/cond.h
+leap-1.2.5.2/src/include/consts.h
+leap-1.2.5.2/src/include/database.h
+leap-1.2.5.2/src/include/dbase.h
+leap-1.2.5.2/src/include/defines.hin
+leap-1.2.5.2/src/include/dtypes.h
+leap-1.2.5.2/src/include/errors.h
+leap-1.2.5.2/src/include/generic_parser.h
+leap-1.2.5.2/src/include/global_vars.h
+leap-1.2.5.2/src/include/globals.h
+leap-1.2.5.2/src/include/hashing.h
+leap-1.2.5.2/src/include/info.h
+leap-1.2.5.2/src/include/leapio.h
+leap-1.2.5.2/src/include/orig_parser.h
+leap-1.2.5.2/src/include/p_stack.h
+leap-1.2.5.2/src/include/parser.h
+leap-1.2.5.2/src/include/pointer_stack.h
+leap-1.2.5.2/src/include/regexp.h
+leap-1.2.5.2/src/include/relation.h
+leap-1.2.5.2/src/include/relational_ops.h
+leap-1.2.5.2/src/include/rtional.h
+leap-1.2.5.2/src/include/tuples.h
+leap-1.2.5.2/src/include/util.h
+leap-1.2.5.2/src/include/vars.h
+leap-1.2.5.2/src/Makefile.in
+leap-1.2.5.2/src/README
+leap-1.2.5.2/src/algebra_parser.c
+leap-1.2.5.2/src/attribs.c
+leap-1.2.5.2/src/attributes.c
+leap-1.2.5.2/src/cond.c
+leap-1.2.5.2/src/configure
+leap-1.2.5.2/src/configure.in
+leap-1.2.5.2/src/convert.c
+leap-1.2.5.2/src/database.c
+leap-1.2.5.2/src/dbase.c
+leap-1.2.5.2/src/dumprel.c
+leap-1.2.5.2/src/errors.c
+leap-1.2.5.2/src/generic_parser.c
+leap-1.2.5.2/src/global_vars.c
+leap-1.2.5.2/src/globals.c
+leap-1.2.5.2/src/hashing.c
+leap-1.2.5.2/src/info.c
+leap-1.2.5.2/src/leap.c
+leap-1.2.5.2/src/leapd.c
+leap-1.2.5.2/src/leapio.c
+leap-1.2.5.2/src/orig_parser.c
+leap-1.2.5.2/src/p_stack.c
+leap-1.2.5.2/src/parser.c
+leap-1.2.5.2/src/pointer_stack.c
+leap-1.2.5.2/src/regexp.c
+leap-1.2.5.2/src/relation.c
+leap-1.2.5.2/src/relational_ops.c
+leap-1.2.5.2/src/rtional.c
+leap-1.2.5.2/src/testutil.c
+leap-1.2.5.2/src/tuples.c
+leap-1.2.5.2/src/util.c
+leap-1.2.5.2/src/vars.c
+leap-1.2.5.2/src/parse/
+leap-1.2.5.2/src/parse/Makefile.in
+leap-1.2.5.2/src/parse/algebra.c
+leap-1.2.5.2/src/parse/algebra.l
+leap-1.2.5.2/src/parse/algebra.yy
+userid @ dogbert > cd leap-1.2.5.2
+userid @ dogbert > cd src
+userid @ dogbert > ls -l
+total 598
+-rw-r--r--    1 userid  groupid      3366 Apr 27 10:40 Makefile.in
+-rw-r--r--    1 userid  groupid      3729 Apr 26 14:07 README
+-rw-r--r--    1 userid  groupid      5709 Apr 26 14:07 algebra_parser.c
+-rw-r--r--    1 userid  groupid     16718 Apr 27 10:35 attribs.c
+-rw-r--r--    1 userid  groupid     14034 Apr 26 14:07 attributes.c
+-rw-r--r--    1 userid  groupid     26050 Apr 27 08:50 cond.c
+-rwxr-xr-x    1 userid  groupid     53607 Apr 26 14:07 configure
+-rw-r--r--    1 userid  groupid       925 Apr 26 14:07 configure.in
+-rw-r--r--    1 userid  groupid      8994 Apr 26 14:07 convert.c
+-rw-r--r--    1 userid  groupid      8602 Apr 26 14:07 database.c
+-rw-r--r--    1 userid  groupid     12037 Apr 26 14:07 dbase.c
+-rw-r--r--    1 userid  groupid      1829 Apr 26 14:07 dumprel.c
+-rw-r--r--    1 userid  groupid      9816 Apr 26 14:07 errors.c
+-rw-r--r--    1 userid  groupid      1371 Apr 26 14:07 generic_parser.c
+-rw-r--r--    1 userid  groupid      2059 Apr 26 14:07 global_vars.c
+-rw-r--r--    1 userid  groupid      2107 Apr 27 10:35 globals.c
+-rw-r--r--    1 userid  groupid     14320 Apr 26 14:07 hashing.c
+drwxr-xr-x    2 userid  groupid      1024 Apr 27 11:05 include
+-rw-r--r--    1 userid  groupid      8302 Apr 26 14:07 info.c
+-rw-r--r--    1 userid  groupid     24839 Apr 26 14:07 leap.c
+-rw-r--r--    1 userid  groupid     20408 Apr 26 14:07 leapd.c
+-rw-r--r--    1 userid  groupid      3668 Apr 26 14:07 leapio.c
+-rw-r--r--    1 userid  groupid     23534 Apr 26 14:07 orig_parser.c
+-rw-r--r--    1 userid  groupid      3704 Apr 27 10:35 p_stack.c
+drwxr-xr-x    2 userid  groupid      1024 Apr 27 10:59 parse
+-rw-r--r--    1 userid  groupid     24260 Apr 27 10:35 parser.c
+-rw-r--r--    1 userid  groupid      3710 Apr 26 14:07 pointer_stack.c
+-rw-r--r--    1 userid  groupid     28405 Apr 26 14:07 regexp.c
+-rw-r--r--    1 userid  groupid     37654 Apr 26 14:07 relation.c
+-rw-r--r--    1 userid  groupid     57072 Apr 26 14:07 relational_ops.c
+-rw-r--r--    1 userid  groupid     63754 Apr 27 10:35 rtional.c
+-rw-r--r--    1 userid  groupid       316 Jul 30  1998 testutil.c
+-rw-r--r--    1 userid  groupid     56530 Apr 26 14:07 tuples.c
+-rw-r--r--    1 userid  groupid     29525 Apr 26 14:07 util.c
+-rw-r--r--    1 userid  groupid      8210 Apr 26 14:07 vars.c
+userid @ dogbert > ./configure --with-readline
+creating cache ./config.cache
+checking for gcc... gcc
+checking whether the C compiler (gcc  ) works... yes
+checking whether the C compiler (gcc  ) is a cross-compiler... no
+checking whether we are using GNU C... yes
+checking whether gcc accepts -g... yes
+checking for ranlib... ranlib
+checking for dirent.h that defines DIR... yes
+checking for opendir in -ldir... no
+checking how to run the C preprocessor... gcc -E
+checking for ANSI C header files... yes
+checking for stdarg.h... yes
+checking for working const... yes
+checking for size_t... yes
+checking return type of signal handlers... void
+checking for strstr... yes
+checking for strchr... yes
+checking for long file names... yes
+updating cache ./config.cache
+creating ./config.status
+creating Makefile
+creating include/defines.h
+userid @ dogbert > make
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   attribs.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   cond.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   database.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   dbase.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   errors.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   globals.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   hashing.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   info.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   leapio.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   p_stack.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   parser.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   regexp.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   relation.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   rtional.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   tuples.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   util.c
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   vars.c
+Building library...
+ar rv libleap.a attribs.o cond.o database.o dbase.o errors.o globals.o hashing.o info.o leapio.o p_stack.o parser.o regexp.o relation.o rtional.o tuples.o util.o vars.o
+a - attribs.o
+a - cond.o
+a - database.o
+a - dbase.o
+a - errors.o
+a - globals.o
+a - hashing.o
+a - info.o
+a - leapio.o
+a - p_stack.o
+a - parser.o
+a - regexp.o
+a - relation.o
+a - rtional.o
+a - tuples.o
+a - util.o
+a - vars.o
+ranlib libleap.a
+Done.
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   leap.c
+Linking LEAP executable...
+gcc leap.o -o leap -L/lib -L.  -lreadline -ltermcap -lleap
+Done.
+gcc -c -DHAVE_CONFIG_H -I. -I./include -g -O2   dumprel.c
+gcc dumprel.o -o dumprel -L/lib -L.  -lreadline -ltermcap -lleap
+*** Now make install ***
+userid @ dogbert > make install
+Installing LEAP...
+./leap --configure ../scripts/install.src
+CONFIGURING...
+LEAP 1.2.5.2 - An extensible and free RDBMS
+Copyright (C) 1997-2001 Richard Leyton.
+
+LEAP comes with ABSOLUTELY NO WARRANTY; for details type "warranty".
+This is free software, and you are welcome to redistribute it
+under certain conditions; type "copying" for details.
+
+[NON-FATAL] #2 - Error opening file [./configs/vars].
+Message: No variables set!
+Message: Directory specified [./] not valid. Trying [../]
+Message: Debug level set to: 0
+Message: Minimum debug level set to: 0
+Message: Variables are now set.
+Message: Applying command line options...
+Message: Completed application of command line options...
+Message: LEAP is starting...
+Checking: [../]
++------------------------------------------------------------------------------+
+| Configuring the >MASTER< database                                            |
++------------------------------------------------------------------------------+
+Message: Creating hash table for [leapdata].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leapdata leaprel leapscripts leaptypes relship 
+Message: Opening the [master] database...
+Message: Creating hash table for [leapscripts].
+Message: Creating hash table for [zzlljh].
++------------------------------------------------------------------------------+
+| Configuring the >default< (user) database                                    |
++------------------------------------------------------------------------------+
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [user] database...
+Message: Creating hash table for [leapscripts].
+Message: Creating hash table for [zzkedo].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship zzkedo* 
++------------------------------------------------------------------------------+
+| Configuring the >temporary< (tempdb) database                                    |
++------------------------------------------------------------------------------+
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [tempdb] database...
+Message: Creating hash table for [leapscripts].
+Message: Creating hash table for [zzpuaz].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship zzpuaz* 
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leapdata leaprel leapscripts leaptypes relship zzlljh* 
+Message: Opening the [tempdb] database...
+Message: Creating hash table for [zzijus].
+Message: Opening the [master] database...
+Message: Opening the [user] database...
+Message: Startup sequence initiated.
+Message: Readline library available for command history/editing
+set temporary off
+create stanczyk
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [stanczyk] database...
+Message: Creating hash table for [leapscripts].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+use stanczyk
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [stanczyk] database...
+relation (auction) ((reference,STRING,9),(date_bought,STRING,12),(purchase_price,INTEGER,4),(date_sold,STRING,9),(sell_price,INTEGER,4))
+add (auction) (R005,17-03-84,25,23-09-86,12)
+add (auction) (R020,02-12-43,4,17-10-88,145)
+add (auction) (R022,09-11-79,7,21-11-88,3)
+add (auction) (R048,15-05-68,3,16-03-89,8)
+add (auction) (R049,15-05-68,3,16-03-89,8)
+add (auction) (R073,21-02-76,18,25-03-89,9)
+relation (book) ((reference,STRING,9),(author,STRING,9),(title,STRING,30))
+add (book) (R003,JOYCE,ULYSSES)
+add (book) (R004,JOYCE,ULYSSES)
+add (book) (R023,GREENE,SHORT STORIES)
+add (book) (R025,ORWELL,ANIMAL FARM)
+add (book) (R033,LEM,ROBOTS TALES)
+add (book) (R034,LEM,RETURN FROM STARS)
+add (book) (R036,GOLDING,LORD OF THE FLIES)
+add (book) (R028,KING,STRENGTH TO LOVE)
+add (book) (R143,HEMINGWAY,DEATH IN THE AFTERNOON)
+add (book) (R149,HEMINGWAY,TO HAVE AND HAVE NOT)
+relation (delivery) ((producer,STRING,10),(product_code,STRING,12),(branch,STRING,6),(stock,STRING,5))
+add (delivery) (CLASSICS,403,L1,1003)
+add (delivery) (CLASSICS,403,L1,1004)
+add (delivery) (CLASSICS,201X,L1,1019)
+add (delivery) (CLASSICS,201X,P2,4105)
+add (delivery) (CLASSICS,201X,P2,4106)
+add (delivery) (CLASSICS,CLUB,NY,1044)
+add (delivery) (60S CLOTHS,WOODSTOCK,L2,2921)
+add (delivery) (60S CLOTHS,DI4,L2,2933)
+add (delivery) (60S CLOTHS,DI4,L2,2934)
+add (delivery) (60S CLOTHS,FINESSE,P1,1025)
+add (delivery) (60S CLOTHS,FINESSE,P1,1026)
+add (delivery) (60S CLOTHS,FLAIR,SP,1004)
+add (delivery) (60S CLOTHS,FLAIR,NY,1045)
+add (delivery) (MODERNA,F1049,P1,1079)
+add (delivery) (MODERNA,199K,L2,2967)
+add (delivery) (MODERNA,199K,NY,1020)
+add (delivery) (MODERNA,199K,NY,1021)
+add (delivery) (MODERNA,F1X19,P2,4201)
+add (delivery) (MODERNA,F1X19,P2,4202)
+relation (ex_auth) ((aname,STRING,10),(address,STRING,10),(specialism,STRING,15))
+add (ex_auth) (SMITH,OXFORD,FRENCH)
+add (ex_auth) (JONES,BIRMINGHAM,LAW)
+add (ex_auth) (STANCZYK,OXFORD,DATABASES)
+add (ex_auth) (PALMER,USA,PROGRAMMING)
+add (ex_auth) (KORTH,USA,DATABASES)
+relation (ex_book) ((title,STRING,25),(aname,STRING,10),(pname,STRING,10))
+add (ex_book) (THEORY AND PRACTICE,STANCZYK,PITMAN)
+add (ex_book) (SQL,STANCZYK,PITMAN)
+add (ex_book) (PROGRAMMING IN B PASCAL,PALMER,SYBEX)
+add (ex_book) (DATABASE SYSTEM CONCEPTS,KORTH,MCGRAW)
+add (ex_book) (FRENCH PROGRAMMING,SMITH,MIT PRESS)
+add (ex_book) (A GUIDE TO DB2,JONES,MIT PRESS)
+relation (ex_publi) ((pname,STRING,10),(location,STRING,10))
+add (ex_publi) (MIT PRESS,MA.)
+add (ex_publi) (PITMAN,LONDON)
+add (ex_publi) (MCGRAW,NEW YORK)
+add (ex_publi) (SYBEX,USA)
+relation (example) ((f1,STRING,3),(f2,STRING,3),(f3,STRING,3))
+add (example) (1,2,3)
+add (example) (a,bn,c)
+relation (goods) ((producer,STRING,10),(product_code,STRING,12),(description,STRING,15))
+add (goods) (CLASSICS,403,JEANS)
+add (goods) (CLASSICS,607,JEANS)
+add (goods) (CLASSICS,201X,SKIRT)
+add (goods) (CLASSICS,576,SKIRT)
+add (goods) (CLASSICS,CLASSX,TROUSERS)
+add (goods) (CLASSICS,CLUB,T-SHIRT)
+add (goods) (60S CLOTHS,DIAMOND,DRESS)
+add (goods) (60S CLOTHS,NOSTALGIC,COAT)
+add (goods) (60S CLOTHS,WOODSTOCK,JEANS)
+add (goods) (60S CLOTHS,DI4,DRESS)
+add (goods) (60S CLOTHS,FLAIR,DRESS)
+add (goods) (60S CLOTHS,FINESSE,DRESS)
+add (goods) (MODERNA,F1049,SHIRT)
+add (goods) (MODERNA,F1X19,DRESS)
+add (goods) (MODERNA,199K,JACKET)
+relation (index) ((author,STRING,10),(title,STRING,30),(class,STRING,5),(shelf,INTEGER,4))
+add (index) (JOYCE,ULYSSES,C1,12)
+add (index) (GREENE,SHORT STORIES,C1,14)
+add (index) (ORWELL,ANIMAL FARM,C1,12)
+add (index) (LEM,ROBOTS TALES,C2,23)
+add (index) (LEM,RETURN FROM STARS,C2,23)
+add (index) (GOLDING,GOLDING,C1,12)
+add (index) (KING,STRENGTH TO LOVE,C3,24)
+add (index) (HEMINGWAY,DEATH IN THE AFTERNOON,C3,22)
+add (index) (HEMINGWAY,TO HAVE AND HAVE NOT,C1,12)
+relation (lc) ((lecturer,STRING,8),(course,STRING,10))
+add (lc) (BROWN,COMPILERS)
+add (lc) (BROWN,DATABASES)
+add (lc) (GREEN,PROLOG)
+add (lc) (GREEN,DATABASES)
+add (lc) (LEWIS,PROLOG)
+add (lc) (SMITH,DATABASES)
+relation (q) ((subject,STRING,10))
+add (q) (PROLOG)
+relation (r) ((a,STRING,2),(b,STRING,2),(c,STRING,2),(d,STRING,2))
+add (r) (4,AB HAVE AND HAVE NOT,15,20)
+add (r) (2,AA HAVE AND HAVE NOT,18,25)
+add (r) (8,AC HAVE AND HAVE NOT,9,10)
+relation (s) ((x,STRING,2),(y,STRING,2),(z,STRING,2))
+add (s) (ABB ENGLAND,20FORD,PQ7241)
+add (s) (ACB ENGLAND,25FORD,PR7241)
+relation (stock) ((branch,STRING,6),(stock,STRING,5),(size,STRING,4),(colour,STRING,10),(sell_price,STRING,10),(cost_price,STRING,10),(date_in,STRING,8),(date_out,STRING,8))
+add (stock) (L1,1003,M,BLUE,15.50,9.25,22MAY89,06JUN89)
+add (stock) (L1,1004,M,WHITE,15.50,9.25,20DEC88,INSTOCK)
+add (stock) (L2,2921,M,BLACK,25.00,15.20,17APR89,17APR89)
+add (stock) (L2,2933,L,NAVY,13.50,6.25,28MAY89,16JUN89)
+add (stock) (L2,2934,M,NAVY,13.50,6.25,28MAY89,INSTOCK)
+add (stock) (L2,2967,S,BEIGE,18.75,8.25,16FEB89,25MAR89)
+add (stock) (P1,1025,L,WHITE,25.50,12.00,12MAY89,16JUN89)
+add (stock) (P1,1026,L,BLUE,25.50,12.00,12MAY89,12MAY89)
+add (stock) (P1,1079,M,RED,18.75,9.25,26FEB89,03MAR89)
+add (stock) (NY,1045,M,WHITE,14.99,6.00,25APR89,14MAY89)
+add (stock) (NY,1020,L,RED,17.45,7.85,19APR89,19APR89)
+add (stock) (NY,1021,M,BLUE,17.45,7.85,19APR89,03JUN89)
+add (stock) (SP,1004,S,GREEN,21.30,11.25,28MAY89,15JUN89)
+add (stock) (P2,4201,L,BROWN,16.95,9.90,18MAY89,16JUN89)
+add (stock) (P2,4202,S,BROWN,16.95,9.90,18JUN89,INSTOCK)
+relation (subject) ((class,STRING,5),(class_name,STRING,15))
+add (subject) (C1,FICTION)
+add (subject) (C2,SCIENCE-FICTION)
+add (subject) (C3,NON-FICTION)
+add (subject) (C4,SCIENTIFIC)
+add (subject) (C5,POETRY)
+add (subject) (C6,DRAMA)
+add (relship) (r,s,b,d,-,x,y,-)
+record disp_ex
+display(select (ex_book) (pname='MIT PRESS'))
+record ex4_1_a
+project (select (ex_book) (pname='PITMAN')) (title)
+record ex4_1_b
+project(join (project( select (ex_book) (pname='MIT PRESS'))(aname) ) (ex_auth) (aname=ex_auth.aname)) (specialism)
+record ex41a
+r1=project (book) (author)
+print r1
+record ex41b
+r2=(project (subject) (class)) difference (project (index) (class))
+print r2
+record ex42
+r3=restrict (auction) (sell_price>purchase_price)
+print r3
+record ex43
+r4=select (index) ((author='HEMINGWAY') and (class='C3'))
+print r4
+record ex45
+infix y
+s1=select (subject) (class_name='NON-FICTION')
+s2=join (s1) (index) (s1.class=index.class)
+s3=project (s2) (author,title,shelf)
+print s3
+record q4_3_3
+p3=select (stock) ((branch='L1') and (date_out='INSTOCK'))
+p4=project (p3) (sell_price,cost_price)
+record q4_3_4
+r1=restrict (stock) (date_in=date_out) 
+r2=project (r1) (branch,stock)
+r3=join (r2) (delivery) ((r2.branch=delivery.branch) and (r2.stock=delivery.stock))
+r4=project (r3) (producer,product_code)
+r5=join (r4) (goods) ((r4.producer=goods.producer) and (r4.product_code=goods.product_code))
+print r5
+record q4_3_5
+q1=select (goods) (description='DRESS')
+q2=join (q1) (delivery) ((q1.producer=delivery.producer) and (q1.product_code=delivery.product_code))
+q3=project (q2) (branch,stock)
+q4=join (q3) (stock) ((q3.branch=stock.branch) and (q3.stock=stock.stock))
+q5=select (q4) (date_out='INSTOCK')
+q6=project (q5) (branch,size,colour,sell_price)
+print q6
+record q431
+p1=project (goods) (producer)
+print p1
+record q432
+p2=project (delivery) (producer)
+print p2
+record q433
+p3=select (stock) ((branch='L1')and(date_out='INSTOCK'))
+p4=project (p3) (sell_price,cost_price) 
+print p4
+record divide
+a1=(lc) product (q)
+a2=project (a1) (lecturer,subject)
+rename (a2.subject) (course)
+a3=(a2) intersect (lc)
+a4=project (a3)(lecturer)
+print a4
+record open
+> This is the Stanczyk database. Examples are taken from
+> 'Theory and Practice of relational databases'.
+> This database has a number of useful examples that
+> clearly demonstrate the relational algebra.
+record ex44
+equij=join (r) (s) ((r.b=s.x) and (r.d=s.y))
+print equij
+njoin=natjoin (r) (s)
+print njoin
+create date
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [date] database...
+Message: Creating hash table for [leapscripts].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+use date
+Resetting all updated flags: Done.
+Updating hash tables: auction book delivery ex_auth ex_book ex_publi example goods index lc leapattributes leaprel leapscripts leaptypes q r relship s stock subject 
+Message: Opening the [date] database...
+relation (a) ((s,STRING,3),(sname,STRING,10),(status,STRING,6),(city,STRING,10))
+add (a) (S1,SMITH,20,LONDON)
+add (a) (S4,CLARK,20,LONDON)
+relation (b) ((s,STRING,3),(sname,STRING,10),(status,STRING,6),(city,STRING,10))
+add (b) (S1,SMITH,20,LONDON)
+add (b) (S2,JONES,10,PARIS)
+relation (dend) ((s#,STRING,2),(p#,STRING,2))
+add (dend) (S1,P1NES)
+add (dend) (S1,P2NES)
+add (dend) (S1,P3NES)
+add (dend) (S1,P4NES)
+add (dend) (S1,P5NES)
+add (dend) (S1,P6NES)
+add (dend) (S2,P1NES)
+add (dend) (S2,P2NES)
+add (dend) (S3,P2NES)
+add (dend) (S4,P2NES)
+add (dend) (S4,P4NES)
+add (dend) (S4,P5NES)
+relation (dor1) ((p#,STRING,2))
+add (dor1) (P1)
+relation (dor2) ((p#,STRING,2))
+add (dor2) (P2)
+add (dor2) (P4)
+relation (dor3) ((p#,STRING,2))
+add (dor3) (P1)
+add (dor3) (P2)
+add (dor3) (P3)
+add (dor3) (P4)
+add (dor3) (P5)
+add (dor3) (P6)
+relation (p) ((pnum,STRING,4),(pname,STRING,5),(color,STRING,5),(weight,INTEGER,4),(city,STRING,10))
+add (p) (P1,NUT,RED,12,LONDON)
+add (p) (P2,BOLT,GREEN,17,PARIS)
+add (p) (P3,SCREW,BLUE,17,ROME)
+add (p) (P4,SCREW,RED,14,LONDON)
+add (p) (P5,CAM,BLUE,12,PARIS)
+add (p) (P6,COG,RED,19,LONDON)
+relation (s) ((snum,STRING,4),(sname,STRING,5),(status,INTEGER,4),(city,STRING,10))
+add (s) (S1,SMITH,20,LONDON)
+add (s) (S2,JONES,10,PARIS)
+add (s) (S3,BLAKE,30,PARIS)
+add (s) (S4,CLARK,20,LONDON)
+add (s) (S5,ADAMS,30,ATHENS)
+relation (sp) ((snum,STRING,4),(pnum,STRING,4),(qty,INTEGER,4))
+add (sp) (S1,P1,300)
+add (sp) (S1,P2,200)
+add (sp) (S1,P3,400)
+add (sp) (S1,P4,200)
+add (sp) (S1,P5,100)
+add (sp) (S1,P6,100)
+add (sp) (S2,P1,300)
+add (sp) (S2,P2,400)
+add (sp) (S3,P2,200)
+add (sp) (S4,P2,200)
+add (sp) (S4,P4,300)
+add (sp) (S4,P5,400)
+add (relship) (s,p,city,-,-,city)
+record datd1
+datd1=(a) difference (b)
+print datd1
+record datd2
+datd2=(b) minus (a)
+print datd2
+record dati1
+dati=(a) intersect (b)
+print dati
+record datu1
+datu=(a) union (b)
+print datu
+record closure
+closure=select (join (s) (p) (s.city=p.city)) (weight>'18')
+print closure
+record project
+pro1=project (s) (city)
+print pro1
+pro2=project (p) (color,city)
+print pro2
+pro3=project (select (s) (city='PARIS')) (snum)
+print pro3
+record rename
+delete renm
+> First, we make a copy of the s relation, so we don't
+> mess up the important relations
+renm=duplicate (s) 
+> Now we look at the attributes
+describe renm
+> Ok, lets rename "city" to "scity"
+rename (renm.city) (scity)
+> Check...
+describe renm
+> Done.
+record product
+prd=(project (a) (s)) product (project (b) (s))
+record select
+sel1=select (s) (city='LONDON')
+print sel1
+sel2=select (p) (weight<'14')
+print sel2
+sel3=select (sp) ( (snum='S1') and (pnum='P1'))
+print sel3
+record njoin
+> This is a kludged natural join...
+display (project (join (s) (p) (s.city=p.city)) (snum,sname,status,city,pnum,pname,color,weight))
+> If relship is defined properly:
+display (select (relship) ((prelation="p") and (frelation="s")))
+> This is a proper natural join.
+join (s) (p) 
+print @last
+record ex661
+> Get supplier names for suppliers who supply part p2
+ex661=project (select (join (sp) (s) (sp.snum=s.snum)) (pnum='P2')) (sname)
+print ex661
+record tjoin
+join (s) (p) (s.city>p.city)
+print @last
+record a_div
+adiv1=(dend) product (dor1)
+adiv2=project (adiv1) (s#,dor1.p#)
+rename (adiv2.dor1.p#) (p#)
+adiv3=(adiv2) intersect (dend)
+adiv4=project (adiv3)(s#)
+print adiv4
+record te_div
+cdiv1=(dend) product (dor1)
+cdiv2=project (cdiv1) (s#,dor1.p#)
+rename (cdiv2.dor1.p#) (p#)
+cdiv3=(cdiv2) intersect (dend)
+cdiv4=project (cdiv3)(s#)
+print cdiv4
+record ex662
+> Get supplier names for suppliers who supply at least one red part
+pta=select (p) (color='RED')
+ptb=join (pta) (sp) (pta.pnum=sp.pnum)
+ptc=project (ptb) (snum)
+ptd=join (ptc) (s) (ptc.snum=s.snum)
+pte=project (ptd) (sname)
+print pte
+record b_div
+bdiv1=(dend) product (dor2)
+bdiv2=project (bdiv1) (s#,dor2.p#)
+rename (bdiv2.dor2.p#) (p#)
+bdiv3=(bdiv2) difference (dend)
+bdiv4=project (bdiv3)(s#)
+print bdiv4
+record c_div
+cdiv1=(dend) product (dor1)
+cdiv2=project (cdiv1) (s#,dor1.p#)
+rename (cdiv2.dor1.p#) (p#)
+cdiv3=(cdiv2) intersect (dend)
+cdiv4=project (cdiv3)(s#)
+print cdiv4
+record open
+> This is the Date database. Examples are taken from
+> 'An introduction to database systems' by C.J.Date
+create korth
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [korth] database...
+Message: Creating hash table for [leapscripts].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+use korth
+Resetting all updated flags: Done.
+Updating hash tables: a b dend dor1 dor2 dor3 leapattributes leaprel leapscripts leaptypes p relship s sp 
+Message: Opening the [korth] database...
+relation (borrow) ((bo_branch,STRING,255),(bo_lnum,INTEGER,4),(bo_cuname,STRING,255),(bo_amount,INTEGER,4))
+add (borrow) (DOWNTOWN,0,JONES,0)
+add (borrow) (REDWOOD,0,SMITH,0)
+add (borrow) (PERRYRIDGE,0,HAYES,0)
+add (borrow) (DOWNTOWN,0,JACKSON,0)
+add (borrow) (MIANUS,0,CURRY,0)
+add (borrow) (ROUND HILL,0,TURNER,0)
+add (borrow) (POWNALL,0,WILLIAMS,0)
+add (borrow) (NORTH TOWN,0,ADAMS,0)
+add (borrow) (DOWNTOWN,0,JOHNSON,0)
+add (borrow) (PERRYRIDGE,0,GLENN,0)
+add (borrow) (BRIGHTON,0,BROOKS,0)
+relation (branch) ((br_branch,STRING,255),(br_assets,INTEGER,4),(br_city,STRING,255))
+add (branch) (DOWNTOWN,0,BROOKLYN)
+add (branch) (REDWOOD,0,PALO ALTO)
+add (branch) (PERRYRIDGE,0,HORSENECK)
+add (branch) (MIANUS,0,HORSENECK)
+add (branch) (ROUND HILL,0,HORSENECK)
+add (branch) (POWNAL,0,BENNINGTON)
+add (branch) (NORTH TOWN,0,RYE)
+add (branch) (BRIGHTON,0,BROOKLYN)
+relation (client) ((cl_name,STRING,255),(cl_banker,STRING,255))
+add (client) (TURNER,JOHNSON)
+add (client) (HAYES,JONES)
+add (client) (JOHNSON,JOHNSON)
+relation (customer) ((cu_name,STRING,255),(cu_street,STRING,255),(cu_city,STRING,255))
+add (customer) (JONES,MAIN,HARRISON)
+add (customer) (SMITH,NORTH,RYE)
+add (customer) (HAYES,MAIN,HARRISON)
+add (customer) (CURRY,NORTH,RYE)
+add (customer) (LINDSAY,PARK,PITTSFIELD)
+add (customer) (TURNER,PUTNAM,STAMFORD)
+add (customer) (WILLIAMS,NASSAU,PRINCETON)
+add (customer) (ADAMS,SPRING,PITTSFIELD)
+add (customer) (JOHNSON,ALMA,PALO ALTO)
+add (customer) (GLENN,SAND HILL,WOODSIDE)
+add (customer) (BROOKS,SENATOR,BROOKLYN)
+add (customer) (GREEN,WALNUT,STAMFORD)
+record kor1
+kor1=select (borrow) (bo_branch='PERRYRIDGE')
+print kor1
+record kor2
+kor2=select (borrow) (borrow.bo_amount>'1200')
+record kor3
+kor3=select(borrow) ((borrow.bo_amount>'1200') and (borrow.bo_branch='PERRYRIDGE'))
+print kor3
+record korpj
+korpj=project(join (customer) (borrow) (customer.cu_name=borrow.bo_cuname)) (bo_cuname,cu_city)
+print korpj
+record korpj2
+korpj2=project( select(join (borrow) (branch) (borrow.bo_branch=branch.br_branch)) (br_city='HORSENECK')) (bo_cuname)
+print korpj2
+record korpr1
+korpr1=(client) product (customer)
+print korpr1
+record kors1
+kors1=select(select ((client) product (customer)) (cl_banker='JOHNSON')) (cl_name=cu_name)
+print kors1
+quit
+Message: Closing [korth] database.
+Resetting all updated flags: Done.
+Updating hash tables: borrow branch client customer leapattributes leaprel leapscripts leaptypes relship 
+Message: Closing [master] database.
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leapdata leaprel leapscripts leaptypes relship 
+Message: Closing [tempdb] database.
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship zzadgo zzbfmx zzbncn zzfgbt* zzgtgh* zzijus* zzjrtg zznxel zzqamg zztjjr zztxwq zzwsbi zzxvke zzynyk zzzcpt 
+Message: LEAP Configuration completed successfully!
+================================================================================
+LEAP has now been installed on your system.
+
+In order to get some idea as to where LEAP is installed, and (more importantly)
+what sort of systems it is installed on (to allow a better porting focus),
+**WITH YOUR PERMISSION**, after the prompt, an e-mail will be sent to
+userid@acm.org
+
+(You may abort this script by pressing CTRL-C at any point)
+
+This is the information that will be sent after the prompt:
+(between the seperators)
+-----------------------------------------------------------------------
+Subject: LEAP 1.2.5 (Linux) Installation notification
+LEAP has been installed on the following system:
+Machine architecture: Linux dogbert 2.4.2-ac28 #3 Wed May 2 17:04:42 BST 2001 i686 unknown
+LEAP version info (leap -v):
+LEAP 1.2.5.2 - An extensible and free RDBMS
+Copyright (C) 1997-2001 Richard Leyton.
+-----------------------------------------------------------------------
+If you wish to send this message, press ENTER now.
+If you DO NOT wish to send the message, type . then ENTER
+
+NOTHING will be sent until you press enter.
+.
+*** NO message has been sent ***
+
+
+
+===============================================================================
+There is a low volume mailing list for LEAP announcements. If you would like
+to subscribe, enter >y< below. If you'd rather not subscribe, type . then ENTER
+===============================================================================
+.
+*** NO subscription message sent ***
+
+If you would like to subscribe at a later date, please visit
+http://lists.sourceforge.net/lists/listinfo/leap-announce
+userid @ dogbert > ls -ltr
+total 2588
+-rw-r--r--    1 userid  groupid       316 Jul 30  1998 testutil.c
+-rw-r--r--    1 userid  groupid      8210 Apr 26 14:07 vars.c
+-rw-r--r--    1 userid  groupid     29525 Apr 26 14:07 util.c
+-rw-r--r--    1 userid  groupid     56530 Apr 26 14:07 tuples.c
+-rw-r--r--    1 userid  groupid     57072 Apr 26 14:07 relational_ops.c
+-rw-r--r--    1 userid  groupid     37654 Apr 26 14:07 relation.c
+-rw-r--r--    1 userid  groupid     28405 Apr 26 14:07 regexp.c
+-rw-r--r--    1 userid  groupid      3710 Apr 26 14:07 pointer_stack.c
+-rw-r--r--    1 userid  groupid     23534 Apr 26 14:07 orig_parser.c
+-rw-r--r--    1 userid  groupid      3668 Apr 26 14:07 leapio.c
+-rw-r--r--    1 userid  groupid     20408 Apr 26 14:07 leapd.c
+-rw-r--r--    1 userid  groupid     24839 Apr 26 14:07 leap.c
+-rw-r--r--    1 userid  groupid      8302 Apr 26 14:07 info.c
+-rw-r--r--    1 userid  groupid     14320 Apr 26 14:07 hashing.c
+-rw-r--r--    1 userid  groupid      2059 Apr 26 14:07 global_vars.c
+-rw-r--r--    1 userid  groupid      1371 Apr 26 14:07 generic_parser.c
+-rw-r--r--    1 userid  groupid      9816 Apr 26 14:07 errors.c
+-rw-r--r--    1 userid  groupid      1829 Apr 26 14:07 dumprel.c
+-rw-r--r--    1 userid  groupid     12037 Apr 26 14:07 dbase.c
+-rw-r--r--    1 userid  groupid      8602 Apr 26 14:07 database.c
+-rw-r--r--    1 userid  groupid      8994 Apr 26 14:07 convert.c
+-rw-r--r--    1 userid  groupid       925 Apr 26 14:07 configure.in
+-rwxr-xr-x    1 userid  groupid     53607 Apr 26 14:07 configure
+-rw-r--r--    1 userid  groupid     14034 Apr 26 14:07 attributes.c
+-rw-r--r--    1 userid  groupid      5709 Apr 26 14:07 algebra_parser.c
+-rw-r--r--    1 userid  groupid      3729 Apr 26 14:07 README
+-rw-r--r--    1 userid  groupid     26050 Apr 27 08:50 cond.c
+-rw-r--r--    1 userid  groupid     63754 Apr 27 10:35 rtional.c
+-rw-r--r--    1 userid  groupid     24260 Apr 27 10:35 parser.c
+-rw-r--r--    1 userid  groupid      3704 Apr 27 10:35 p_stack.c
+-rw-r--r--    1 userid  groupid      2107 Apr 27 10:35 globals.c
+-rw-r--r--    1 userid  groupid     16718 Apr 27 10:35 attribs.c
+-rw-r--r--    1 userid  groupid      3366 Apr 27 10:40 Makefile.in
+drwxr-xr-x    2 userid  groupid      1024 Apr 27 10:59 parse
+-rwxr-xr-x    1 userid  groupid      8859 May  3 16:08 config.status
+-rw-r--r--    1 userid  groupid      1952 May  3 16:08 config.log
+-rw-r--r--    1 userid  groupid      1536 May  3 16:08 config.cache
+-rw-r--r--    1 userid  groupid      3419 May  3 16:08 Makefile
+drwxr-xr-x    2 userid  groupid      1024 May  3 16:08 include
+-rw-r--r--    1 userid  groupid     40176 May  3 16:09 cond.o
+-rw-r--r--    1 userid  groupid     34876 May  3 16:09 attribs.o
+-rw-r--r--    1 userid  groupid     34160 May  3 16:09 hashing.o
+-rw-r--r--    1 userid  groupid     17648 May  3 16:09 globals.o
+-rw-r--r--    1 userid  groupid     24568 May  3 16:09 errors.o
+-rw-r--r--    1 userid  groupid     33816 May  3 16:09 dbase.o
+-rw-r--r--    1 userid  groupid     27600 May  3 16:09 database.o
+-rw-r--r--    1 userid  groupid     46448 May  3 16:09 parser.o
+-rw-r--r--    1 userid  groupid     22964 May  3 16:09 p_stack.o
+-rw-r--r--    1 userid  groupid     19840 May  3 16:09 leapio.o
+-rw-r--r--    1 userid  groupid     27356 May  3 16:09 info.o
+-rw-r--r--    1 userid  groupid     53944 May  3 16:09 relation.o
+-rw-r--r--    1 userid  groupid     26916 May  3 16:09 regexp.o
+-rw-r--r--    1 userid  groupid     75520 May  3 16:09 rtional.o
+-rw-r--r--    1 userid  groupid     72344 May  3 16:09 tuples.o
+-rw-r--r--    1 userid  groupid     29128 May  3 16:09 vars.o
+-rw-r--r--    1 userid  groupid     52840 May  3 16:09 util.o
+-rw-r--r--    1 userid  groupid    646288 May  3 16:09 libleap.a
+-rw-r--r--    1 userid  groupid     53028 May  3 16:09 leap.o
+-rwxr-xr-x    1 userid  groupid    320970 May  3 16:09 leap
+-rw-r--r--    1 userid  groupid     17944 May  3 16:09 dumprel.o
+-rwxr-xr-x    1 userid  groupid    300755 May  3 16:09 dumprel
+userid @ dogbert > ./leap
+LEAP 1.2.5.2 - An extensible and free RDBMS
+Copyright (C) 1997-2001 Richard Leyton.
+
+LEAP comes with ABSOLUTELY NO WARRANTY; for details type "warranty".
+This is free software, and you are welcome to redistribute it
+under certain conditions; type "copying" for details.
+
+[NON-FATAL] #2 - Error opening file [./configs/vars].
+Message: No variables set!
+Message: Directory specified [./] not valid. Trying [../]
+Message: Debug level set to: 0
+Message: Minimum debug level set to: 0
+Message: Variables are now set.
+Message: Applying command line options...
+Message: Completed application of command line options...
+Message: LEAP is starting...
+Message: Opening the [tempdb] database...
+Message: Creating hash table for [zzzmzr].
+Message: Opening the [master] database...
+Message: Opening the [user] database...
+Message: Startup sequence initiated.
+Message: Sourcing startup.src in master
+Message: Readline library available for command history/editing
+
+Message: Sourcing open.src in user
+
+[user] :-) list
+NAME                      TEMP  SYSTEM 
+------------------------- ----- ------ 
+leaprel                   FALSE TRUE   
+leapscripts               FALSE TRUE   
+leapattributes            FALSE TRUE   
+leaptypes                 FALSE TRUE   
+relship                   FALSE TRUE   
+Message: Relation zzwkrg returned.
+[user] :-) exit
+Message: Closing [user] database.
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Closing [master] database.
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leapdata leaprel leapscripts leaptypes relship 
+Message: Closing [tempdb] database.
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship zzadgo zzbfmx zzbncn zzeabw* zzjrtg zzlbug* zznxel zzqamg zztjjr zztxwq zzwkrg* zzwsbi zzxvke zzynyk zzzcpt zzzmzr* 
+
+Please send all comments, bugs, suggestions etc. to:
+userid@acm.org
+
+Latest versions are available via anonymous ftp:
+All   - ftp.demon.co.uk/pub/compsci/databases/leap
+Un*x  - sunsite.unc.edu/pub/Linux/apps/database/relational
+
+For up to date information, ftp sites, and developments - see
+the LEAP Web Page at http://www.dogbert.demon.co.uk/leap.html
+
+For announcements, and information, join the LEAP mailing
+list by sending a one line e-mail to: majordomo@brookes.ac.uk
+containing "subscribe leap" in the body of the message.
+
+Message: LEAP Terminated successfully!
+
+
+
+
+
+
+
+INSTALLING BINARY DISTRIBUTION
+==============================
+
+Script started on Thu May  3 16:19:18 2001
+userid @ dogbert > tar xvzf leap-1.2.5.2-linux-i386.
+leap-1.2.5.2/
+leap-1.2.5.2/bin/
+leap-1.2.5.2/bin/leap
+leap-1.2.5.2/bin/dumprel
+leap-1.2.5.2/bin/install
+leap-1.2.5.2/bin/README
+leap-1.2.5.2/COPYING
+leap-1.2.5.2/INSTALL
+leap-1.2.5.2/NEWS
+leap-1.2.5.2/NOTES
+leap-1.2.5.2/README
+leap-1.2.5.2/TODO
+leap-1.2.5.2/configs/
+leap-1.2.5.2/configs/vars
+leap-1.2.5.2/doc/
+leap-1.2.5.2/doc/DOWNLOADING
+leap-1.2.5.2/doc/FAQ
+leap-1.2.5.2/doc/baseinstall.README
+leap-1.2.5.2/doc/demo.install
+leap-1.2.5.2/doc/history.dev
+leap-1.2.5.2/doc/user_guide.htm
+leap-1.2.5.2/help/
+leap-1.2.5.2/help/helppgs
+leap-1.2.5.2/leap-1.2.5.lsm
+leap-1.2.5.2/scripts/
+leap-1.2.5.2/scripts/dmalloc.env
+leap-1.2.5.2/scripts/all2dos
+leap-1.2.5.2/scripts/users/
+leap-1.2.5.2/scripts/users/buildtar
+leap-1.2.5.2/scripts/users/README
+leap-1.2.5.2/scripts/users/leapinstall
+leap-1.2.5.2/scripts/install.src
+leap-1.2.5.2/scripts/leapconv
+leap-1.2.5.2/scripts/notify
+leap-1.2.5.2/scripts/unix2dos
+leap-1.2.5.2/src/
+leap-1.2.5.2/src/include/
+leap-1.2.5.2/src/include/algebra_parser.h
+leap-1.2.5.2/src/include/attribs.h
+leap-1.2.5.2/src/include/attributes.h
+leap-1.2.5.2/src/include/cond.h
+leap-1.2.5.2/src/include/consts.h
+leap-1.2.5.2/src/include/database.h
+leap-1.2.5.2/src/include/dbase.h
+leap-1.2.5.2/src/include/defines.hin
+leap-1.2.5.2/src/include/dtypes.h
+leap-1.2.5.2/src/include/errors.h
+leap-1.2.5.2/src/include/generic_parser.h
+leap-1.2.5.2/src/include/global_vars.h
+leap-1.2.5.2/src/include/globals.h
+leap-1.2.5.2/src/include/hashing.h
+leap-1.2.5.2/src/include/info.h
+leap-1.2.5.2/src/include/leapio.h
+leap-1.2.5.2/src/include/orig_parser.h
+leap-1.2.5.2/src/include/p_stack.h
+leap-1.2.5.2/src/include/parser.h
+leap-1.2.5.2/src/include/pointer_stack.h
+leap-1.2.5.2/src/include/regexp.h
+leap-1.2.5.2/src/include/relation.h
+leap-1.2.5.2/src/include/relational_ops.h
+leap-1.2.5.2/src/include/rtional.h
+leap-1.2.5.2/src/include/tuples.h
+leap-1.2.5.2/src/include/util.h
+leap-1.2.5.2/src/include/vars.h
+leap-1.2.5.2/src/Makefile.in
+leap-1.2.5.2/src/README
+leap-1.2.5.2/src/algebra_parser.c
+leap-1.2.5.2/src/attribs.c
+leap-1.2.5.2/src/attributes.c
+leap-1.2.5.2/src/cond.c
+leap-1.2.5.2/src/configure
+leap-1.2.5.2/src/configure.in
+leap-1.2.5.2/src/convert.c
+leap-1.2.5.2/src/database.c
+leap-1.2.5.2/src/dbase.c
+leap-1.2.5.2/src/dumprel.c
+leap-1.2.5.2/src/errors.c
+leap-1.2.5.2/src/generic_parser.c
+leap-1.2.5.2/src/global_vars.c
+leap-1.2.5.2/src/globals.c
+leap-1.2.5.2/src/hashing.c
+leap-1.2.5.2/src/info.c
+leap-1.2.5.2/src/leap.c
+leap-1.2.5.2/src/leapd.c
+leap-1.2.5.2/src/leapio.c
+leap-1.2.5.2/src/orig_parser.c
+leap-1.2.5.2/src/p_stack.c
+leap-1.2.5.2/src/parser.c
+leap-1.2.5.2/src/pointer_stack.c
+leap-1.2.5.2/src/regexp.c
+leap-1.2.5.2/src/relation.c
+leap-1.2.5.2/src/relational_ops.c
+leap-1.2.5.2/src/rtional.c
+leap-1.2.5.2/src/testutil.c
+leap-1.2.5.2/src/tuples.c
+leap-1.2.5.2/src/util.c
+leap-1.2.5.2/src/vars.c
+leap-1.2.5.2/src/parse/
+leap-1.2.5.2/src/parse/Makefile.in
+leap-1.2.5.2/src/parse/algebra.c
+leap-1.2.5.2/src/parse/algebra.l
+leap-1.2.5.2/src/parse/algebra.yy
+userid @ dogbert > ls -ltr
+total 685
+drwxr-xr-x    8 userid  groupid      1024 Apr 30 08:54 leap-1.2.5.2
+-rw-r--r--    1 userid  groupid    219355 May  3 16:05 leap-1.2.5.2.tar.gz
+-rw-r--r--    1 userid  groupid    437699 May  3 16:06 leap-1.2.5.2-linux-i386.tar.gz
+-rw-r--r--    1 userid  groupid     35866 May  3 16:18 demo
+-rw-r--r--    1 userid  groupid         0 May  3 16:19 bindemo
+userid @ dogbert > cd leap-1.2.5.2
+userid @ dogbert > cd bin
+userid @ dogbert > ls -ltr
+total 618
+-rwxr-xr-x    1 userid  groupid    321730 Apr 30 08:39 leap
+-rwxr-xr-x    1 userid  groupid    301884 Apr 30 08:39 dumprel
+-rwxr-xr-x    1 userid  groupid       157 Apr 30 08:48 install
+-rw-r--r--    1 userid  groupid       408 Apr 30 08:50 README
+userid @ dogbert > cat README
+
+demo.install,v 1.202 2001/08/18 17:40:59 rleyton Exp
+
+This directory contains binary files for LEAP on the following platform:
+
+- Linux 2.2
+
+To install LEAP's databases, you must first run the shell program "install".
+
+The source code is included in the src directory as in the standard LEAP
+distribution. 
+
+Other platform specific downloads may exist. Check:
+
+http://leap.sourceforge.net
+and
+http://sourceforge.net/project/showfiles.php?group_id=44
+
+userid @ dogbert > ./install 
+Installing LEAP...
+CONFIGURING...
+LEAP 1.2.5.2 - An extensible and free RDBMS
+Copyright (C) 1997-2001 Richard Leyton.
+
+LEAP comes with ABSOLUTELY NO WARRANTY; for details type "warranty".
+This is free software, and you are welcome to redistribute it
+under certain conditions; type "copying" for details.
+
+[NON-FATAL] #2 - Error opening file [./configs/vars].
+Message: No variables set!
+Message: Directory specified [./] not valid. Trying [../]
+Message: Debug level set to: 0
+Message: Minimum debug level set to: 0
+Message: Variables are now set.
+Message: Applying command line options...
+Message: Completed application of command line options...
+Message: LEAP is starting...
+Checking: [../]
++------------------------------------------------------------------------------+
+| Configuring the >MASTER< database                                            |
++------------------------------------------------------------------------------+
+Message: Creating hash table for [leapdata].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leapdata leaprel leapscripts leaptypes relship 
+Message: Opening the [master] database...
+Message: Creating hash table for [leapscripts].
+Message: Creating hash table for [zzbldd].
++------------------------------------------------------------------------------+
+| Configuring the >default< (user) database                                    |
++------------------------------------------------------------------------------+
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [user] database...
+Message: Creating hash table for [leapscripts].
+Message: Creating hash table for [zzmwhz].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship zzmwhz* 
++------------------------------------------------------------------------------+
+| Configuring the >temporary< (tempdb) database                                    |
++------------------------------------------------------------------------------+
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [tempdb] database...
+Message: Creating hash table for [leapscripts].
+Message: Creating hash table for [zzikbf].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship zzikbf* 
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leapdata leaprel leapscripts leaptypes relship zzbldd* 
+Message: Opening the [tempdb] database...
+Message: Creating hash table for [zzcuap].
+Message: Opening the [master] database...
+Message: Opening the [user] database...
+Message: Startup sequence initiated.
+[user] :-) [user] :-) [user] :-) [user] :-) [user] :-) [user] :-) [user] :-) [user] :-) set temporary off
+[user] :-) create stanczyk
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [stanczyk] database...
+Message: Creating hash table for [leapscripts].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+[user] :-) use stanczyk
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [stanczyk] database...
+[stanczyk] :-) relation (auction) ((reference,STRING,9),(date_bought,STRING,12),(purchase_price,INTEGER,4),(date_sold,STRING,9),(sell_price,INTEGER,4))
+[stanczyk] :-) add (auction) (R005,17-03-84,25,23-09-86,12)
+[stanczyk] :-) add (auction) (R020,02-12-43,4,17-10-88,145)
+[stanczyk] :-) add (auction) (R022,09-11-79,7,21-11-88,3)
+[stanczyk] :-) add (auction) (R048,15-05-68,3,16-03-89,8)
+[stanczyk] :-) add (auction) (R049,15-05-68,3,16-03-89,8)
+[stanczyk] :-) add (auction) (R073,21-02-76,18,25-03-89,9)
+[stanczyk] :-) relation (book) ((reference,STRING,9),(author,STRING,9),(title,STRING,30))
+[stanczyk] :-) add (book) (R003,JOYCE,ULYSSES)
+[stanczyk] :-) add (book) (R004,JOYCE,ULYSSES)
+[stanczyk] :-) add (book) (R023,GREENE,SHORT STORIES)
+[stanczyk] :-) add (book) (R025,ORWELL,ANIMAL FARM)
+[stanczyk] :-) add (book) (R033,LEM,ROBOTS TALES)
+[stanczyk] :-) add (book) (R034,LEM,RETURN FROM STARS)
+[stanczyk] :-) add (book) (R036,GOLDING,LORD OF THE FLIES)
+[stanczyk] :-) add (book) (R028,KING,STRENGTH TO LOVE)
+[stanczyk] :-) add (book) (R143,HEMINGWAY,DEATH IN THE AFTERNOON)
+[stanczyk] :-) add (book) (R149,HEMINGWAY,TO HAVE AND HAVE NOT)
+[stanczyk] :-) relation (delivery) ((producer,STRING,10),(product_code,STRING,12),(branch,STRING,6),(stock,STRING,5))
+[stanczyk] :-) add (delivery) (CLASSICS,403,L1,1003)
+[stanczyk] :-) add (delivery) (CLASSICS,403,L1,1004)
+[stanczyk] :-) add (delivery) (CLASSICS,201X,L1,1019)
+[stanczyk] :-) add (delivery) (CLASSICS,201X,P2,4105)
+[stanczyk] :-) add (delivery) (CLASSICS,201X,P2,4106)
+[stanczyk] :-) add (delivery) (CLASSICS,CLUB,NY,1044)
+[stanczyk] :-) add (delivery) (60S CLOTHS,WOODSTOCK,L2,2921)
+[stanczyk] :-) add (delivery) (60S CLOTHS,DI4,L2,2933)
+[stanczyk] :-) add (delivery) (60S CLOTHS,DI4,L2,2934)
+[stanczyk] :-) add (delivery) (60S CLOTHS,FINESSE,P1,1025)
+[stanczyk] :-) add (delivery) (60S CLOTHS,FINESSE,P1,1026)
+[stanczyk] :-) add (delivery) (60S CLOTHS,FLAIR,SP,1004)
+[stanczyk] :-) add (delivery) (60S CLOTHS,FLAIR,NY,1045)
+[stanczyk] :-) add (delivery) (MODERNA,F1049,P1,1079)
+[stanczyk] :-) add (delivery) (MODERNA,199K,L2,2967)
+[stanczyk] :-) add (delivery) (MODERNA,199K,NY,1020)
+[stanczyk] :-) add (delivery) (MODERNA,199K,NY,1021)
+[stanczyk] :-) add (delivery) (MODERNA,F1X19,P2,4201)
+[stanczyk] :-) add (delivery) (MODERNA,F1X19,P2,4202)
+[stanczyk] :-) relation (ex_auth) ((aname,STRING,10),(address,STRING,10),(specialism,STRING,15))
+[stanczyk] :-) add (ex_auth) (SMITH,OXFORD,FRENCH)
+[stanczyk] :-) add (ex_auth) (JONES,BIRMINGHAM,LAW)
+[stanczyk] :-) add (ex_auth) (STANCZYK,OXFORD,DATABASES)
+[stanczyk] :-) add (ex_auth) (PALMER,USA,PROGRAMMING)
+[stanczyk] :-) add (ex_auth) (KORTH,USA,DATABASES)
+[stanczyk] :-) relation (ex_book) ((title,STRING,25),(aname,STRING,10),(pname,STRING,10))
+[stanczyk] :-) add (ex_book) (THEORY AND PRACTICE,STANCZYK,PITMAN)
+[stanczyk] :-) add (ex_book) (SQL,STANCZYK,PITMAN)
+[stanczyk] :-) add (ex_book) (PROGRAMMING IN B PASCAL,PALMER,SYBEX)
+[stanczyk] :-) add (ex_book) (DATABASE SYSTEM CONCEPTS,KORTH,MCGRAW)
+[stanczyk] :-) add (ex_book) (FRENCH PROGRAMMING,SMITH,MIT PRESS)
+[stanczyk] :-) add (ex_book) (A GUIDE TO DB2,JONES,MIT PRESS)
+[stanczyk] :-) relation (ex_publi) ((pname,STRING,10),(location,STRING,10))
+[stanczyk] :-) add (ex_publi) (MIT PRESS,MA.)
+[stanczyk] :-) add (ex_publi) (PITMAN,LONDON)
+[stanczyk] :-) add (ex_publi) (MCGRAW,NEW YORK)
+[stanczyk] :-) add (ex_publi) (SYBEX,USA)
+[stanczyk] :-) relation (example) ((f1,STRING,3),(f2,STRING,3),(f3,STRING,3))
+[stanczyk] :-) add (example) (1,2,3)
+[stanczyk] :-) add (example) (a,bn,c)
+[stanczyk] :-) relation (goods) ((producer,STRING,10),(product_code,STRING,12),(description,STRING,15))
+[stanczyk] :-) add (goods) (CLASSICS,403,JEANS)
+[stanczyk] :-) add (goods) (CLASSICS,607,JEANS)
+[stanczyk] :-) add (goods) (CLASSICS,201X,SKIRT)
+[stanczyk] :-) add (goods) (CLASSICS,576,SKIRT)
+[stanczyk] :-) add (goods) (CLASSICS,CLASSX,TROUSERS)
+[stanczyk] :-) add (goods) (CLASSICS,CLUB,T-SHIRT)
+[stanczyk] :-) add (goods) (60S CLOTHS,DIAMOND,DRESS)
+[stanczyk] :-) add (goods) (60S CLOTHS,NOSTALGIC,COAT)
+[stanczyk] :-) add (goods) (60S CLOTHS,WOODSTOCK,JEANS)
+[stanczyk] :-) add (goods) (60S CLOTHS,DI4,DRESS)
+[stanczyk] :-) add (goods) (60S CLOTHS,FLAIR,DRESS)
+[stanczyk] :-) add (goods) (60S CLOTHS,FINESSE,DRESS)
+[stanczyk] :-) add (goods) (MODERNA,F1049,SHIRT)
+[stanczyk] :-) add (goods) (MODERNA,F1X19,DRESS)
+[stanczyk] :-) add (goods) (MODERNA,199K,JACKET)
+[stanczyk] :-) relation (index) ((author,STRING,10),(title,STRING,30),(class,STRING,5),(shelf,INTEGER,4))
+[stanczyk] :-) add (index) (JOYCE,ULYSSES,C1,12)
+[stanczyk] :-) add (index) (GREENE,SHORT STORIES,C1,14)
+[stanczyk] :-) add (index) (ORWELL,ANIMAL FARM,C1,12)
+[stanczyk] :-) add (index) (LEM,ROBOTS TALES,C2,23)
+[stanczyk] :-) add (index) (LEM,RETURN FROM STARS,C2,23)
+[stanczyk] :-) add (index) (GOLDING,GOLDING,C1,12)
+[stanczyk] :-) add (index) (KING,STRENGTH TO LOVE,C3,24)
+[stanczyk] :-) add (index) (HEMINGWAY,DEATH IN THE AFTERNOON,C3,22)
+[stanczyk] :-) add (index) (HEMINGWAY,TO HAVE AND HAVE NOT,C1,12)
+[stanczyk] :-) relation (lc) ((lecturer,STRING,8),(course,STRING,10))
+[stanczyk] :-) add (lc) (BROWN,COMPILERS)
+[stanczyk] :-) add (lc) (BROWN,DATABASES)
+[stanczyk] :-) add (lc) (GREEN,PROLOG)
+[stanczyk] :-) add (lc) (GREEN,DATABASES)
+[stanczyk] :-) add (lc) (LEWIS,PROLOG)
+[stanczyk] :-) add (lc) (SMITH,DATABASES)
+[stanczyk] :-) relation (q) ((subject,STRING,10))
+[stanczyk] :-) add (q) (PROLOG)
+[stanczyk] :-) relation (r) ((a,STRING,2),(b,STRING,2),(c,STRING,2),(d,STRING,2))
+[stanczyk] :-) add (r) (4,AB HAVE AND HAVE NOT,15,20)
+[stanczyk] :-) add (r) (2,AA HAVE AND HAVE NOT,18,25)
+[stanczyk] :-) add (r) (8,AC HAVE AND HAVE NOT,9,10)
+[stanczyk] :-) relation (s) ((x,STRING,2),(y,STRING,2),(z,STRING,2))
+[stanczyk] :-) add (s) (ABB ENGLAND,20FORD,PQ7241)
+[stanczyk] :-) add (s) (ACB ENGLAND,25FORD,PR7241)
+[stanczyk] :-) relation (stock) ((branch,STRING,6),(stock,STRING,5),(size,STRING,4),(colour,STRING,10),(sell_price,STRING,10),(cost_price,STRING,10),(date_in,STRING,8),(date_out,STRING,8))
+[stanczyk] :-) add (stock) (L1,1003,M,BLUE,15.50,9.25,22MAY89,06JUN89)
+[stanczyk] :-) add (stock) (L1,1004,M,WHITE,15.50,9.25,20DEC88,INSTOCK)
+[stanczyk] :-) add (stock) (L2,2921,M,BLACK,25.00,15.20,17APR89,17APR89)
+[stanczyk] :-) add (stock) (L2,2933,L,NAVY,13.50,6.25,28MAY89,16JUN89)
+[stanczyk] :-) add (stock) (L2,2934,M,NAVY,13.50,6.25,28MAY89,INSTOCK)
+[stanczyk] :-) add (stock) (L2,2967,S,BEIGE,18.75,8.25,16FEB89,25MAR89)
+[stanczyk] :-) add (stock) (P1,1025,L,WHITE,25.50,12.00,12MAY89,16JUN89)
+[stanczyk] :-) add (stock) (P1,1026,L,BLUE,25.50,12.00,12MAY89,12MAY89)
+[stanczyk] :-) add (stock) (P1,1079,M,RED,18.75,9.25,26FEB89,03MAR89)
+[stanczyk] :-) add (stock) (NY,1045,M,WHITE,14.99,6.00,25APR89,14MAY89)
+[stanczyk] :-) add (stock) (NY,1020,L,RED,17.45,7.85,19APR89,19APR89)
+[stanczyk] :-) add (stock) (NY,1021,M,BLUE,17.45,7.85,19APR89,03JUN89)
+[stanczyk] :-) add (stock) (SP,1004,S,GREEN,21.30,11.25,28MAY89,15JUN89)
+[stanczyk] :-) add (stock) (P2,4201,L,BROWN,16.95,9.90,18MAY89,16JUN89)
+[stanczyk] :-) add (stock) (P2,4202,S,BROWN,16.95,9.90,18JUN89,INSTOCK)
+[stanczyk] :-) relation (subject) ((class,STRING,5),(class_name,STRING,15))
+[stanczyk] :-) add (subject) (C1,FICTION)
+[stanczyk] :-) add (subject) (C2,SCIENCE-FICTION)
+[stanczyk] :-) add (subject) (C3,NON-FICTION)
+[stanczyk] :-) add (subject) (C4,SCIENTIFIC)
+[stanczyk] :-) add (subject) (C5,POETRY)
+[stanczyk] :-) add (subject) (C6,DRAMA)
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) add (relship) (r,s,b,d,-,x,y,-)
+[stanczyk] :-) record disp_ex
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) display(select (ex_book) (pname='MIT PRESS'))
+[stanczyk] :-) [stanczyk] :-) record ex4_1_a
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) project (select (ex_book) (pname='PITMAN')) (title)
+[stanczyk] :-) [stanczyk] :-) record ex4_1_b
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) project(join (project( select (ex_book) (pname='MIT PRESS'))(aname) ) (ex_auth) (aname=ex_auth.aname)) (specialism)
+[stanczyk] :-) [stanczyk] :-) record ex41a
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) r1=project (book) (author)
+[stanczyk] :-) print r1
+[stanczyk] :-) [stanczyk] :-) record ex41b
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) r2=(project (subject) (class)) difference (project (index) (class))
+[stanczyk] :-) print r2
+[stanczyk] :-) [stanczyk] :-) record ex42
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) r3=restrict (auction) (sell_price>purchase_price)
+[stanczyk] :-) print r3
+[stanczyk] :-) [stanczyk] :-) record ex43
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) r4=select (index) ((author='HEMINGWAY') and (class='C3'))
+[stanczyk] :-) print r4
+[stanczyk] :-) [stanczyk] :-) record ex45
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) infix y
+[stanczyk] :-) s1=select (subject) (class_name='NON-FICTION')
+[stanczyk] :-) s2=join (s1) (index) (s1.class=index.class)
+[stanczyk] :-) s3=project (s2) (author,title,shelf)
+[stanczyk] :-) print s3
+[stanczyk] :-) [stanczyk] :-) record q4_3_3
+[stanczyk] :-) [stanczyk] :-) p3=select (stock) ((branch='L1') and (date_out='INSTOCK'))
+[stanczyk] :-) p4=project (p3) (sell_price,cost_price)
+[stanczyk] :-) [stanczyk] :-) record q4_3_4
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) r1=restrict (stock) (date_in=date_out) 
+[stanczyk] :-) r2=project (r1) (branch,stock)
+[stanczyk] :-) r3=join (r2) (delivery) ((r2.branch=delivery.branch) and (r2.stock=delivery.stock))
+[stanczyk] :-) r4=project (r3) (producer,product_code)
+[stanczyk] :-) r5=join (r4) (goods) ((r4.producer=goods.producer) and (r4.product_code=goods.product_code))
+[stanczyk] :-) print r5
+[stanczyk] :-) [stanczyk] :-) record q4_3_5
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) q1=select (goods) (description='DRESS')
+[stanczyk] :-) q2=join (q1) (delivery) ((q1.producer=delivery.producer) and (q1.product_code=delivery.product_code))
+[stanczyk] :-) q3=project (q2) (branch,stock)
+[stanczyk] :-) q4=join (q3) (stock) ((q3.branch=stock.branch) and (q3.stock=stock.stock))
+[stanczyk] :-) q5=select (q4) (date_out='INSTOCK')
+[stanczyk] :-) q6=project (q5) (branch,size,colour,sell_price)
+[stanczyk] :-) print q6
+[stanczyk] :-) [stanczyk] :-) record q431
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) p1=project (goods) (producer)
+[stanczyk] :-) print p1
+[stanczyk] :-) [stanczyk] :-) record q432
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) p2=project (delivery) (producer)
+[stanczyk] :-) print p2
+[stanczyk] :-) [stanczyk] :-) record q433
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) p3=select (stock) ((branch='L1')and(date_out='INSTOCK'))
+[stanczyk] :-) p4=project (p3) (sell_price,cost_price) 
+[stanczyk] :-) print p4
+[stanczyk] :-) [stanczyk] :-) record divide
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) a1=(lc) product (q)
+[stanczyk] :-) a2=project (a1) (lecturer,subject)
+[stanczyk] :-) rename (a2.subject) (course)
+[stanczyk] :-) a3=(a2) intersect (lc)
+[stanczyk] :-) a4=project (a3)(lecturer)
+[stanczyk] :-) print a4
+[stanczyk] :-) [stanczyk] :-) record open
+[stanczyk] :-) > This is the Stanczyk database. Examples are taken from
+[stanczyk] :-) > 'Theory and Practice of relational databases'.
+[stanczyk] :-) > This database has a number of useful examples that
+[stanczyk] :-) > clearly demonstrate the relational algebra.
+[stanczyk] :-) [stanczyk] :-) record ex44
+[stanczyk] :-) [stanczyk] :-) [stanczyk] :-) [stanczyk] :-) equij=join (r) (s) ((r.b=s.x) and (r.d=s.y))
+[stanczyk] :-) print equij
+[stanczyk] :-) njoin=natjoin (r) (s)
+[stanczyk] :-) print njoin
+[stanczyk] :-) [stanczyk] :-) create date
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [date] database...
+Message: Creating hash table for [leapscripts].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+[stanczyk] :-) use date
+Resetting all updated flags: Done.
+Updating hash tables: auction book delivery ex_auth ex_book ex_publi example goods index lc leapattributes leaprel leapscripts leaptypes q r relship s stock subject 
+Message: Opening the [date] database...
+[date] :-) relation (a) ((s,STRING,3),(sname,STRING,10),(status,STRING,6),(city,STRING,10))
+[date] :-) add (a) (S1,SMITH,20,LONDON)
+[date] :-) add (a) (S4,CLARK,20,LONDON)
+[date] :-) relation (b) ((s,STRING,3),(sname,STRING,10),(status,STRING,6),(city,STRING,10))
+[date] :-) add (b) (S1,SMITH,20,LONDON)
+[date] :-) add (b) (S2,JONES,10,PARIS)
+[date] :-) relation (dend) ((s#,STRING,2),(p#,STRING,2))
+[date] :-) add (dend) (S1,P1NES)
+[date] :-) add (dend) (S1,P2NES)
+[date] :-) add (dend) (S1,P3NES)
+[date] :-) add (dend) (S1,P4NES)
+[date] :-) add (dend) (S1,P5NES)
+[date] :-) add (dend) (S1,P6NES)
+[date] :-) add (dend) (S2,P1NES)
+[date] :-) add (dend) (S2,P2NES)
+[date] :-) add (dend) (S3,P2NES)
+[date] :-) add (dend) (S4,P2NES)
+[date] :-) add (dend) (S4,P4NES)
+[date] :-) add (dend) (S4,P5NES)
+[date] :-) relation (dor1) ((p#,STRING,2))
+[date] :-) add (dor1) (P1)
+[date] :-) relation (dor2) ((p#,STRING,2))
+[date] :-) add (dor2) (P2)
+[date] :-) add (dor2) (P4)
+[date] :-) relation (dor3) ((p#,STRING,2))
+[date] :-) add (dor3) (P1)
+[date] :-) add (dor3) (P2)
+[date] :-) add (dor3) (P3)
+[date] :-) add (dor3) (P4)
+[date] :-) add (dor3) (P5)
+[date] :-) add (dor3) (P6)
+[date] :-) relation (p) ((pnum,STRING,4),(pname,STRING,5),(color,STRING,5),(weight,INTEGER,4),(city,STRING,10))
+[date] :-) add (p) (P1,NUT,RED,12,LONDON)
+[date] :-) add (p) (P2,BOLT,GREEN,17,PARIS)
+[date] :-) add (p) (P3,SCREW,BLUE,17,ROME)
+[date] :-) add (p) (P4,SCREW,RED,14,LONDON)
+[date] :-) add (p) (P5,CAM,BLUE,12,PARIS)
+[date] :-) add (p) (P6,COG,RED,19,LONDON)
+[date] :-) relation (s) ((snum,STRING,4),(sname,STRING,5),(status,INTEGER,4),(city,STRING,10))
+[date] :-) add (s) (S1,SMITH,20,LONDON)
+[date] :-) add (s) (S2,JONES,10,PARIS)
+[date] :-) add (s) (S3,BLAKE,30,PARIS)
+[date] :-) add (s) (S4,CLARK,20,LONDON)
+[date] :-) add (s) (S5,ADAMS,30,ATHENS)
+[date] :-) relation (sp) ((snum,STRING,4),(pnum,STRING,4),(qty,INTEGER,4))
+[date] :-) add (sp) (S1,P1,300)
+[date] :-) add (sp) (S1,P2,200)
+[date] :-) add (sp) (S1,P3,400)
+[date] :-) add (sp) (S1,P4,200)
+[date] :-) add (sp) (S1,P5,100)
+[date] :-) add (sp) (S1,P6,100)
+[date] :-) add (sp) (S2,P1,300)
+[date] :-) add (sp) (S2,P2,400)
+[date] :-) add (sp) (S3,P2,200)
+[date] :-) add (sp) (S4,P2,200)
+[date] :-) add (sp) (S4,P4,300)
+[date] :-) add (sp) (S4,P5,400)
+[date] :-) [date] :-) [date] :-) [date] :-) add (relship) (s,p,city,-,-,city)
+[date] :-) record datd1
+[date] :-) [date] :-) [date] :-) datd1=(a) difference (b)
+[date] :-) print datd1
+[date] :-) [date] :-) record datd2
+[date] :-) [date] :-) [date] :-) datd2=(b) minus (a)
+[date] :-) print datd2
+[date] :-) [date] :-) record dati1
+[date] :-) [date] :-) dati=(a) intersect (b)
+[date] :-) print dati
+[date] :-) [date] :-) record datu1
+[date] :-) [date] :-) [date] :-) datu=(a) union (b)
+[date] :-) print datu
+[date] :-) [date] :-) record closure
+[date] :-) [date] :-) closure=select (join (s) (p) (s.city=p.city)) (weight>'18')
+[date] :-) print closure
+[date] :-) [date] :-) record project
+[date] :-) [date] :-) pro1=project (s) (city)
+[date] :-) print pro1
+[date] :-) pro2=project (p) (color,city)
+[date] :-) print pro2
+[date] :-) pro3=project (select (s) (city='PARIS')) (snum)
+[date] :-) print pro3
+[date] :-) [date] :-) record rename
+[date] :-) [date] :-) delete renm
+[date] :-) > First, we make a copy of the s relation, so we don't
+[date] :-) > mess up the important relations
+[date] :-) renm=duplicate (s) 
+[date] :-) > Now we look at the attributes
+[date] :-) describe renm
+[date] :-) > Ok, lets rename "city" to "scity"
+[date] :-) rename (renm.city) (scity)
+[date] :-) > Check...
+[date] :-) describe renm
+[date] :-) > Done.
+[date] :-) [date] :-) record product
+[date] :-) [date] :-) prd=(project (a) (s)) product (project (b) (s))
+[date] :-) [date] :-) record select
+[date] :-) [date] :-) sel1=select (s) (city='LONDON')
+[date] :-) print sel1
+[date] :-) sel2=select (p) (weight<'14')
+[date] :-) print sel2
+[date] :-) sel3=select (sp) ( (snum='S1') and (pnum='P1'))
+[date] :-) print sel3
+[date] :-) [date] :-) record njoin
+[date] :-) [date] :-) [date] :-) > This is a kludged natural join...
+[date] :-) display (project (join (s) (p) (s.city=p.city)) (snum,sname,status,city,pnum,pname,color,weight))
+[date] :-) > If relship is defined properly:
+[date] :-) display (select (relship) ((prelation="p") and (frelation="s")))
+[date] :-) > This is a proper natural join.
+[date] :-) join (s) (p) 
+[date] :-) print @last
+[date] :-) [date] :-) record ex661
+[date] :-) [date] :-) > Get supplier names for suppliers who supply part p2
+[date] :-) ex661=project (select (join (sp) (s) (sp.snum=s.snum)) (pnum='P2')) (sname)
+[date] :-) print ex661
+[date] :-) [date] :-) record tjoin
+[date] :-) [date] :-) join (s) (p) (s.city>p.city)
+[date] :-) print @last
+[date] :-) [date] :-) record a_div
+[date] :-) [date] :-) adiv1=(dend) product (dor1)
+[date] :-) adiv2=project (adiv1) (s#,dor1.p#)
+[date] :-) rename (adiv2.dor1.p#) (p#)
+[date] :-) adiv3=(adiv2) intersect (dend)
+[date] :-) adiv4=project (adiv3)(s#)
+[date] :-) print adiv4
+[date] :-) [date] :-) record te_div
+[date] :-) [date] :-) cdiv1=(dend) product (dor1)
+[date] :-) cdiv2=project (cdiv1) (s#,dor1.p#)
+[date] :-) rename (cdiv2.dor1.p#) (p#)
+[date] :-) cdiv3=(cdiv2) intersect (dend)
+[date] :-) cdiv4=project (cdiv3)(s#)
+[date] :-) print cdiv4
+[date] :-) [date] :-) record ex662
+[date] :-) [date] :-) > Get supplier names for suppliers who supply at least one red part
+[date] :-) pta=select (p) (color='RED')
+[date] :-) ptb=join (pta) (sp) (pta.pnum=sp.pnum)
+[date] :-) ptc=project (ptb) (snum)
+[date] :-) ptd=join (ptc) (s) (ptc.snum=s.snum)
+[date] :-) pte=project (ptd) (sname)
+[date] :-) print pte
+[date] :-) [date] :-) record b_div
+[date] :-) [date] :-) bdiv1=(dend) product (dor2)
+[date] :-) bdiv2=project (bdiv1) (s#,dor2.p#)
+[date] :-) rename (bdiv2.dor2.p#) (p#)
+[date] :-) bdiv3=(bdiv2) difference (dend)
+[date] :-) bdiv4=project (bdiv3)(s#)
+[date] :-) print bdiv4
+[date] :-) [date] :-) record c_div
+[date] :-) [date] :-) cdiv1=(dend) product (dor1)
+[date] :-) cdiv2=project (cdiv1) (s#,dor1.p#)
+[date] :-) rename (cdiv2.dor1.p#) (p#)
+[date] :-) cdiv3=(cdiv2) intersect (dend)
+[date] :-) cdiv4=project (cdiv3)(s#)
+[date] :-) print cdiv4
+[date] :-) [date] :-) record open
+[date] :-) > This is the Date database. Examples are taken from
+[date] :-) > 'An introduction to database systems' by C.J.Date
+[date] :-) [date] :-) create korth
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Opening the [korth] database...
+Message: Creating hash table for [leapscripts].
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+[date] :-) use korth
+Resetting all updated flags: Done.
+Updating hash tables: a b dend dor1 dor2 dor3 leapattributes leaprel leapscripts leaptypes p relship s sp 
+Message: Opening the [korth] database...
+[korth] :-) relation (borrow) ((bo_branch,STRING,255),(bo_lnum,INTEGER,4),(bo_cuname,STRING,255),(bo_amount,INTEGER,4))
+[korth] :-) add (borrow) (DOWNTOWN,0,JONES,0)
+[korth] :-) add (borrow) (REDWOOD,0,SMITH,0)
+[korth] :-) add (borrow) (PERRYRIDGE,0,HAYES,0)
+[korth] :-) add (borrow) (DOWNTOWN,0,JACKSON,0)
+[korth] :-) add (borrow) (MIANUS,0,CURRY,0)
+[korth] :-) add (borrow) (ROUND HILL,0,TURNER,0)
+[korth] :-) add (borrow) (POWNALL,0,WILLIAMS,0)
+[korth] :-) add (borrow) (NORTH TOWN,0,ADAMS,0)
+[korth] :-) add (borrow) (DOWNTOWN,0,JOHNSON,0)
+[korth] :-) add (borrow) (PERRYRIDGE,0,GLENN,0)
+[korth] :-) add (borrow) (BRIGHTON,0,BROOKS,0)
+[korth] :-) relation (branch) ((br_branch,STRING,255),(br_assets,INTEGER,4),(br_city,STRING,255))
+[korth] :-) add (branch) (DOWNTOWN,0,BROOKLYN)
+[korth] :-) add (branch) (REDWOOD,0,PALO ALTO)
+[korth] :-) add (branch) (PERRYRIDGE,0,HORSENECK)
+[korth] :-) add (branch) (MIANUS,0,HORSENECK)
+[korth] :-) add (branch) (ROUND HILL,0,HORSENECK)
+[korth] :-) add (branch) (POWNAL,0,BENNINGTON)
+[korth] :-) add (branch) (NORTH TOWN,0,RYE)
+[korth] :-) add (branch) (BRIGHTON,0,BROOKLYN)
+[korth] :-) relation (client) ((cl_name,STRING,255),(cl_banker,STRING,255))
+[korth] :-) add (client) (TURNER,JOHNSON)
+[korth] :-) add (client) (HAYES,JONES)
+[korth] :-) add (client) (JOHNSON,JOHNSON)
+[korth] :-) relation (customer) ((cu_name,STRING,255),(cu_street,STRING,255),(cu_city,STRING,255))
+[korth] :-) add (customer) (JONES,MAIN,HARRISON)
+[korth] :-) add (customer) (SMITH,NORTH,RYE)
+[korth] :-) add (customer) (HAYES,MAIN,HARRISON)
+[korth] :-) add (customer) (CURRY,NORTH,RYE)
+[korth] :-) add (customer) (LINDSAY,PARK,PITTSFIELD)
+[korth] :-) add (customer) (TURNER,PUTNAM,STAMFORD)
+[korth] :-) add (customer) (WILLIAMS,NASSAU,PRINCETON)
+[korth] :-) add (customer) (ADAMS,SPRING,PITTSFIELD)
+[korth] :-) add (customer) (JOHNSON,ALMA,PALO ALTO)
+[korth] :-) add (customer) (GLENN,SAND HILL,WOODSIDE)
+[korth] :-) add (customer) (BROOKS,SENATOR,BROOKLYN)
+[korth] :-) add (customer) (GREEN,WALNUT,STAMFORD)
+[korth] :-) record kor1
+[korth] :-) [korth] :-) [korth] :-) kor1=select (borrow) (bo_branch='PERRYRIDGE')
+[korth] :-) print kor1
+[korth] :-) [korth] :-) record kor2
+[korth] :-) [korth] :-) [korth] :-) kor2=select (borrow) (borrow.bo_amount>'1200')
+[korth] :-) [korth] :-) record kor3
+[korth] :-) [korth] :-) [korth] :-) kor3=select(borrow) ((borrow.bo_amount>'1200') and (borrow.bo_branch='PERRYRIDGE'))
+[korth] :-) print kor3
+[korth] :-) [korth] :-) record korpj
+[korth] :-) [korth] :-) [korth] :-) korpj=project(join (customer) (borrow) (customer.cu_name=borrow.bo_cuname)) (bo_cuname,cu_city)
+[korth] :-) print korpj
+[korth] :-) [korth] :-) record korpj2
+[korth] :-) [korth] :-) [korth] :-) korpj2=project( select(join (borrow) (branch) (borrow.bo_branch=branch.br_branch)) (br_city='HORSENECK')) (bo_cuname)
+[korth] :-) print korpj2
+[korth] :-) [korth] :-) record korpr1
+[korth] :-) [korth] :-) [korth] :-) korpr1=(client) product (customer)
+[korth] :-) print korpr1
+[korth] :-) [korth] :-) record kors1
+[korth] :-) [korth] :-) [korth] :-) kors1=select(select ((client) product (customer)) (cl_banker='JOHNSON')) (cl_name=cu_name)
+[korth] :-) print kors1
+[korth] :-) [korth] :-) quit
+Message: Closing [korth] database.
+Resetting all updated flags: Done.
+Updating hash tables: borrow branch client customer leapattributes leaprel leapscripts leaptypes relship 
+Message: Closing [master] database.
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leapdata leaprel leapscripts leaptypes relship 
+Message: Closing [tempdb] database.
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship zzbabb zzbkin zzcuap* zzejrx zzeskn zzfqno zzfyju zzjamj* zzkffm zzmfjt zzppxr zzroka zzsbzt zzvmpq zzwibz* 
+Message: LEAP Configuration completed successfully!
+================================================================================
+LEAP has now been installed on your system.
+
+In order to get some idea as to where LEAP is installed, and (more importantly)
+what sort of systems it is installed on (to allow a better porting focus),
+**WITH YOUR PERMISSION**, after the prompt, an e-mail will be sent to
+userid@acm.org
+
+(You may abort this script by pressing CTRL-C at any point)
+
+This is the information that will be sent after the prompt:
+(between the seperators)
+-----------------------------------------------------------------------
+Subject: LEAP 1.2.5 (Linux) Installation notification
+LEAP has been installed on the following system:
+Machine architecture: Linux dogbert 2.4.2-ac28 #3 Wed May 2 17:04:42 BST 2001 i686 unknown
+LEAP version info (leap -v):
+LEAP 1.2.5.2 - An extensible and free RDBMS
+Copyright (C) 1997-2001 Richard Leyton.
+-----------------------------------------------------------------------
+If you wish to send this message, press ENTER now.
+If you DO NOT wish to send the message, type . then ENTER
+
+NOTHING will be sent until you press enter.
+.
+*** NO message has been sent ***
+
+
+
+===============================================================================
+There is a low volume mailing list for LEAP announcements. If you would like
+to subscribe, enter >y< below. If you'd rather not subscribe, type . then ENTER
+===============================================================================
+.
+*** NO subscription message sent ***
+
+If you would like to subscribe at a later date, please visit
+http://lists.sourceforge.net/lists/listinfo/leap-announce
+userid @ dogbert > ./leap
+LEAP 1.2.5.2 - An extensible and free RDBMS
+Copyright (C) 1997-2001 Richard Leyton.
+
+LEAP comes with ABSOLUTELY NO WARRANTY; for details type "warranty".
+This is free software, and you are welcome to redistribute it
+under certain conditions; type "copying" for details.
+
+[NON-FATAL] #2 - Error opening file [./configs/vars].
+Message: No variables set!
+Message: Directory specified [./] not valid. Trying [../]
+Message: Debug level set to: 0
+Message: Minimum debug level set to: 0
+Message: Variables are now set.
+Message: Applying command line options...
+Message: Completed application of command line options...
+Message: LEAP is starting...
+Message: Opening the [tempdb] database...
+Message: Creating hash table for [zzkusk].
+Message: Opening the [master] database...
+Message: Opening the [user] database...
+Message: Startup sequence initiated.
+Message: Sourcing startup.src in master
+[user] :-) 
+Message: Sourcing open.src in user
+[user] :-) [user] :-) 
+[user] :-) list
+NAME                      TEMP  SYSTEM 
+------------------------- ----- ------ 
+leaprel                   FALSE TRUE   
+leapscripts               FALSE TRUE   
+leapattributes            FALSE TRUE   
+leaptypes                 FALSE TRUE   
+relship                   FALSE TRUE   
+Message: Relation zzezlw returned.
+[user] :-) exit
+Message: Closing [user] database.
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship 
+Message: Closing [master] database.
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leapdata leaprel leapscripts leaptypes relship 
+Message: Closing [tempdb] database.
+Resetting all updated flags: Done.
+Updating hash tables: leapattributes leaprel leapscripts leaptypes relship zzbabb zzbkin zzejrx zzeskn zzezlw* zzfqno zzfyju zzgcva* zzkffm zzkusk* zzmfjt zznuur* zzppxr zzroka zzsbzt zzvmpq 
+
+Please send all comments, bugs, suggestions etc. to:
+userid@acm.org
+
+Latest versions are available via anonymous ftp:
+All   - ftp.demon.co.uk/pub/compsci/databases/leap
+Un*x  - sunsite.unc.edu/pub/Linux/apps/database/relational
+
+For up to date information, ftp sites, and developments - see
+the LEAP Web Page at http://leap.sourceforge.net
+
+For announcements, and information, join the LEAP mailing
+list by sending a one line e-mail to: majordomo@brookes.ac.uk
+containing "subscribe leap" in the body of the message.
+
+Message: LEAP Terminated successfully!
+userid @ dogbert > 
+Script done on Thu May  3 16:20:14 2001

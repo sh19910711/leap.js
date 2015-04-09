@@ -1,0 +1,207 @@
+###
+# Install script for the C.J.Date demo data base
+# install.date.src,v 1.2 2001/05/29 10:06:34 rleyton Exp
+# LEAP Installation script. source the file from with LEAP, or
+# execute with ./leap -c ../scripts/install.date.src
+###
+set temporary off
+create date
+use date
+relation (a) ((s,STRING,3),(sname,STRING,10),(status,STRING,6),(city,STRING,10))
+add (a) (S1,SMITH,20,LONDON)
+add (a) (S4,CLARK,20,LONDON)
+relation (b) ((s,STRING,3),(sname,STRING,10),(status,STRING,6),(city,STRING,10))
+add (b) (S1,SMITH,20,LONDON)
+add (b) (S2,JONES,10,PARIS)
+relation (dend) ((s#,STRING,2),(p#,STRING,2))
+add (dend) (S1,P1NES)
+add (dend) (S1,P2NES)
+add (dend) (S1,P3NES)
+add (dend) (S1,P4NES)
+add (dend) (S1,P5NES)
+add (dend) (S1,P6NES)
+add (dend) (S2,P1NES)
+add (dend) (S2,P2NES)
+add (dend) (S3,P2NES)
+add (dend) (S4,P2NES)
+add (dend) (S4,P4NES)
+add (dend) (S4,P5NES)
+relation (dor1) ((p#,STRING,2))
+add (dor1) (P1)
+relation (dor2) ((p#,STRING,2))
+add (dor2) (P2)
+add (dor2) (P4)
+relation (dor3) ((p#,STRING,2))
+add (dor3) (P1)
+add (dor3) (P2)
+add (dor3) (P3)
+add (dor3) (P4)
+add (dor3) (P5)
+add (dor3) (P6)
+relation (p) ((pnum,STRING,4),(pname,STRING,5),(color,STRING,5),(weight,INTEGER,4),(city,STRING,10))
+add (p) (P1,NUT,RED,12,LONDON)
+add (p) (P2,BOLT,GREEN,17,PARIS)
+add (p) (P3,SCREW,BLUE,17,ROME)
+add (p) (P4,SCREW,RED,14,LONDON)
+add (p) (P5,CAM,BLUE,12,PARIS)
+add (p) (P6,COG,RED,19,LONDON)
+relation (s) ((snum,STRING,4),(sname,STRING,5),(status,INTEGER,4),(city,STRING,10))
+add (s) (S1,SMITH,20,LONDON)
+add (s) (S2,JONES,10,PARIS)
+add (s) (S3,BLAKE,30,PARIS)
+add (s) (S4,CLARK,20,LONDON)
+add (s) (S5,ADAMS,30,ATHENS)
+relation (sp) ((snum,STRING,4),(pnum,STRING,4),(qty,INTEGER,4))
+add (sp) (S1,P1,300)
+add (sp) (S1,P2,200)
+add (sp) (S1,P3,400)
+add (sp) (S1,P4,200)
+add (sp) (S1,P5,100)
+add (sp) (S1,P6,100)
+add (sp) (S2,P1,300)
+add (sp) (S2,P2,400)
+add (sp) (S3,P2,200)
+add (sp) (S4,P2,200)
+add (sp) (S4,P4,300)
+add (sp) (S4,P5,400)
+###
+# add relationships
+###
+add (relship) (s,p,city,-,-,city)
+record datd1
+# This example is taken from DAT90.
+# Note that DIFFERENCE and MINUS are the same.
+datd1=(a) difference (b)
+print datd1
+.
+record datd2
+# This example is taken from DAT90.
+# Note that DIFFERENCE and MINUS are the same.
+datd2=(b) minus (a)
+print datd2
+.
+record dati1
+# This example is taken from DAT90.
+dati=(a) intersect (b)
+print dati
+.
+record datu1
+# This example is taken from DAT90.
+# Demonstrates the UNION operation.
+datu=(a) union (b)
+print datu
+.
+record closure
+# Script from Date to demonstrate relational closure
+closure=select (join (s) (p) (s.city=p.city)) (weight>'18')
+print closure
+.
+record project
+# Script from Date to demonstrate product
+pro1=project (s) (city)
+print pro1
+pro2=project (p) (color,city)
+print pro2
+pro3=project (select (s) (city='PARIS')) (snum)
+print pro3
+.
+record rename
+# Script from Date to demonstrate rename operator
+delete renm
+> First, we make a copy of the s relation, so we don't
+> mess up the important relations
+renm=duplicate (s) 
+> Now we look at the attributes
+describe renm
+> Ok, lets rename "city" to "scity"
+rename (renm.city) (scity)
+> Check...
+describe renm
+> Done.
+.
+record product
+# Script from Date to demonstrate product
+prd=(project (a) (s)) product (project (b) (s))
+.
+record select
+# Script from Date to demonstrate product
+sel1=select (s) (city='LONDON')
+print sel1
+sel2=select (p) (weight<'14')
+print sel2
+sel3=select (sp) ( (snum='S1') and (pnum='P1'))
+print sel3
+.
+record njoin
+# Script from Date to demonstrate how natural
+# join is cludged in LEAP!
+> This is a kludged natural join...
+display (project (join (s) (p) (s.city=p.city)) (snum,sname,status,city,pnum,pname,color,weight))
+> If relship is defined properly:
+display (select (relship) ((prelation="p") and (frelation="s")))
+> This is a proper natural join.
+join (s) (p) 
+print @last
+.
+record ex661
+# Script from Date - Example 6.6.1
+> Get supplier names for suppliers who supply part p2
+ex661=project (select (join (sp) (s) (sp.snum=s.snum)) (pnum='P2')) (sname)
+print ex661
+.
+record tjoin
+# Script from Date to demonstrate how theta join works
+join (s) (p) (s.city>p.city)
+print @last
+.
+record a_div
+# Script from Date to demonstrate division - First example
+adiv1=(dend) product (dor1)
+adiv2=project (adiv1) (s#,dor1.p#)
+rename (adiv2.dor1.p#) (p#)
+adiv3=(adiv2) intersect (dend)
+adiv4=project (adiv3)(s#)
+print adiv4
+.
+record te_div
+# Script from Date to demonstrate division - Third example
+cdiv1=(dend) product (dor1)
+cdiv2=project (cdiv1) (s#,dor1.p#)
+rename (cdiv2.dor1.p#) (p#)
+cdiv3=(cdiv2) intersect (dend)
+cdiv4=project (cdiv3)(s#)
+print cdiv4
+.
+record ex662
+# Script from Date - Example 6.6.2
+> Get supplier names for suppliers who supply at least one red part
+pta=select (p) (color='RED')
+ptb=join (pta) (sp) (pta.pnum=sp.pnum)
+ptc=project (ptb) (snum)
+ptd=join (ptc) (s) (ptc.snum=s.snum)
+pte=project (ptd) (sname)
+print pte
+.
+record b_div
+# Script from Date to demonstrate division - Second example
+bdiv1=(dend) product (dor2)
+bdiv2=project (bdiv1) (s#,dor2.p#)
+rename (bdiv2.dor2.p#) (p#)
+bdiv3=(bdiv2) difference (dend)
+bdiv4=project (bdiv3)(s#)
+print bdiv4
+.
+record c_div
+# Script from Date to demonstrate division - Third example
+cdiv1=(dend) product (dor1)
+cdiv2=project (cdiv1) (s#,dor1.p#)
+rename (cdiv2.dor1.p#) (p#)
+cdiv3=(cdiv2) intersect (dend)
+cdiv4=project (cdiv3)(s#)
+print cdiv4
+.
+record open
+> This is the Date database. Examples are taken from
+> 'An introduction to database systems' by C.J.Date
+.
+quit

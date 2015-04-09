@@ -1,0 +1,18 @@
+README,v 1.2 2001/04/30 20:46:37 rleyton Exp
+
+This directory contains a copy of ALL the files that I have received from
+Curt Hill. I'm simply checking them into CVS to make them available to
+others.
+
+Curt Hill, the author of WinLEAP, wrote this, back in October 1998:
+
+"As to the source: This is built in C++Builder from Borland.  This is why I
+was able to put it together quickly. There is probably less than 500 lines
+of code.  However, porting that to their version 4.5 or 5.0 system would be
+near impossible, since it uses the VCL and the language extensions that
+allow the Rapid App Develement. "
+
+Regards,
+
+Richard Leyton
+29/April/2001

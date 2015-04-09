@@ -1,0 +1,91 @@
+Thankyou for downloading LEAP! Hopefully you'll find it relatively straight-
+forward and easy to compile, run and use LEAP. This file should serve
+as a good starting point for new comers, and point you in the right
+direction.
+
+If you're not happy compiling, you might be interested in the pre-compiled
+versions of LEAP for various OS platforms, including Linux, FreeBSD,
+Solaris, and Windows.
+
+A new book has been published, which includes a good overview of the
+relational algebra, and has a chapter on LEAP. "Theory and Practice of
+Relational Databases", 2nd Edition, by Stefan Stanczyk, Bob Champion, and
+Richard Leyton, Published by an Taylor & Francis ; ISBN: 0415247020
+(Softback), 0415247012 (Hardback).
+
+For more information, visit: http://www.theorypractice.org
+
+This version of LEAP ties in closely with this book. The example database
+installed by default (tandp) is taken from the books examples.
+
+For more information, there are a number of files included in this
+distribution.
+
+See file `COPYING' for copying conditions.
+See file `INSTALL' for generic compilation and installation instructions.
+See below for LEAP compilation options.
+See also src/README for a quick intro to compiling, and overcoming some
+    common problems.
+See file `NEWS' for list of major changes to the current release.
+See file `INTRO` for a brief introduction to LEAP.
+See directory `DOC' for various documents and usage instructions.
+See file 'scripts/users/README' for setting up a small footprint installation.
+
+Check that you have the latest version. Check the above web sites, or send
+e-mail to rleyton@acm.org. I endevour to release a new version every month
+or two.
+
+Join the LEAP mailing list to receive announcements and information regarding
+LEAP, and exchange ideas and comments. Visit:
+
+http://lists.sourceforge.net/lists/listinfo/leap-announce
+
+to subscribe, or run the "notify" script located in the scripts directory.
+
+Send bug reports to rleyton@acm.org with an adequate description of the
+problem: your input, what you expected, what you got, and why this is wrong.
+Diffs are welcome, but they only describe a solution, from which the problem
+might be uneasy to infer. Also, visit http://sf.net/projects/leap to submit
+a bug description.
+
+LEAP Compilation options
+------------------------
+LEAP supports the readline libraries if they are installed. The readline
+libraries allow command line history and command editing. Versions 2.0 and
+2.1 are known to work. 
+
+For more information see Q2.0 in the LEAP FAQ. This is available via the
+LEAP website: http://leap.sf.net
+
+Debug output can also be disabled, see Q2.1 in the FAQ for details, but
+briefly run configure with '--disable-debug' and recompile.
+
+
+
+ * Name: README
+ * Description: README file, and brief introduction
+ * Version: README,v 1.205 2001/07/04 21:52:32 uid21800 Exp
+ *
+ *   LEAP - An extensible and free RDBMS
+ *   Copyright (C) 1995-2001 Richard Leyton
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *   See the file COPYING for more information.
+ *
+ *   Richard Leyton, 30c Bassein Park Road, London, W12 9RZ, UK
+ *   rleyton@acm.org
+ *   http://leap.sourceforge.net
+ *

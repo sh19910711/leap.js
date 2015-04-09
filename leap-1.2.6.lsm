@@ -1,0 +1,17 @@
+Begin3
+Title: LEAP RDBMS
+Version: 1.2.6
+Entered-date: 18AUG01
+Description: LEAP is a relational database management system that supports
+	the relational algebra as its query language. This makes it ideal
+	for assisting study of database theory. LEAP is used in a number
+	of institutions around the world. See also:
+	http://leap.sourceforge.net and http://www.theorypractice.org 
+Keywords: Relational, Algebra, Database.
+Author: rleyton@acm.org (Richard Leyton)
+Primary-site: sunsite.unc.edu  /pub/Linux/apps/databases/relational
+              212k leap-1.2.6.tar.gz
+Alternate-site: http://www.sourceforge.net/projects/leap
+Alternate-site: ftp.demon.co.uk /pub/compsci/databases/leap
+Copying-policy: GPL
+End

@@ -1,0 +1,112 @@
+#!/bin/sh 
+# leapinstall,v 1.201 2001/04/26 12:53:02 rleyton Exp
+# Name: leapinstall
+# Author: Richard Leyton
+# Revision History:
+# RiL 01/4/98 - Brookes changes rolled into main LEAP tree.
+# apw 30/1/98 - modified for Brookes University
+# RiL 26/1/98 - originally written
+
+###
+# This can be changed to force a particular source directory.
+# Make sure the file is readonly/executable! (555)
+###
+#basedir="/soft/leap-1.2"
+
+###
+# This simply defines the source tar file.
+###
+basefile="leap_base.tar"
+
+# If basedir variable is not set, get a value.
+if [ -z "$basedir" ]
+then
+		echo "Enter the LEAP installation source directory:"
+		read basedir
+fi
+
+if [ ! -f "$basedir/$basefile" ]
+then
+		echo "LEAP base installation file ($basefile) doesn't exist!"
+		exit 1
+fi
+
+###
+# Check basedir has been set.
+###
+if [ -z "$basedir" ]
+then
+        echo "No base directory specified. Unable to proceed."
+        exit 1
+fi
+
+leapdir='leap'
+tdir=`pwd`
+# Get the home directory 
+HOME=`finger -m $USER | head -2 | tail -1 | awk '{print $2}'`
+
+echo "Enter leap target directory [$HOME/$leapdir]"
+read target
+
+if [ -z "$target" ]
+then
+        target=$HOME/$leapdir
+fi
+
+if [ -d $target ]
+then
+        echo "Warning target directory $target already exists"
+        echo "Continue y/n [y]"
+        read ans
+        if [ "$ans" = "" ]
+        then
+                ans="y"
+        fi
+        if [ "$ans" = "n" -o "$ans" = "N" ]
+        then
+                echo "Exiting"
+                exit 2
+        fi
+        echo
+        echo "Delete current Installation in $target y/n [y]"
+        read ans
+        if [ "$ans" = "" ]
+        then
+                ans="y"
+        fi
+        if [ "$ans" = "n" -o "$ans" = "N" ]
+        then
+                echo "Will overwrite existing files"
+                sleep 2
+        else
+                echo "Removing existing installation $target"
+                sleep 2
+                rm -r $target
+        fi
+fi
+
+if [ ! -d $target ]
+then
+        mkdir $target
+        if [ ! -d $target ]
+        then
+                echo "Unable to create $target. Is that the correct path? Permissions?"
+                exit 1
+        fi
+        echo "Created Directory: $target"
+fi
+
+odir=`pwd`
+cd $target
+echo "Copying files, Please wait"
+tar xf $odir/$basedir/leap_base.tar
+ERROR="$?"
+if [ "$ERROR" != 0 ]
+then
+        echo "Failed to install"
+        exit 1
+fi
+
+echo $target > $HOME/.leapdir
+
+echo "Completed."

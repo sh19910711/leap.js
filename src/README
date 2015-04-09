@@ -1,0 +1,93 @@
+ * Name: README
+ * Description: Introductory file on LEAP C distribution
+ * Version: README,v 1.202 2001/08/18 17:42:14 rleyton Exp
+ *
+ *   LEAP - An extensible and free RDBMS
+ *   Copyright (C) 1996-2001 Richard Leyton
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ *   See the file COPYING for more information.
+ *
+ *   Richard Leyton, 30c Bassein Park Road, London, W12 9RZ, UK
+ *   rleyton@acm.org
+ *   http://leap.sourceforge.net
+
+Introduction
+------------
+This is LEAP, an extensible relational algebra processor and relational
+database management system. 
+
+First things first
+------------------
+If you're anything like me, the first thing you try to do is compile the
+program. RTFM after! Well, you're in luck, if you type:
+
+configure
+THEN (If you have makedepend, you can skip this step if you don't)
+make depend 
+THEN
+make
+THEN
+make install
+
+You should get a nice clean compile. See the file INSTALL for more information.
+
+Problems I've encountered when porting to various architectures include (in
+no particular order):
+
+1. Incorrect compiler used, or incorrect flags. HP's for example, default
+to K&R, and you have to pass the -Aa or -Ae flag to get ANSI standard
+features, which LEAP uses.
+
+2. configure not locating appropriate files - This is annoying, and you
+might have to edit the config.cache to force it to think files exist. The
+main trip up is the dirent/dir structs, which reside in /usr/include and
+/usr/include/sys, in dirent.h, ndir.h, or somesuch. I've also occasionally
+had trouble with errno and values (see point 4)
+
+3. #ifdef's not being liked. Some compilers occasionally complain about
+one or two ifdefs in the code. Remove anything that doesn't appear 
+like it'd be used (DEBUG, MSDOS, FULL_DEBUG are the main ones). Some
+compilers insist on # being at char 1, so relocate if necessary (I
+try to put them at the start for just that reason. Let me know if 
+any slip by).
+
+4. Lack of ANSI C libraries/defines. This caused big headaches when I first
+encountered it. It might mean having to fool the compiler, by doing a
+manual define, eg. of FILENAME_MAX or somesuch.
+
+If you find a problem you've experienced, please let me know how you've
+gone about fixing it, so I can add it here for others. It bugs me so much
+when I get a piece of free software and have to spend an afternoon hacking it
+to work whilst developers clammer me for it (emacs is my fav. example), and
+a section like this in every piece of software would help lots of people.
+
+Development Standards
+---------------------
+Want to fix a problem? Check out DEVELOPMENT for a brief rundown on the
+development standards I am trying to follow. Note that it is still incomplete,
+and a bit over complete in other details. Check out COPYING as well.
+
+Deltas
+------
+doc/history.dev Contains various larger scale changes to LEAP in general.
+NEWS contains the major changes most likely to be of interest.
+
+GNU General Public License
+--------------------------
+See the file COPYING for more details.
+
+

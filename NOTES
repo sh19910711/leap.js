@@ -1,0 +1,84 @@
+# NOTES,v 1.201 2001/04/26 12:42:05 rleyton Exp
+#
+# Release Notes.
+# 
+# Please read these in detail for the version you are running.
+# It may make the difference between a successful or unsuccessful
+# first time run of the program.
+#
+
+LEAP 1.2
+--------
+
++++ Fresh install
+
+LEAP 1.2 has undergone quite a bit of change. Before you rush into
+running LEAP, be aware that you must install the databases. 
+
+1. Install LEAP
+2. "make install" to build the databases
+
++++ Upgrading a previous database set.
+
+1. Install new LEAP distribution
+2. Copy the database directory from old installation
+3. in the database directory (but NOT in each db) run ../scripts/upgrade
+
+If you are upgrading from LEAP 1.0, you should make sure
+that the master database in the directory structure you are using
+is a LEAP 1.2 version. The only change between 1.0 and 1.1.0
+is the addition of the "leaprel" relation. Put a copy of the .fld
+and .rel files into your old master directory, and the upgrade
+script should run just fine.
+
+What is happening when you run convert? LEAP is taking the ascii
+format relation/field files and converting them into a binary 
+representation suitable for your computer. Binary files are
+also notoriously difficult to move across architectures, so
+having an ASCII version in the distribution removes that risk.
+
++++ When things go wrong
+
+Unfortunately, I've got to be pessamistic when it comes to this
+release - there WILL be bugs. Heck, it is a Beta release. The
+way I dealt with bugs in the past when the new format relations
+were coming on line was to revert to the old format relations,
+then convert back to the new format again.
+
+This is easy, as there is a script called 'revert' in the scripts
+directory. Run it in just the same way as the 'convert' script, 
+ie. in the 'database' directory as '../scripts/revert', and it
+will remove the .relation files and *copy* the files from the
+oldfmt directory. Then you simply need to rerun the convert
+script.
+
++++ Reporting beta bugs (users)
+
+If the above is a bit overwhelming, then simply try and put together
+as much information as you can
+
+- The command you ran
+- The relation definition you used
+- The output from LEAP in debug mode (-e flag, or compiling with -DDEBUG)
+
++++ Reporting beta bugs (developers)
+
+If LEAP crashes, it will make my life much easier if you can
+try and analyse *why* it crashed. Send me as much information as possible,
+but core files will not be much use. Hopefully you'll have a debugger
+installed which you can run against the core file to determine exactly
+where the program crashed, something like:
+
+dogbert:~$ gdb leap core
+
+Typing (in gdb) 'info stack' and then stepping out of the library
+functions (if that is where it crashed) with some 'ups' until LEAP code
+is encountered, then typing 'list'. Print variable values with
+'print var'.
+
+Copies of relations are welcome too, but remember they are binary
+files, so encode them with uuencode or send with MIME.
+
+
+
+

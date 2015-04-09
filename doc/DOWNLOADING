@@ -1,0 +1,34 @@
+File version: DOWNLOADING,v 1.201 2001/04/26 12:50:18 rleyton Exp
+
+The best place to visit for information about LEAP is the sourceforge
+site:
+
+www.sourceforge.net/projects/leap
+
+and select the "Files" option.
+
+LEAP can be downloaded from a large number of FTP sites from around
+the world. The main Linux archives of sunsite.unc.edu, and tsx.mit.edu
+all hold LEAP in apps/databases and source/usr.bin respectively. 
+
+These sites are mirrored extensively around the world. The most up-to-date
+site is a web based site:
+
+http://leap.sourceforge.net/
+
+or via ftp:
+
+ftp://ftp.demon.co.uk/pub/compsci/databases/leap
+
+Closely followed by:
+
+ftp://sunsite.unc.edu/pub/Linux/apps/databases/relational
+
+Search the web for the nearest location using the following URL:
+
+http://filewatcher.org/filename-search/?q=leap-*
+
+See the LEAP web page for more (& current!) links.
+
+http://leap.sourceforge.net
+

@@ -1,0 +1,256 @@
+###
+# Install script
+# install.src,v 1.209 2001/07/18 09:56:54 rleyton Exp
+# LEAP Installation script. Run when installing LEAP for the
+# first time (./leap -c ../scripts/install.src) - or type
+# make install.
+###
+set temporary off
+###
+# create the database based on the book "Theory and Practice of Relational
+# Databases", 2nd Edition, by Stefan Stanczyk, Bob Champion and Richard Leyton.
+# Published by Routledge, an imprint of Taylor & Francis Books Ltd; ISBN:
+# 0415247020 (Softback), 0415247012 (Hardback).
+# http://www.theorypractice.org
+###
+create tandp
+use tandp
+###
+# record the opening message
+record open
+>
+> This is the TandP database. Examples are taken from
+> 'Theory and Practice of relational databases', 2nd Edition,
+> by Stefan Stanczyk, Bob Champion, and Richard Leyton.
+> This database has a number of useful examples that
+> clearly demonstrate the relational algebra.
+> For more information on this book, visit 
+> http://www.theorypractice.org
+>
+> To get started, type "sources" to list examples
+> and "l <scriptname>" to inspect. See "help" for more info.
+>
+.
+###
+# create the BOOK relation (pg 61)
+###
+relation (book) ((reference,STRING,9),(author,STRING,9),(title,STRING,30))
+add (book) (R003,JOYCE,ULYSSES)
+add (book) (R004,JOYCE,ULYSSES)
+add (book) (R023,GREENE,SHORT STORIES)
+add (book) (R025,ORWELL,ANIMAL FARM)
+add (book) (R033,LEM,ROBOTS TALES)
+add (book) (R034,LEM,RETURN FROM THE STARS)
+add (book) (R036,GOLDING,LORD OF THE FLIES)
+add (book) (R028,KING,STRENGTH TO LOVE)
+add (book) (R143,HEMINGWAY,DEATH IN THE AFTERNOON)
+add (book) (R149,HEMINGWAY,TO HAVE AND HAVE NOT)
+###
+# create the SUBJECT relation (pg 61)
+###
+relation (subject) ((class,STRING,5),(class_name,STRING,15))
+add (subject) (C1,FICTION)
+add (subject) (C2,SCIENCE-FICTION)
+add (subject) (C3,NON-FICTION)
+add (subject) (C4,SCIENTIFIC)
+add (subject) (C5,POETRY)
+add (subject) (C6,DRAMA)
+###
+# create the INDEX relation (pg 61)
+###
+relation (index) ((author,STRING,10),(title,STRING,30),(class,STRING,5),(shelf,INTEGER,4))
+add (index) (JOYCE,ULYSSES,C1,12)
+add (index) (GREENE,SHORT STORIES,C1,14)
+add (index) (ORWELL,ANIMAL FARM,C1,12)
+add (index) (LEM,ROBOTS TALES,C2,23)
+add (index) (LEM,RETURN FROM STARS,C2,23)
+add (index) (GOLDING,GOLDING,C1,12)
+add (index) (KING,STRENGTH TO LOVE,C3,24)
+add (index) (HEMINGWAY,DEATH IN THE AFTERNOON,C3,22)
+add (index) (HEMINGWAY,TO HAVE AND HAVE NOT,C1,12)
+###
+# Examples
+###
+record figure_49
+# This example is taken from page 62, and is given in the infix form
+# Figure 4.9
+a=project (book) (author)
+print a
+.
+record figure_410
+# This example is taken from page 62 and is given in the infix form
+# Figure 4.10
+project (subject) (class)) difference (project (index) (class))
+print @last
+.
+###
+# create the AUCTION relation (pg 64)
+###
+relation (auction) ((reference,STRING,9),(date_bought,STRING,12),(purchase_price,INTEGER,4),(date_sold,STRING,9),(sell_price,INTEGER,4))
+add (auction) (R005,17-03-84,25,23-09-86,12)
+add (auction) (R020,02-12-43,4,17-10-88,145)
+add (auction) (R022,09-11-79,7,21-11-88,3)
+add (auction) (R048,15-05-68,3,16-03-89,8)
+add (auction) (R049,15-05-68,3,16-03-89,8)
+add (auction) (R073,21-02-76,18,25-03-89,9)
+record example_42
+# This example is taken from page 64, example 4.2.
+restrict (auction) (sell_price>purchase_price)
+print @last
+.
+record example_43
+# This example is taken from page 64, Example 4.3.
+select (index) ((author='HEMINGWAY') and (class='C3'))
+print @last
+.
+record example_44
+# This example is taken from page 67, example 4.4
+s1=select (subject) (class_name='NON-FICTION')
+s2=join (s1) (index) (s1.class=index.class)
+s3=project (s2) (author,title,shelf)
+print s3
+.
+###
+# create the LC relation (pg 70) - fig 4.20
+###
+relation (lc) ((lecturer,STRING,8),(course,STRING,10))
+add (lc) (BROWN,COMPILERS)
+add (lc) (BROWN,DATABASES)
+add (lc) (GREEN,PROLOG)
+add (lc) (GREEN,DATABASES)
+add (lc) (LEWIS,PROLOG)
+add (lc) (SMITH,DATABASES)
+###
+# create the LC relation (pg 70) - fig 4.20
+###
+relation (q) ((subject,STRING,10))
+add (q) (PROLOG)
+####
+# A typographical error in the book means there is 
+# no example 4.5 and 4.6 - they're not missing, simply
+# misnumbered.
+####
+record example_47
+# This example is taken from page 70, example 4.7
+# Divide is not implemented in LEAP, but is shown
+# here in it's composite form.
+a1=(lc) product (q)
+a2=project (a1) (lecturer,subject)
+rename (a2.subject) (course)
+a3=(a2) intersect (lc)
+p=project (a3)(lecturer)
+print p
+.
+###
+# create the DELIVERY relation (pg 71) - fig 4.22
+###
+relation (delivery) ((producer,STRING,10),(product_code,STRING,12),(branch,STRING,6),(stock,STRING,5))
+add (delivery) (CLASSICS,403,L1,1003)
+add (delivery) (CLASSICS,403,L1,1004)
+add (delivery) (CLASSICS,201X,L1,1019)
+add (delivery) (CLASSICS,201X,P2,4105)
+add (delivery) (CLASSICS,201X,P2,4106)
+add (delivery) (CLASSICS,CLUB,NY,1044)
+add (delivery) (60S CLOTHS,WOODSTOCK,L2,2921)
+add (delivery) (60S CLOTHS,DI4,L2,2933)
+add (delivery) (60S CLOTHS,DI4,L2,2934)
+add (delivery) (60S CLOTHS,FINESSE,P1,1025)
+add (delivery) (60S CLOTHS,FINESSE,P1,1026)
+add (delivery) (60S CLOTHS,FLAIR,SP,1004)
+add (delivery) (60S CLOTHS,FLAIR,NY,1045)
+add (delivery) (MODERNA,F1049,P1,1079)
+add (delivery) (MODERNA,199K,L2,2967)
+add (delivery) (MODERNA,199K,NY,1020)
+add (delivery) (MODERNA,199K,NY,1021)
+add (delivery) (MODERNA,F1X19,P2,4201)
+add (delivery) (MODERNA,F1X19,P2,4202)
+###
+# create the STOCK relation (pg 71) - fig 4.22
+###
+relation (stock) ((branch,STRING,6),(stock,STRING,5),(size,STRING,4),(colour,STRING,10),(sell_price,STRING,10),(cost_price,STRING,10),(date_in,STRING,8),(date_out,STRING,8))
+add (stock) (L1,1003,M,BLUE,15.50,9.25,22MAY89,06JUN89)
+add (stock) (L1,1004,M,WHITE,15.50,9.25,20DEC88,INSTOCK)
+add (stock) (L2,2921,M,BLACK,25.00,15.20,17APR89,17APR89)
+add (stock) (L2,2933,L,NAVY,13.50,6.25,28MAY89,16JUN89)
+add (stock) (L2,2934,M,NAVY,13.50,6.25,28MAY89,INSTOCK)
+add (stock) (L2,2967,S,BEIGE,18.75,8.25,16FEB89,25MAR89)
+add (stock) (P1,1025,L,WHITE,25.50,12.00,12MAY89,16JUN89)
+add (stock) (P1,1026,L,BLUE,25.50,12.00,12MAY89,12MAY89)
+add (stock) (P1,1079,M,RED,18.75,9.25,26FEB89,03MAR89)
+add (stock) (NY,1045,M,WHITE,14.99,6.00,25APR89,14MAY89)
+add (stock) (NY,1020,L,RED,17.45,7.85,19APR89,19APR89)
+add (stock) (NY,1021,M,BLUE,17.45,7.85,19APR89,03JUN89)
+add (stock) (SP,1004,S,GREEN,21.30,11.25,28MAY89,15JUN89)
+add (stock) (P2,4201,L,BROWN,16.95,9.90,18MAY89,16JUN89)
+###
+# create the STOCK relation (pg 71) - fig 4.22
+###
+relation (goods) ((producer,STRING,10),(product_code,STRING,12),(description,STRING,15))
+add (goods) (CLASSICS,403,JEANS)
+add (goods) (CLASSICS,607,JEANS)
+add (goods) (CLASSICS,201X,SKIRT)
+add (goods) (CLASSICS,576,SKIRT)
+add (goods) (CLASSICS,CLASSX,TROUSERS)
+add (goods) (CLASSICS,CLUB,T-SHIRT)
+add (goods) (60S CLOTHS,DIAMOND,DRESS)
+add (goods) (60S CLOTHS,NOSTALGIC,COAT)
+add (goods) (60S CLOTHS,WOODSTOCK,JEANS)
+add (goods) (60S CLOTHS,DI4,DRESS)
+add (goods) (60S CLOTHS,FLAIR,DRESS)
+add (goods) (60S CLOTHS,FINESSE,DRESS)
+add (goods) (MODERNA,F1049,SHIRT)
+add (goods) (MODERNA,F1X19,DRESS)
+add (goods) (MODERNA,199K,JACKET)
+#
+record query_431
+# Query 4.3.1 (page 72)
+# "Find all producers who supply goods"
+p1=project (goods) (producer)
+print p1
+.
+record query_432
+# Query 4.3.2 (page 72)
+# "Find all producers who have delivered goods to any branch of the company"
+p2=project (delivery) (producer)
+print p2
+.
+record query_433
+# Query 4.3.3 (Page 72)
+# "Find sell-price and cost-price of all goods delivered to branch L1
+# still in stock."
+p3=select (stock) ((branch='L1')and(date_out='INSTOCK'))
+p4=project (p3) (sell_price,cost_price) 
+print p4
+.
+record alter_433
+# Alternate Query 4.3.3 (Page 72)
+# note the lack of an intermediate relation
+display(project (select (stock) ((branch='L1')and(date_out='INSTOCK')))(sell_price,cost_price))
+.
+record query_434
+# Query 4.3.4 (page 72)
+# "Find Producer, Product-Code, Description for all goods sold at the
+# same day they arrived at any branch"
+r1=restrict (stock) (date_in=date_out) 
+r2=project (r1) (branch,stock)
+r3=join (r2) (delivery) ((r2.branch=delivery.branch) and (r2.stock=delivery.stock))
+r4=project (r3) (producer,product_code)
+r5=join (r4) (goods) ((r4.producer=goods.producer) and (r4.product_code=goods.product_code))
+print r5
+.
+record query_435
+# Query 4.3.5 (Page 74)
+# "Find Branch#, Size, Colour and Sell-Price for all dresses that have not
+# yet been sold."
+q1=select (goods) (description='DRESS')
+q2=join (q1) (delivery) ((q1.producer=delivery.producer) and (q1.product_code=delivery.product_code))
+q3=project (q2) (branch,stock)
+q4=join (q3) (stock) ((q3.branch=stock.branch) and (q3.stock=stock.stock))
+q5=select (q4) (date_out='INSTOCK')
+q6=project (q5) (branch,size,colour,sell_price)
+print q6
+.
+###
+# The Questions at the end of the chapter (pg 85-86) are left to the reader.
+###
+quit

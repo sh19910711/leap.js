@@ -1,0 +1,69 @@
+#!/bin/sh
+
+# buildtar,v 1.201 2001/04/27 09:58:36 rleyton Exp
+
+bld=`pwd`
+tarfile=/tmp/leap_base.tar
+
+echo "Enter base directory where LEAP has been installed [$bld]:"
+read basedir
+
+if [ -z "$basedir" ]
+then
+	basedir=$bld
+fi
+
+echo "Enter target directory for LEAP central build [$basedir/build]:"
+read target
+
+if [ -z "$target" ]
+then
+	target=$basedir/build
+fi
+
+cd $basedir
+ 
+if [ -d configs -a -d database ]
+then
+	tar cf $tarfile configs database 
+else
+	echo 'A directory is missing - have you run make install?'
+	exit 1
+fi
+
+cd /tmp
+mkdir $$.leapinstall
+cd $$.leapinstall
+tar xf $tarfile
+
+mkdir bin
+mkdir report
+ln -s $basedir/src/leap bin/leap
+ln -s $basedir/src/dumprel bin/dumprel
+ln -s $basedir/COPYING
+ln -s $basedir/NEWS
+ln -s $basedir/NOTES
+ln -s $basedir/README
+ln -s $basedir/TODO
+ln -s $basedir/leap-1.2.lsm
+ln -s $basedir/src
+ln -s $basedir/help
+ln -s $basedir/doc
+ln -s $basedir/scripts
+
+rm $tarfile
+tar cf $tarfile *
+
+if [ ! -d $target ]
+then
+	mkdir $target
+fi
+
+cp $tarfile $target
+
+###
+# Cleanup
+###
+rm $tarfile
+cd /tmp
+rm -rf $$.leapinstall
