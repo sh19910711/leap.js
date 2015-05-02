@@ -73,24 +73,12 @@
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
 
+      var outputElement = document.getElementById('output');
+      outputElement.value = ''; // clear browser cache
       var Module = {
-        preRun: [
-          function() {
-            FS.mkdir("configs");
-            FS.writeFile("configs/vars", [
-              "trace off",
-              "tempdb on",
-              "temporary on",
-            ].join("\n"));
-
-            // database
-            FS.mkdir("database");
-          }
-        ],
+        preRun: [],
         postRun: [],
         print: (function() {
-          var element = document.getElementById('output');
-          element.value = ''; // clear browser cache
           return function(text) {
             text = Array.prototype.slice.call(arguments).join(' ');
             // These replacements are necessary if you render to raw HTML
@@ -98,8 +86,8 @@
             //text = text.replace(/</g, "&lt;");
             //text = text.replace(/>/g, "&gt;");
             //text = text.replace('\n', '<br>', 'g');
-            element.value += text + "\n";
-            element.scrollTop = element.scrollHeight; // focus on bottom
+            outputElement.value += text + "\n";
+            outputElement.scrollTop = outputElement.scrollHeight; // focus on bottom
           };
         })(),
         printErr: function(text) {
@@ -108,7 +96,6 @@
             dump(text + '\n'); // fast, straight to the real console
           } else {
             console.log(text);
-            print(text);
           }
         },
         canvas: document.getElementById('canvas'),
@@ -139,8 +126,8 @@
         }
       };
       Module.setStatus('Downloading...');
-      var arguments = ["--version"];
+      var arguments = [""];
     </script>
-    <script async type="text/javascript" src="leap.min.js"></script>
+    <script async type="text/javascript" src="leap.js"></script>
   </body>
 </html>
