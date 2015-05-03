@@ -37,6 +37,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/stat.h>
 
 /* These are needed for directory access */
 #ifndef __MSDOS__
@@ -272,6 +273,8 @@ void relation_change( database db,
  * Change status of a relation from temp, to temp... 
  */
 
+  printf("relation_change(): entered");
+  exit(0);
 	char expression[MAXIMUM_EXPRESSION+1];
 	NOATTRIBUTES_TYPE noattribs;
 	RELATION_TEMP_TYPE temp;
@@ -320,6 +323,9 @@ relation relation_create( database db,
  * database structure
  */
 {
+  printf("relation_create(): entered\n");
+  printf("relation_create(): relation_name = %s\n", relation_name);
+
 	relation_struct *rel;
 	FILE *relationfile;
 	char fullname[FILE_PATH_SIZE+1]="",expression[MAXIMUM_EXPRESSION+1]="",systemstring[MAXIMUM_EXPRESSION+1]="";
@@ -391,6 +397,19 @@ relation relation_create( database db,
 #				endif
 				relationfile=fopen(fullname,"wb");
 
+        // debug
+        printf("relation_create(): file fullname = %s\n", fullname);
+        {
+          struct stat buf;
+          int fd = fileno(relationfile);
+          fstat(fd, &buf);
+          printf("relation_create(): filesize = %d\n", buf.st_size);
+          printf("relation_create(): mode = %o\n", buf.st_mode);
+          printf("relation_create(): uid = %d\n", buf.st_uid);
+          printf("relation_create(): gid = %d\n", buf.st_gid);
+        }
+        // ok
+
 				/* Set system relation to false */
 				rel->system=system;
 
@@ -421,6 +440,16 @@ relation relation_create( database db,
 					} else {
 						strcpy(systemstring,"FALSE");
 					}
+          {
+            struct stat buf;
+            int fd = fileno(relationfile);
+            fstat(fd, &buf);
+            printf("relation_create()-2: filesize = %d\n", buf.st_size);
+            printf("relation_create()-2: mode = %o\n", buf.st_mode);
+            printf("relation_create()-2: uid = %d\n", buf.st_uid);
+            printf("relation_create()-2: gid = %d\n", buf.st_gid);
+          }
+          // ok
 					/* Write the new header. No attributes... */
 					relation_create_write_header(relation_name,1,rel->temporary,system,&relationfile);
 					if (rel->temporary) {
@@ -436,6 +465,21 @@ relation relation_create( database db,
 					ddmaintenance(dbtouse,expression);
 					/* Nope. */
 					fclose(relationfile);
+          {
+            relationfile=fopen(fullname,"rb");
+            printf("relation_create()-3: after fclose()\n");
+            struct stat buf;
+            int fd = fileno(relationfile);
+            fstat(fd, &buf);
+            printf("relation_create()-3: filesize = %d\n", buf.st_size);
+            printf("relation_create()-3: mode = %o\n", buf.st_mode);
+            printf("relation_create()-3: uid = %d\n", buf.st_uid);
+            printf("relation_create()-3: gid = %d\n", buf.st_gid);
+            unsigned int leapver;
+            fread( &leapver, sizeof(leapver),1, relationfile);
+            printf("relation-create()-3: leapver = %d\n", leapver);
+            fclose(relationfile);
+          }
 				}
 
 				/* Reset the structural information */
@@ -596,6 +640,10 @@ relation relation_new_read( const char *path, char *name) {
  * Read a specified relation into memory, and return
  * a ptr to it. Only works with new format relations.
  */
+  printf("relation_new_read(): entered\n");
+  printf("relation_new_read(): path = %s\n", path);
+  printf("relation_new_read(): name = %s\n", name);
+
 	relation rel;
 	char relname[RELATION_NAME_SIZE+FILENAME_EXT_SIZE+1];
 	FILE *tmp; /* Used to test if a file exists */
@@ -612,6 +660,8 @@ relation relation_new_read( const char *path, char *name) {
 
 	/* Copy the relation filename into the "name" */
 	strcpy(relname,name);		
+  printf("relation_new_read(): path = %s\n", path);
+  printf("relation_new_read(): name = %s\n", name);
 
 	if (strtok(relname,".")==NULL) {
 		/* This shouldn't ever happen, because its only
@@ -1134,6 +1184,8 @@ relation relation_rename(    database db,
  * Rename specified relation, or
  * specified attribute
  */
+  printf("renamed?");
+  exit(1);
 	relation rtrel=NULL;
 	int returncode;
 	char relpath[FILENAME_MAX+1],nrelpath[FILENAME_MAX+1];
@@ -1211,6 +1263,8 @@ relation relation_rename(    database db,
 							for (count=0; ((renamed==FALSE)&&(count<noattributes)); count++) {
 								/* Where are we in the file? */
 								pos=ftell(fptr);
+                printf("relation_rename(): pos = %d\n", pos);
+                exit(1);
 
 								/* Read the attribute */
 								att=relation_attribute_read(&fptr);

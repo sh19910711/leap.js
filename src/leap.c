@@ -506,6 +506,7 @@ int specify(char *var, char *value, int length) {
 }
 
 int main(int argc, char *argv[]) {
+  printf("sizeof(unsigned char) = %d\n", sizeof(unsigned char));
 /* main
  * The main LEAP program - This performs the display of the
  * title, and processes the command line. Clean termination

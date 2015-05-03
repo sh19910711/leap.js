@@ -435,7 +435,10 @@ HashTable hashing_create(void) {
 	HashTable HT;
 
 	/* Create the hash table, and check */
-	do_debug(DEBUG_ALL,"sizeof==%i\n",sizeof(TableType));
+  do_debug(DEBUG_ALL,"MY: sizeof(chain)==%i\n", sizeof(chain));
+  do_debug(DEBUG_ALL,"MY: sizeof(chain_struct)==%i\n", sizeof(chain_struct));
+  do_debug(DEBUG_ALL,"MY: sizeof(TABLESIZE)==%i\n", sizeof(TABLESIZE));
+	do_debug(DEBUG_ALL,"sizeof(TableType)==%i\n",sizeof(TableType));
 
 	HT=(TableType *) malloc(sizeof(TableType));
 	check_assign(HT,"hashing.hashing_create");
