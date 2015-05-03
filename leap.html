@@ -73,12 +73,12 @@
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
 
-      var outputElement = document.getElementById('output');
-      outputElement.value = ''; // clear browser cache
       var Module = {
         preRun: [],
         postRun: [],
         print: (function() {
+          var element = document.getElementById('output');
+          element.value = ''; // clear browser cache
           return function(text) {
             text = Array.prototype.slice.call(arguments).join(' ');
             // These replacements are necessary if you render to raw HTML
@@ -86,8 +86,8 @@
             //text = text.replace(/</g, "&lt;");
             //text = text.replace(/>/g, "&gt;");
             //text = text.replace('\n', '<br>', 'g');
-            outputElement.value += text + "\n";
-            outputElement.scrollTop = outputElement.scrollHeight; // focus on bottom
+            element.value += text + "\n";
+            element.scrollTop = element.scrollHeight; // focus on bottom
           };
         })(),
         printErr: function(text) {
@@ -126,7 +126,6 @@
         }
       };
       Module.setStatus('Downloading...');
-      var arguments = [""];
     </script>
     <script async type="text/javascript" src="leap.js"></script>
   </body>
